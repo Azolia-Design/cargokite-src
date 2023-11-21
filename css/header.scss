@@ -292,6 +292,9 @@
 @include md {
     .header {
         padding: 4rem 0;
+        &__logo {
+            margin-right: .9rem;
+        }
         &__btn {
             padding: 1.1rem 2rem;
             font-size: 1.4rem;
@@ -478,6 +481,9 @@
         padding: 2rem 0;
         &__logo {
             height: 2.6rem;
+        }
+        &__typo-1, &__typo-2 {
+            display: block;
         }
         &_act {
             display: none;
