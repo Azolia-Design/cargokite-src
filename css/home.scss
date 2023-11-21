@@ -5,6 +5,15 @@
     position: sticky;
     top: 0;
     z-index: 2;
+    &-ph {
+        position: absolute;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        pointer-events: none;
+    }
     &__wrap {
         height: 200vh;
         position: relative;
@@ -1065,6 +1074,9 @@
         height: 65vh;
         min-height: 51.5rem;
         padding-bottom: max(4vh, 4rem);
+        &-ph {
+            height: 100%;
+        }
         &__wrap {
             height: auto;
             margin-bottom: 0;

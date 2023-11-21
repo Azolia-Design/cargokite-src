@@ -17,8 +17,6 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 function calculate() {
     if ($(window).width() - $('.container').width() >= 0) {
         let scalefactor = $(window).width()/$('.container').width()
-        console.log($('.container').width())
-        console.log(scalefactor)
         $('.home-tech__bg-tri-inner').css('transform', `translate(-50%, -50%) scale(${scalefactor})`)
     }
     console.log($('.container').outerWidth())
@@ -103,7 +101,6 @@ class homeHeroWebGL {
                 }
                 this.model.scale.set(scaleFactorShip,scaleFactorShip,scaleFactorShip)
                 this.model.position.y = -this.viewport.height * .2086 * 1;
-                console.log(this.viewport.height)
                 this.model.position.x = this.viewport.width * .0045;
                 this.scene.environment = this.hdri;
                 this.orangeMat = new THREE.MeshStandardMaterial({
@@ -124,7 +121,6 @@ class homeHeroWebGL {
                     if (obj instanceof THREE.Mesh) {
                         if (obj.name === 'kite') {
                             obj.material = this.orangeMat;
-                            console.log(obj)
                         } else if (obj.name.includes('str')) {
                             obj.material = this.darkMat;
                         }
@@ -155,10 +151,8 @@ class homeHeroWebGL {
                 scaleFactorShip = $(window).width() * .003472 > 8 ? 8 : $(window).width() * .003472
             } else if ($(window).width() > 768) {
                 scaleFactorShip = $(window).width() * .003472 > 3 ? 3 : $(window).width() * .003472
-                console.log(scaleFactorShip)
             } else {
                 scaleFactorShip = $(window).height() * .003472 * 2 > 2.2 ? 2.2 : $(window).height() * .003472 * 2
-                console.log('scale: ' + scaleFactorShip)
             }
             this.model.scale.set(scaleFactorShip,scaleFactorShip,scaleFactorShip)
         }
@@ -176,7 +170,6 @@ class homeHeroWebGL {
                 if ($('.home-hero__bg-wrap-inner').hasClass('done-anim')) {
                     if (this.lerpFactor < 0.01) {
                         this.lerpFactor += 0.0001
-                        console.log(this.lerpFactor)
                     }
                 }
 

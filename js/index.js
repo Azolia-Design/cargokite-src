@@ -83,20 +83,6 @@ const scripts = () => {
     refreshOnBreakpoint();
 
     const header = $('.header')
-    // lenis.on('scroll', function (inst) {
-    //     if (inst.scroll > header.height()) {
-    //         header.addClass('on-scroll')
-    //         if (inst.direction == 1) {
-    //             // down
-    //             header.addClass('on-hide')
-    //         } else if (inst.direction == -1) {
-    //             // up
-    //             header.removeClass('on-hide')
-    //         }
-    //     } else {
-    //         header.removeClass('on-scroll on-hide')
-    //     };
-    // })
     let lastScrollTop = 0;
     const handleHeader = {
         toggleHide: (scrollPos) => {
@@ -114,8 +100,16 @@ const scripts = () => {
 			lastScrollTop = scrollPos;
 		},
 		addBG: (scrollPos) => {
-			if (scrollPos > header.height()) header.addClass("on-scroll");
-			else header.removeClass("on-scroll");
+            // if ($('[data-barba-namespace="home"]').length) {
+            //     console.log(header.outerHeight())
+            //     if (scrollPos > $('.home-hero').outerHeight() - header.outerHeight() / 2) header.addClass("on-scroll");
+            //     else header.removeClass("on-scroll");    
+            // } else {
+            //     if (scrollPos > header.height()) header.addClass("on-scroll");
+            //     else header.removeClass("on-scroll");
+            // }
+            if (scrollPos > header.height()) header.addClass("on-scroll");
+            else header.removeClass("on-scroll");
         },
         toggleNav: () => {
             const hamburger = $('.header__toggle');
@@ -151,6 +145,70 @@ const scripts = () => {
 		},
     };
 
+    function rotateLogo() {
+        let currRot = gsap.getProperty('.header__logo-shape', 'rotate')
+        gsap.quickSetter('.header__logo-shape', 'rotate', `deg`)(lerp(currRot, currRot + Math.min(Math.max(lenis.velocity, -80), 80), 0.08));
+        requestAnimationFrame(rotateLogo)
+    }
+    if ($(window).width() > 767) {
+        requestAnimationFrame(rotateLogo)
+    }
+    
+    function changeLogoBackground() {
+        function mainArea() {
+            let currentMainArea = getCurrentLogoColor('[data-logo-main]');
+            let currentColorMain = $(currentMainArea).attr('data-logo-main');
+            
+            if (currentMainArea) {
+                if (currentColorMain == 'dark') {
+                    $('.header').removeClass(`mix-mode`)
+                } else if (currentColorMain == 'mix') {
+                    $('.header').removeClass(`dark-mode`)
+                }
+                // if ($(window).width() < 767) {
+                //     $('.header').addClass(`mix-mb-mode`)
+                // } else {
+                //     $('.header').addClass(`mix-mb-mode`)
+                // }
+                $('.header').addClass(`${currentColorMain}-mode`)
+            }
+            else {
+                if ($(window).width() < 767) {
+                    $('.header').removeClass(`mix-mb-mode`)
+                }
+                $('.header').removeClass('dark-mode mix-mode')
+
+                
+            }
+
+            if ($(window).width() > 767) {
+                let currentSubArea = getCurrentLogoColor('[data-logo-sub]');
+                let currentColorSub = $(currentSubArea).attr('data-logo-sub');
+                console.log(currentSubArea)
+                if (currentSubArea) {
+                    if (currentColorSub == 'invert') {
+                        $('.header').addClass('invert-mode')
+                    }
+                } else {
+                    $('.header').removeClass('invert-mode')
+                }
+            }
+
+        }
+        mainArea();
+    }
+
+    function getCurrentLogoColor(attribute) {
+        let sections = $(attribute);
+        for (let i = 0; i < sections.length; i++) {
+            let rect = sections[i].getBoundingClientRect();
+            if (rect.top < (header.outerHeight()) && (rect.bottom - header.outerHeight() * 0.5) > 0) {
+                return $(sections[i]);
+            }
+        }
+        return null;
+    }
+
     handleHeader.toggleNav();
     function scrollHeaderSwitch() {
         if (viewport.width > 767) {
@@ -158,13 +216,22 @@ const scripts = () => {
                 let scrollPos = inst.scroll;
                 handleHeader.addBG(inst.scroll);
                 handleHeader.toggleHide(inst.scroll);
+                changeLogoBackground();
             })
         }
         else {
+            let lastPos = $('.wrapper').scrollTop();
             $('.wrapper').on("scroll", function () {
                 let scrollPos = $('.wrapper').scrollTop();
+                console.log(scrollPos)
                 handleHeader.addBG(scrollPos);
                 handleHeader.toggleHide(scrollPos);
+                changeLogoBackground();
+                let velo = lastPos - $('.wrapper').scrollTop();
+                let currRot = gsap.getProperty('.header__logo-shape', 'rotate')
+                console.log(velo)
+                gsap.quickSetter('.header__logo-shape', 'rotate', `deg`)(lerp(currRot, currRot - Math.min(Math.max(velo, -80), 80), 0.08));
+                lastPos = $('.wrapper').scrollTop();
             });
         }
     }
@@ -186,10 +253,7 @@ const scripts = () => {
             // // End Debug area
 
             let homeHeroTitleHeight = $('.home-hero__title').outerHeight();
-            console.log(homeHeroTitleHeight)
             let transHomePaddingBottom = parseInt($('.trans__home-inner').css('padding-bottom'))
-            console.log(transHomePaddingBottom)
-            console.log(homeHeroTitleHeight)
             tl = gsap.timeline({
                 onComplete: () => {
                     lenis.start()
@@ -315,7 +379,9 @@ const scripts = () => {
         resetScroll()
         console.log('enterTrans')
         gsap.set(data.current.container, {opacity: 0, display: 'none'})
-        
+        gsap.quickSetter('.header__logo-shape', 'rotate', `deg`)(0);
+        changeLogoBackground();
+        console.log('on-leave');
         gsap.set('.trans__item', {transformOrigin: 'bottom', scaleY: 1})
         let tl = gsap.timeline({
             delay: .5,
@@ -339,14 +405,8 @@ const scripts = () => {
     }
 
     function addNavActiveLink(data) {
-        header.removeClass('dark-mode')
-        header.removeClass('mix-mode')
-        if ($(data.next.container).attr('data-header') == 'dark') {
-            header.addClass('dark-mode')
-        } else if ($(data.next.container).attr('data-header') == 'mix') {
-            header.addClass('mix-mode')
-        }
-
+        header.removeClass('dark-mode mix-mode')
+        
         $('[data-link]').removeClass('active')
         $(`[data-link="${$(data.next.container).attr('data-namespace')}"]`).addClass('active')
     }
@@ -368,13 +428,18 @@ const scripts = () => {
         let locationHash = window.location.hash;
         lenis.stop()
         if ($(locationHash).length) {
-            console.log(locationHash)
             setTimeout(() => {
                 lenis.scrollTo(locationHash, {
                     force: true,
                     immediate: true,
                 });
+                if ($(window).width() < 767) {
+                    setTimeout(() => {
+                        document.querySelector('.wrapper').scrollTo(0,document.getElementById(locationHash.replace('#','')).offsetTop)
+                    }, 300);
+                }
             }, 300);
+            
         } else {
             lenis.scrollTo(0, {
                 force: true,
@@ -385,7 +450,6 @@ const scripts = () => {
     }
     function handleScrollTo() {
         $('[data-scrollto]').on('click', function(e) {
-            //e.preventDefault();
             let target = $(this).attr('href')
             lenis.scrollTo(target)
         })
@@ -501,7 +565,6 @@ const scripts = () => {
             }
             const sendSubmission = (data) => {
                 const mappedFields = mapField(data);
-                console.log(mappedFields)
                 const dataSend = {
                     fields: mappedFields,
                     context: {
@@ -684,6 +747,7 @@ const scripts = () => {
             once(data) {
                 addNavActiveLink(data)
                 handleScrollTo()
+                changeLogoBackground();
                 transitionOnce(data)
                 initCookie();
                 handlePopup.toggle();
@@ -691,11 +755,15 @@ const scripts = () => {
                 checkIfJobAvail()
             },
             async enter(data) {
+                
+            },
+            async afterLeave(data) {
 
             },
             async afterEnter(data) {
                 await transitionEnter(data)
                 handleScrollTo()
+                changeLogoBackground();
             },
             async beforeLeave(data) {
                 resetBeforeLeave(data)
