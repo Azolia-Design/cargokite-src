@@ -304,7 +304,7 @@ function homeIntro() {
             const homeIntroRichlink = new SplitText('.home-intro__richtext-link', typeOpts.words)
         
             gsap.set('.home-intro__richtext-img, .home-intro__img', {clipPath: 'inset(10%)'})
-            gsap.set('.home-intro__richtext-img img, .home-intro__img img', {scale: 1.4, autoAlpha: 0})
+            gsap.set('.home-intro__richtext-img img, .home-intro__img img', {scale: 1.4, top: 'auto', bottom: '-20%', height: '120%', autoAlpha: 0})
         
             let tl = gsap.timeline({
                 scrollTrigger: {
@@ -328,13 +328,29 @@ function homeIntro() {
             .from(homeIntroLabel.chars, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02})
             .from(homeIntroTitle.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02}, '<=.2')
             .to('.home-intro__img', { clipPath: 'inset(0%)', duration: 1, ease: 'expo.out'}, '<=.4')
-            .to('.home-intro__img img', { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'all'}, '<=0')
+            .to('.home-intro__img img', { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'transform'}, '<=0')
             .to('.home-intro__richtext-img', { clipPath: 'inset(0%)', duration: 1, ease: 'expo.out'}, '0')
-            .to('.home-intro__richtext-img img', { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'all'}, '<=0')
+            .to('.home-intro__richtext-img img', { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'transform'}, '<=0')
             .from(homeIntroRichh3.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02}, '<=.2')
             .from(homeIntroRichp.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .015}, '<=.2')
             .from(homeIntroRichlink.words, {yPercent: 60, autoAlpha: 0, duration: .6, stagger: .03}, '>=-.2')
             .from('.home-intro__richtext-link', {'--line-width': '0%', duration: .6}, '<=.2')
+
+            if ($(window).width() > 991) {
+                requestAnimationFrame(() => {
+                    const tlScrub = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: '.home-intro',
+                            start: 'top bottom',
+                            end: 'bottom top',
+                            scrub: true,
+                        }
+                    })
+                    tlScrub
+                    .fromTo('.home-intro__richtext-img img', {bottom: '-20%'}, { bottom: '0%', ease: 'none'})
+                    .from('.home-intro__img img', { bottom: '0%', ease: 'none'}, 0)
+                })
+            }
         }
     })
 
@@ -388,7 +404,7 @@ function homeProb() {
             const homeProbItems = $('.home-prob__main-item')
             homeProbItems.each((index, el) => {
                 gsap.set(el.querySelector('.home-prob__main-item-img'), {clipPath: 'inset(20%)'})
-                gsap.set(el.querySelector('.home-prob__main-item-img img'), {scale: 1.4, autoAlpha: 0})
+                gsap.set(el.querySelector('.home-prob__main-item-img img'), {scale: 1.4, height: '120%', top: 'auto', autoAlpha: 0})
                 const homeProbItemTitle = new SplitText(el.querySelector('.home-prob__main-item-title'), typeOpts.words)
                 const homeProbItemSub = nestedLinesSplit(el.querySelector('.home-prob__main-item-txt'), typeOpts.words)
                 const homeProbItemTl = gsap.timeline({
@@ -404,10 +420,10 @@ function homeProb() {
                 })
                 homeProbItemTl
                 .to(el.querySelector('.home-prob__main-item-img'), { clipPath: 'inset(0%)', duration: 1.4, ease: 'expo.out'})
-                .to(el.querySelector('.home-prob__main-item-img img'), { scale: 1, duration: 1.4, autoAlpha: 1, ease: 'expo.out', clearProps: 'all'}, '0')
+                .to(el.querySelector('.home-prob__main-item-img img'), { scale: 1, duration: 1.4, autoAlpha: 1, ease: 'expo.out'}, '0')
                 .from(homeProbItemTitle.words, {yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02}, '<=.2')
                 .from(homeProbItemSub.words, {yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02}, '<=.2')
-                if ($(window).width > 991) {
+                if ($(window).width() > 991) {
                     const homeProbItemTlScrub = gsap.timeline({
                         scrollTrigger: {
                             trigger: el,
@@ -418,7 +434,20 @@ function homeProb() {
                     })
                     let dir = index % 2 == 0 ? 1 : -1;
                     homeProbItemTlScrub
-                    .fromTo(el, {yPercent: 10 * dir}, { yPercent: -10 * dir, ease: 'none'})
+                    .fromTo(el, {yPercent: 5 * dir}, { yPercent: -5 * dir, ease: 'none'})
+                    
+                    requestAnimationFrame(() => {
+                        const homeProbItemTlImgScrub = gsap.timeline({
+                            scrollTrigger: {
+                                trigger: el.querySelector('.home-prob__main-item-img'),
+                                start: 'top bottom',
+                                end: 'bottom top',
+                                scrub: true,
+                            }
+                        })
+                        homeProbItemTlImgScrub
+                        .fromTo(el.querySelector('.home-prob__main-item-img img'), {bottom: '-20%'}, { bottom: '0%', ease: 'none'})
+                    })
                 }
             })
         }

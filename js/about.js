@@ -83,7 +83,7 @@ function abtInfo() {
     .from('.abt-info__swiper', {yPercent: 25, autoAlpha: 0, duration: .8}, '<=.2')
 
     gsap.set('.abt-info__richtext-img', {clipPath: 'inset(10%)'})
-    gsap.set('.abt-info__richtext-img img', {scale: 1.4, autoAlpha: 0})
+    gsap.set('.abt-info__richtext-img img', {scale: 1.4, autoAlpha: 0, bottom: '-20%', top: 'auto', height: '120%'})
     const abtRichTextTitle = new SplitText('.abt-info__richtext-h3', typeOpts.words)
     const abtRichTextTxt = new SplitText('.abt-info__richtext-p', typeOpts.words)
     const tlInfoRichtext = gsap.timeline({
@@ -99,10 +99,25 @@ function abtInfo() {
     })
     tlInfoRichtext
     .to('.abt-info__richtext-img', { clipPath: 'inset(0%)', duration: 1, ease: 'expo.out'}, '0')
-    .to('.abt-info__richtext-img img', { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'all'}, '<=0')
+    .to('.abt-info__richtext-img img', { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'transform'}, '<=0')
     .from('.abt-info__richtext-decor', {scale: .8, autoAlpha: 0, duration: .4}, '<=.2')
     .from(abtRichTextTitle.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02}, '<=.2')
     .from(abtRichTextTxt.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .015}, '<=.2')
+
+    if ($(window).width() > 991) {
+        requestAnimationFrame(() => {
+            const tlInfoRichtextImgScrub = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.abt-info__richtext-img img',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true,
+                }
+            })
+            tlInfoRichtextImgScrub
+            .fromTo('.abt-info__richtext-img img', {bottom: '-20%'}, { bottom: '0%', ease: 'none'})
+        })
+    }
 
     const abtVisTitle = new SplitText('.abt-info__vis-title', typeOpts.chars)
     const abtVisTxt = new SplitText('.abt-info__vis-txt', typeOpts.words)
