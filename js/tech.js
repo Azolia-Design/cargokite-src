@@ -95,7 +95,7 @@ class techDemoWebGL {
         this.renderer.setPixelRatio(window.devicePixelRatio);
     }
     createMesh() {
-        let url = new URL('../assets/cargo-demo-4.glb', import.meta.url)
+        let url = new URL('../assets/tech-demo-bone-cargokite-uv.glb', import.meta.url)
         url = "" + url;
         this.loader = new GLTFLoader();
         this.dracoLoader = new DRACOLoader();
@@ -164,7 +164,13 @@ class techDemoWebGL {
                 } else if (obj.name === 'Battery') {
                     this.battery = obj
                 }
+
+                if (obj.name === 'kite-bone') {
+                    this.kiteBone = obj 
+                    console.log(this.kiteBone)
+                }
             })
+            this.clock = new THREE.Clock()
             const light = new THREE.PointLight(new THREE.Color('white'), 10, 10, 2)
             light.position.set(10, 10, 10)
             this.scene.add(light)
@@ -190,6 +196,9 @@ class techDemoWebGL {
         } else {
             this.prop1.rotation.x += 0.05
             this.prop2.rotation.x += 0.05
+            this.kiteBone.rotation.x = Math.sin(this.clock.getElapsedTime()) * Math.PI / 36
+            this.kiteBone.rotation.y = Math.sin(this.clock.getElapsedTime() / 2) * Math.PI / 45
+            this.kiteBone.rotation.z = Math.sin(this.clock.getElapsedTime()) * Math.PI / 90
             //this.composer.render()
             this.renderer.render(this.scene, this.camera)
         }

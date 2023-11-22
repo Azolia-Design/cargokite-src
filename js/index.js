@@ -184,7 +184,6 @@ const scripts = () => {
             if ($(window).width() > 767) {
                 let currentSubArea = getCurrentLogoColor('[data-logo-sub]');
                 let currentColorSub = $(currentSubArea).attr('data-logo-sub');
-                console.log(currentSubArea)
                 if (currentSubArea) {
                     if (currentColorSub == 'invert') {
                         $('.header').addClass('invert-mode')
