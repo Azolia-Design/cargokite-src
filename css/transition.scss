@@ -127,7 +127,7 @@
             font-kerning: none;
             font-variant-numeric: tabular-nums;
             @include md {
-                font-size: 16rem;
+                font-size: 12rem;
                 line-height: 12.2rem;
             }
             @include sm {
@@ -143,7 +143,7 @@
             line-height: 5.7rem;
             margin-left: .4rem;
             @include md {
-                font-size: 6rem;
+                font-size: 4.7rem;
                 line-height: 4.7rem;
             }
             @include sm {
