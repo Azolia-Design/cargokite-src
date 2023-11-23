@@ -601,7 +601,7 @@ function homeTech() {
             let tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: '.home-tech__head',
-                    start: 'top top+=50%',
+                    start: 'top top+=80%',
                 },
                 defaults: {
                     ease: gOpts.ease
