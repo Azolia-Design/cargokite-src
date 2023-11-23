@@ -815,8 +815,8 @@ function homePart() {
                 }
             })
             tlItems
-            .from('.home-part__main-supporters .home-part__marquee-wrapper.--right .home-part__main-item', {autoAlpha: 0, duration: .8, yPercent: 25, stagger: .04, clearProps: 'transform'})
-            .from('.home-part__main-supporters .home-part__marquee-wrapper.--left .home-part__main-item', {autoAlpha: 0, duration: .8, yPercent: 25, stagger: .04, clearProps: 'transform'}, 0)
+            .from('.home-part__main-supporters .home-part__marquee-wrapper.--right .home-part__main-item', {autoAlpha: 0, duration: .8, stagger: .04, clearProps: 'transform'})
+            .from('.home-part__main-supporters .home-part__marquee-wrapper.--left .home-part__main-item', {autoAlpha: 0, duration: .8, stagger: .04, clearProps: 'transform'}, 0)
         
             let tlSubTitle = gsap.timeline({
                 scrollTrigger: {
