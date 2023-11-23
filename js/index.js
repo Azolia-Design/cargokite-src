@@ -762,6 +762,7 @@ const scripts = () => {
             async afterEnter(data) {
                 await transitionEnter(data)
                 handleScrollTo()
+                handlePopup.toggle();
                 changeLogoBackground();
             },
             async beforeLeave(data) {
