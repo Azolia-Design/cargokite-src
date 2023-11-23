@@ -103,7 +103,7 @@
             transform-origin: right;
             width: 100%;
             right: 1.3rem;
-            @include transform(translateX(0) scaleX(0));
+            transform: translateX(0) scaleX(0);
             @include transition(transform $dur-default ease);
             &-1 {
                 width: 2.4rem;
