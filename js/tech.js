@@ -831,7 +831,7 @@ function techMap() {
     }
 
     // Initialize Leaflet map
-    const key = 'foURK5elDM5gPh7BhbIO';
+    const key = 'nr4f7CVikOUm5YaHaZtC';
     map = L.map('techMap').setView([0, 20], 2);
     map.scrollWheelZoom.disable()
     if ($(window).width() <= 767) {
