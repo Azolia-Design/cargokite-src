@@ -70,6 +70,9 @@ button {
 .lenis.lenis-smooth {
     scroll-behavior: auto;
 }
+.honey-input {
+    display: none !important;
+}
 @include sm {
     html,
     body {

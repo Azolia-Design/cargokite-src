@@ -610,7 +610,13 @@ const scripts = () => {
                 }
                 const data = mapFormToObject(e.target);
                 if (handleSubmit) handleSubmit(data);
-                sendSubmission(data);
+                if ($(form).find('.honey-input').val() !== '') {
+                    console.log('get lost: bot')
+                    return
+                } else {
+                    console.log('process')
+                    sendSubmission(data);
+                }
                 return false;
             });
         }
@@ -620,7 +626,6 @@ const scripts = () => {
         $('.popup__main-form .popup__main-submit').on('click', function (e) {
             e.preventDefault();
             console.log('submiitttttttt')
-
             $('.popup__main-form').trigger('submit');
         })
         const formContact = initForm('.popup__main-form', {
