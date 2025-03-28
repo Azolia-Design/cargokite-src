@@ -180,6 +180,8 @@ button {
     color: rgba($cl-white, 1);
     font-weight: 500;
     text-wrap: nowrap;
+
+    display: none; //update at: 28/03/2025
     &::after {
         content: '';
         display: block;

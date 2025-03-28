@@ -119,21 +119,21 @@ function abtInfo() {
         })
     }
 
-    const abtVisTitle = new SplitText('.abt-info__vis-title', typeOpts.chars)
-    const abtVisTxt = new SplitText('.abt-info__vis-txt', typeOpts.words)
-    const tlAbtVis = gsap.timeline({
-        scrollTrigger: {
-            trigger: '.abt-info__vis',
-            start: 'top top+=65%',
-        },
-        onComplete: () => {
-            abtVisTitle.revert()
-            abtVisTxt.revert()
-        }
-    })
-    tlAbtVis
-    .from(abtVisTitle.chars, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02})
-    .from(abtVisTxt.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02}, '<=.2')
+    // const abtVisTitle = new SplitText('.abt-info__vis-title', typeOpts.chars)
+    // const abtVisTxt = new SplitText('.abt-info__vis-txt', typeOpts.words)
+    // const tlAbtVis = gsap.timeline({
+    //     scrollTrigger: {
+    //         trigger: '.abt-info__vis',
+    //         start: 'top top+=65%',
+    //     },
+    //     onComplete: () => {
+    //         abtVisTitle.revert()
+    //         abtVisTxt.revert()
+    //     }
+    // })
+    // tlAbtVis
+    // .from(abtVisTitle.chars, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02})
+    // .from(abtVisTxt.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02}, '<=.2')
 
     const abtInfoSwiper = new Swiper('.abt-info__swiper .swiper', {
         modules: [Navigation, Autoplay],
@@ -170,7 +170,7 @@ function abtMiles() {
     .to('.abt-mil__ship-img', {y: shipDistance + $(window).height() * .35, ease: 'none'})
 
     let mainDistance = $('.abt-mil__main-inner').height() - $(window).height() * .3;
-    
+
     let tlMain = gsap.timeline({
         scrollTrigger: {
             trigger: '.abt-mil__wrap',
@@ -185,7 +185,7 @@ function abtMiles() {
     } else {
         gsap.to($('.abt-mil-pin-container').closest('.pin-spacer'), {background: '#212121'})
     }
-    
+
     tlMain
     .to('.abt-mil__main-inner', {y: -mainDistance, ease: 'none'})
     .to('.abt-mil__progress-dot', {top: '100%', ease: 'none'}, 0)
@@ -256,7 +256,7 @@ function abtTeam() {
                 let iconsX = xGetter(teamImgInner);
                 let iconsY = yGetter(teamImgInner);
                 xSetter(teamImgInner)(lerp(iconsX, (pointerCurr().x / $(window).width() - 0.5) * 2 * $(teamImgInner).width() * .2 ), 0.01);
-                ySetter(teamImgInner)(lerp(iconsY, pointerCurr().y - $(teamImgWrap).get(0).getBoundingClientRect().top - $(teamImgWrap).height() * .1), 0.01);    
+                ySetter(teamImgInner)(lerp(iconsY, pointerCurr().y - $(teamImgWrap).get(0).getBoundingClientRect().top - $(teamImgWrap).height() * .1), 0.01);
             }
             requestAnimationFrame(mousMove)
         }
