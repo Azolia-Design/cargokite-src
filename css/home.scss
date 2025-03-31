@@ -1,6 +1,6 @@
 .home-hero {
     height: 100vh;
-    
+
     padding-bottom: max(8.5vh, 8.5rem);
     position: sticky;
     top: 0;
@@ -140,11 +140,11 @@
         flex-direction: column;
         row-gap: 4rem;
         &-txt {
-            max-width: 25rem;
+            max-width: 33rem;
         }
         &-caption {
             display: flex;
-            width: calc(26rem + .4rem);
+            width: calc(30rem + .4rem);
             flex-wrap: nowrap;
             height: 2.56rem;
             overflow: hidden;
@@ -330,7 +330,7 @@
         margin-bottom: 2rem;
     }
     &__title {
-        max-width: 77.8rem;
+        max-width: 70.8rem;
         .txt-hl {
             display: inline-block;
         }
@@ -508,7 +508,7 @@
                 position: relative;
                 z-index: 1;
                 .title-wrap {
-                    .tite-inner {
+                    .title-inner {
                         width: 100%;
                     }
                     grid-column: 1/17;
@@ -713,6 +713,8 @@
         display: grid;
         background-color: rgba($cl-orange, 1);
         transition: background-color $dur-default ease;
+        opacity: 0 !important;
+        pointer-events: none;
         &-title {
             color: rgba($cl-white, 1);
             max-width: 24.2rem;

@@ -154,7 +154,7 @@
                 @include transform(translateX(-2rem));
             }
             &__logo {
-                
+
                 &-letter {
                     opacity: 0;
                     &.letter-c, &.letter-a, &.letter-r, &.letter-g, &.letter-o {
@@ -242,7 +242,7 @@
                 background-color: rgba($cl-white, .05);
             }
         }
-        
+
     }
     &.mix-mode {
         .header {
@@ -259,7 +259,7 @@
                     color: rgba(255,255,255, 1) !important;
                 }
             }
-        } 
+        }
     }
     &.invert-mode {
         .header {
@@ -276,7 +276,7 @@
                     color: rgba(255,255,255, 1) !important;
                 }
             }
-        } 
+        }
         .header__btn {
             background-color: #1D1D1D;
             &::before {
@@ -286,7 +286,7 @@
                 background-color: #232323;
             }
         }
-    }  
+    }
 }
 
 @include md {
@@ -378,8 +378,8 @@
                 &:nth-child(2) {
                     --nav-delay-index: 3;
 
-                    grid-column: 1/2;
-                    grid-row: 3/4;
+                    grid-column: 2/3;
+                    grid-row: 2/3;
                 }
                 &:nth-child(3) {
                     --nav-delay-index: 4;
@@ -396,8 +396,8 @@
                 &:nth-child(5) {
                     --nav-delay-index: 1;
 
-                    grid-column: 2/3;
-                    grid-row: 4/5;
+                    grid-column: 1/2;
+                    grid-row: 3/4;
                 }
                 &:last-child {
                     display: none;
@@ -427,7 +427,7 @@
             }
         }
         &.open-nav {
-    
+
             .header__toggle {
                 background-color: rgba($cl-white, 0) ;
             }
@@ -435,7 +435,7 @@
                 background-color: $cl-white;
                 @include transition(0.3s ease-out);
             }
-        
+
             .header__nav {
                 opacity: 1;
                 pointer-events: auto;
@@ -482,6 +482,7 @@
 @include sm {
     .header {
         padding: 2rem 0;
+        z-index: 1000;
         &__logo {
             height: 2.6rem;
         }
@@ -530,9 +531,8 @@
                 &:last-child {
                     display: block;
                     grid-column: 1/4;
-                    grid-row: 5/6;
-                    margin-top: 6.2rem;
-                    margin-bottom: 8.7rem;
+                    grid-row: 4/5;
+                    margin-block: 9.2rem;
                 }
             }
             &-link {
