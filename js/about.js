@@ -6,6 +6,7 @@ import { nestedLinesSplit, toHTML, sortAsc, xGetter, yGetter, xSetter, ySetter, 
 import { getAllDataByType } from "./common/prismic_fn";
 import Swiper from "swiper";
 import { Navigation, Pagination, Autoplay } from 'swiper';
+import lenis from "./vendors/lenis";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 let typeOpts = {
@@ -183,6 +184,7 @@ function abtMiles() {
     if ($(window).width() <= 767) {
         gsap.set('.abt-mil-pin-container', { height: $('.abt-mil__main-inner').height() - $(window).height() * .3 });
         gsap.set('.abt-mil', {position: 'sticky', top: -1 })
+        lenis.resize()
     } else {
         gsap.to($('.abt-mil-pin-container').closest('.pin-spacer'), {background: '#212121'})
     }
