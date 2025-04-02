@@ -181,7 +181,8 @@ function abtMiles() {
         }
     })
     if ($(window).width() <= 767) {
-        gsap.set('.abt-mil-pin-container', { height: $('.abt-mil__main-inner').height() - $(window).height(), position: 'sticky', top: -1  });
+        gsap.set('.abt-mil-pin-container', { height: $('.abt-mil__main-inner').height() - $(window).height() * .3 });
+        gsap.set('.abt-mil', {position: 'sticky', top: -1 })
     } else {
         gsap.to($('.abt-mil-pin-container').closest('.pin-spacer'), {background: '#212121'})
     }
