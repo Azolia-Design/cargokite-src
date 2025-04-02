@@ -715,6 +715,7 @@
         transition: background-color $dur-default ease;
         opacity: 0 !important;
         pointer-events: none;
+        display: none;
         &-title {
             color: rgba($cl-white, 1);
             max-width: 24.2rem;
@@ -750,6 +751,7 @@
         pointer-events: none;
         z-index: 3;
         position: relative;
+        display: none;
     }
     &__bg-tri {
         position: relative;
@@ -912,6 +914,9 @@
             margin-bottom: -1px;
             margin-right: -1px;
             padding: 2.8rem 1.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         &-supporters {
             width: 100%;

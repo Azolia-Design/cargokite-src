@@ -50,18 +50,7 @@ export default class FooterComponent extends HTMLElement {
                         <div class="footer__info-addr grid">
                             <div class="footer__info-addr-grp">
                                 <div class="txt txt-16 footer__info-addr-label">
-                                    Head office
-                                </div>
-                                <div class="txt txt-14 footer__info-addr-txt">
-                                    CargoKite GmbH <br>
-                                    Liebherrstraße 20 <br>
-                                    80538 München <br>
-                                    Germany
-                                </div>
-                            </div>
-                            <div class="footer__info-addr-grp">
-                                <div class="txt txt-16 footer__info-addr-label">
-                                    Postal & Visitor address
+                                    Main Office
                                 </div>
                                 <div class="txt txt-14 footer__info-addr-txt">
                                     CargoKite GmbH <br>
@@ -92,7 +81,7 @@ export default class FooterComponent extends HTMLElement {
                     </div>
                     <div class="footer__info grid">
                         <div class="txt txt-14 footer__info-copy">
-                            © 2023, CargoKite. All Rights Reserved.
+                            © 2025, CargoKite. All Rights Reserved.
                         </div>
                         <div class="footer__info-legal">
                             <a href="#" class="txt txt-14 footer__info-legal-link">
