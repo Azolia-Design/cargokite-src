@@ -103,7 +103,7 @@ const scripts = () => {
             // if ($('[data-barba-namespace="home"]').length) {
             //     console.log(header.outerHeight())
             //     if (scrollPos > $('.home-hero').outerHeight() - header.outerHeight() / 2) header.addClass("on-scroll");
-            //     else header.removeClass("on-scroll");    
+            //     else header.removeClass("on-scroll");
             // } else {
             //     if (scrollPos > header.height()) header.addClass("on-scroll");
             //     else header.removeClass("on-scroll");
@@ -153,12 +153,12 @@ const scripts = () => {
     if ($(window).width() > 767) {
         requestAnimationFrame(rotateLogo)
     }
-    
+
     function changeLogoBackground() {
         function mainArea() {
             let currentMainArea = getCurrentLogoColor('[data-logo-main]');
             let currentColorMain = $(currentMainArea).attr('data-logo-main');
-            
+
             if (currentMainArea) {
                 if (currentColorMain == 'dark') {
                     $('.header').removeClass(`mix-mode`)
@@ -178,7 +178,7 @@ const scripts = () => {
                 }
                 $('.header').removeClass('dark-mode mix-mode')
 
-                
+
             }
 
             if ($(window).width() > 767) {
@@ -222,13 +222,12 @@ const scripts = () => {
             let lastPos = $('.wrapper').scrollTop();
             $('.wrapper').on("scroll", function () {
                 let scrollPos = $('.wrapper').scrollTop();
-                console.log(scrollPos)
+                // console.log(scrollPos)
                 handleHeader.addBG(scrollPos);
                 handleHeader.toggleHide(scrollPos);
                 changeLogoBackground();
                 let velo = lastPos - $('.wrapper').scrollTop();
                 let currRot = gsap.getProperty('.header__logo-shape', 'rotate')
-                console.log(velo)
                 gsap.quickSetter('.header__logo-shape', 'rotate', `deg`)(lerp(currRot, currRot - Math.min(Math.max(velo, -80), 80), 0.08));
                 lastPos = $('.wrapper').scrollTop();
             });
@@ -290,7 +289,7 @@ const scripts = () => {
             let homeHeroLabelTrans = new SplitText('.trans__home .home-hero__backer-label', { type: 'words,lines', linesClass: 'g-lines'});
             let homeHeroBackerTrans = $('.trans__home .home-hero__backer-item')
             if ($(window).width() <= 991) {
-                $('.trans__home .home-hero__backer').css('margin-top', `${$('.home-hero .home-hero__backer').get(0).getBoundingClientRect().top}px`)    
+                $('.trans__home .home-hero__backer').css('margin-top', `${$('.home-hero .home-hero__backer').get(0).getBoundingClientRect().top}px`)
             }
             let count = {val: 0};
             tl
@@ -405,7 +404,7 @@ const scripts = () => {
 
     function addNavActiveLink(data) {
         header.removeClass('dark-mode mix-mode')
-        
+
         $('[data-link]').removeClass('active')
         $(`[data-link="${$(data.next.container).attr('data-namespace')}"]`).addClass('active')
     }
@@ -438,7 +437,7 @@ const scripts = () => {
                     }, 300);
                 }
             }, 300);
-            
+
         } else {
             lenis.scrollTo(0, {
                 force: true,
@@ -725,7 +724,7 @@ const scripts = () => {
                 let iconsX = xGetter(footerCursor);
                 let iconsY = yGetter(footerCursor);
                 xSetter(footerCursor)(lerp(iconsX, pointerCurr().x), 0.01);
-                ySetter(footerCursor)(lerp(iconsY, pointerCurr().y - $(footerCursorWrap).get(0).getBoundingClientRect().top), 0.01);    
+                ySetter(footerCursor)(lerp(iconsY, pointerCurr().y - $(footerCursorWrap).get(0).getBoundingClientRect().top), 0.01);
             }
             requestAnimationFrame(mousMove)
         }
@@ -759,7 +758,7 @@ const scripts = () => {
                 checkIfJobAvail()
             },
             async enter(data) {
-                
+
             },
             async afterLeave(data) {
 

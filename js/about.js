@@ -169,19 +169,19 @@ function abtMiles() {
     tlShip
     .to('.abt-mil__ship-img', {y: shipDistance + $(window).height() * .35, ease: 'none'})
 
-    let mainDistance = $('.abt-mil__main-inner').height() - $(window).height() * .3;
+    let mainDistance = $('.abt-mil__main-inner').height() - $(window).height() * ($(window).width() > 767 ? .3 : 0);
 
     let tlMain = gsap.timeline({
         scrollTrigger: {
             trigger: '.abt-mil__wrap',
             start: 'top top',
-            end: $(window).width() > 767 ? `top top-=${scrollDistance}%` : `top top-=${scrollDistance - 50}%`,
+            end: $(window).width() > 767 ? `top top-=${$('.abt-mil__main-inner').height() + $('.abt-mil__head').height()}` : `top top-=${scrollDistance - 50}%`,
             scrub: true,
             pin: $(window).width() > 767 ? '.abt-mil-pin-container' : false,
         }
     })
     if ($(window).width() <= 767) {
-        gsap.set('.abt-mil-pin-container', { height: $('.abt-mil__main-inner').height() + $('.abt-mil__head').height(), position: 'sticky', top: -1  });
+        gsap.set('.abt-mil-pin-container', { height: $('.abt-mil__main-inner').height() - $(window).height(), position: 'sticky', top: -1  });
     } else {
         gsap.to($('.abt-mil-pin-container').closest('.pin-spacer'), {background: '#212121'})
     }
