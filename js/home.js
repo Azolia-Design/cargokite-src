@@ -241,7 +241,8 @@ class homeHeroWebGL {
     }
 }
 
-function homeHero() {let homeheroWebGL = new homeHeroWebGL();
+function homeHero() {
+    let homeheroWebGL = new homeHeroWebGL();
     homeheroWebGL.init()
     homeheroWebGL.reset()
     homeheroWebGL.onWindowResize()
@@ -964,7 +965,7 @@ const homeScript = {
             console.log('hello')
             calculate()
 
-            homeHero()
+            //homeHero()
             homeIntro()
             homeProb()
             homeSolu()
