@@ -965,7 +965,7 @@ const homeScript = {
             console.log('hello')
             calculate()
 
-            //homeHero()
+            homeHero()
             homeIntro()
             homeProb()
             homeSolu()
