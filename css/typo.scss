@@ -1,0 +1,190 @@
+@font-face {
+    font-family: 'HelveticaNowDisplay';
+    src: url('../fonts/HelveticaNowDisplay.otf');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'HelveticaNowDisplay';
+    font-weight: 500;
+    src: url('../fonts/HelveticaNowDisplayMedium.otf');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'HelveticaNowDisplay';
+    font-weight: 700;
+    src: url('../fonts/HelveticaNowDisplayBold.otf');
+    font-display: swap;
+}
+
+.txt {
+    font-family: 'HelveticaNowDisplay';
+    @each $size in $txtSizes {
+        &-#{$size} {
+            @include text(var(--fs-#{$size}), var(--lh-#{$size}))
+        }
+    }
+    &-med {
+        font-weight: 500;
+    }
+    &-bold {
+        font-weight: 700;
+    }
+    &-hl {
+        color: rgba($cl-orange, 1);
+    }
+    &-link {
+        color: rgba($cl-orange, 1);
+    }
+    &-subscript {
+        vertical-align: sub;
+    }
+}
+
+//heading
+@for $i from 1 through 6 {
+    h#{$i}, .h#{$i} {
+        @include text(var(--h#{$i}-fs), var(--h#{$i}-lh))
+    }
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+        width: 100%;
+        height: auto
+    }
+    &-12 {
+        @include size(1.2rem);
+    }
+    &-20 {
+        @include size(2rem);
+    }
+    &-24 {
+        @include size(2.4rem);
+    }
+    &-32 {
+        @include size(3.2rem);
+    }
+    &-80 {
+        @include size(8rem);
+    }
+    &-48 {
+        @include size(4.8rem);
+    }
+    &-100 {
+        @include size(10rem);
+    }
+}
+.btn {
+    padding: 1.6rem 2rem;
+    //border-radius: .4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: rgba($cl-orange, 1);
+    color: rgba($cl-white, 1);
+    transition: background-color $dur-default ease;
+    -webkit-backface-visibility: hidden;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        bottom: 100%;
+        top: 0;
+        left: -100%;
+        z-index: -1;
+        @include transition(transform 0.3s cubic-bezier(0.75, 0, 0.125, 1));
+    }
+    &::before {
+        background-color: #FF633F;
+    }
+    &::after {
+        background-color: #ED300B;
+    }
+    &:hover {
+        &::before,
+        &::after {
+            @include transform(translate3d(100%, 0, 0));
+        }
+        &::after {
+            @include transition-delay(0.175s);
+        }
+    }
+    &-pri {
+        font-weight: 500;
+    }
+    &-lg {
+        padding: 1.8rem 3.4rem;
+        //border-radius: .2rem;
+    }
+}
+
+.heading {
+    font-weight: 500;
+    &-bold {
+        font-weight: 700;
+    }
+    &-reg {
+        font-weight: 400;
+    }
+    .g-lines {
+        overflow: hidden;
+        margin-bottom: -.2em;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    &-f-lh {
+        line-height: 1em !important;
+    }
+}
+@include sm {
+    .heading {
+        .g-lines {
+            margin-bottom: 0;
+        }
+    }
+}
+
+img {
+    width: 100%;
+    height: auto;
+    max-width: none;
+}
+
+.img {
+    &-wrap {
+        position: relative;
+        &:after {
+            content: '';
+            width: 100%;
+            height: 0;
+            padding-bottom: var(--aspect);
+            display: block;
+        }
+    }
+    &-height {
+        width: auto;
+        height: 100%;
+    }
+    &-fill {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    &-abs {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
