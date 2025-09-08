@@ -284,9 +284,9 @@ button {
 .swiper-slide {
     height: auto;
 }
-[data-link="tech"] {
-    display: none !important;
-}
-.header__nav-item:has([data-link="tech"]) {
-    display: none !important;
-}
+// [data-link="tech"] {
+//     display: none !important;
+// }
+// .header__nav-item:has([data-link="tech"]) {
+//     display: none !important;
+// }

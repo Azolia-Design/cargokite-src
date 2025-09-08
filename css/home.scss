@@ -713,9 +713,7 @@
         display: grid;
         background-color: rgba($cl-orange, 1);
         transition: background-color $dur-default ease;
-        opacity: 0 !important;
         pointer-events: none;
-        display: none;
         &-title {
             color: rgba($cl-white, 1);
             max-width: 24.2rem;
@@ -751,7 +749,6 @@
         pointer-events: none;
         z-index: 3;
         position: relative;
-        display: none;
     }
     &__bg-tri {
         position: relative;
@@ -851,7 +848,6 @@
             &-sub {
                 color: rgba($cl-body, 1);
                 padding-top: 2rem;
-                display: none;
             }
             &-icon {
                 color: rgba($cl-orange,1);
