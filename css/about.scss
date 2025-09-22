@@ -482,6 +482,12 @@
     background-color: rgba($cl-dark-bg, 1);
     padding-block: 15rem;
     overflow: hidden;
+    @include md {
+        padding-block: 10rem;
+    }
+    @include sm {
+        padding-block: 6rem 8rem;
+    }
     &__head {
         grid-column: 5/-5;
         display: flex;
@@ -492,6 +498,13 @@
         margin-bottom: 8rem;
         @include md {
             grid-column: 4/-4;
+        }
+        @include sm {
+            grid-column: 1/-1;
+            justify-content: start;
+            align-items: start;
+            text-align: start;
+            margin-bottom: 4rem;
         }
     }
     &__label {
@@ -507,13 +520,21 @@
         margin-bottom: 3rem;
         @include md {
             max-width: 43rem;
-            margin-bottom: 2.4rem;
+            margin-bottom: 2rem;
         }
-
+        @include sm {
+            max-width: 26rem;
+        }
     }
     &__sub {
         color: rgba($cl-white, .7);
         max-width: 60.4rem;
+        @include md {
+            @include text(1.6rem, 1.5);
+        }
+        @include sm {
+            @include text(1.4rem, 1.5);
+        }
     }
     &__main {
         grid-column: 2/-2;
@@ -527,6 +548,9 @@
             align-items: center;
             margin-top: 8rem;
             margin-inline: auto;
+            @include sm {
+                display: none;
+            }
             .swiper-pagination-bullet {
                 --swiper-pagination-bullet-size: .8rem;
                 background-color: transparent;
@@ -556,11 +580,18 @@
     }
     &__list {
         display: flex;
+        @include sm {
+            flex-direction: column;
+            gap: .4rem 0;
+        }
         &:has(.abt-event__item:nth-child(3)) {
             .abt-event__item:first-child {
                 aspect-ratio: 1;
                 @include md {
                     aspect-ratio: 1.74;
+                }
+                @include sm {
+                    aspect-ratio: auto;
                 }
             }
         }
@@ -585,20 +616,25 @@
         flex-basis: 27.56%;
         background-color: rgba($cl-white, .05);
         margin-right: 2rem;
-        @include md {
-            flex-basis: 49%;
-            aspect-ratio: 1.74;
-        }
-        &:last-child {
-            margin-right: 0;
-        }
-
         padding: 4rem;
         display: flex;
         flex-direction: column;
         position: relative;
         user-select: none;
 
+        @include md {
+            flex-basis: auto;
+            aspect-ratio: 1.74;
+            margin-right: 0;
+        }
+        @include sm {
+            aspect-ratio: auto;
+            min-height: 18.8rem;
+            padding: 3.2rem;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
         &:hover {
             background-color: rgba($cl-white, .1);
         }
@@ -619,6 +655,9 @@
         }
         &-location {
             color: rgba($cl-white, .7);
+            @include sm {
+                margin-bottom: 2rem;
+            }
         }
         &-title {
             color: rgba($cl-white, .7);
@@ -631,6 +670,9 @@
             color: rgba($cl-orange, 1);
             opacity: 0;
             transition: opacity $dur-default ease;
+            @include sm {
+                display: none;
+            }
         }
     }
 }

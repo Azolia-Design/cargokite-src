@@ -302,14 +302,14 @@ function abtTeam() {
     }
 }
 function abtEvent() {
-    if ($('.abt-event__item').length >= 3) {
+    if ($('.abt-event__item').length >= 3 && $(window).width() > 767) {
         const parent = childrenSelect('.abt-event');
         swiper.initClassName(parent);
 
         const slider = swiper.setup(parent, {
             modules: [Pagination],
             onView: 2,
-            spacing: 0,
+            spacing: 20,
             watchSlidesProgress: true,
             initialSlide: 1,
             resistanceRatio: 0,
@@ -318,6 +318,7 @@ function abtEvent() {
             breakpoints: {
                 991: {
                     slidesPerView: 'auto',
+                    spaceBetween: 0,
                 }
             },
             on: {
