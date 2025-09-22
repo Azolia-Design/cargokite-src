@@ -12,6 +12,10 @@ const swiper = {
                 prevEl: parent('.prev').get(),
                 disabledClass: "disabled"
             }) : false,
+            pagination: options.pagin ? ({
+                el: parent('.pagination').get(),
+                clickable: true
+            }) : false,
             ...options,
             on: options.on
         })

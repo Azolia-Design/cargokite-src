@@ -478,6 +478,162 @@
         }
     }
 }
+.abt-event {
+    background-color: rgba($cl-dark-bg, 1);
+    padding-block: 15rem;
+    overflow: hidden;
+    &__head {
+        grid-column: 5/-5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 8rem;
+        @include md {
+            grid-column: 4/-4;
+        }
+    }
+    &__label {
+        color: #9a9a9a;
+        margin-bottom: 2rem;
+        @include md {
+            margin-bottom: 1.2rem;
+        }
+    }
+    &__title {
+        color: #fff;
+        max-width: 60rem;
+        margin-bottom: 3rem;
+        @include md {
+            max-width: 43rem;
+            margin-bottom: 2.4rem;
+        }
+
+    }
+    &__sub {
+        color: rgba($cl-white, .7);
+        max-width: 60.4rem;
+    }
+    &__main {
+        grid-column: 2/-2;
+        @include md {
+            grid-column: 1/-1;
+        }
+        &-pagination {
+            grid-column: 2/-2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 8rem;
+            margin-inline: auto;
+            .swiper-pagination-bullet {
+                --swiper-pagination-bullet-size: .8rem;
+                background-color: transparent;
+                margin: 0 !important;
+                padding: .4rem;
+                width: auto;
+                height: auto;
+                margin-block: -.4rem;
+                &:before {
+                    content: '';
+                    display: block;
+                    width: var(--swiper-pagination-bullet-size);
+                    height: var(--swiper-pagination-bullet-size);
+                    background-color: #fff;
+                    border-radius: 50%;
+                    transition: width .4s ease, border-radius .4s ease;
+                }
+            }
+            .swiper-pagination-bullet-active {
+                &:before {
+                    width: 2rem;
+                    background-color: rgba($cl-orange, 1);
+                    border-radius: .4rem;
+                }
+            }
+        }
+    }
+    &__list {
+        display: flex;
+        &:has(.abt-event__item:nth-child(3)) {
+            .abt-event__item:first-child {
+                aspect-ratio: 1;
+                @include md {
+                    aspect-ratio: 1.74;
+                }
+            }
+        }
+        &:not(:has(.abt-event__item:nth-child(3))) {
+            gap: 0 2rem;
+            .abt-event__item  {
+                aspect-ratio: 1.74;
+                margin-right: 0;
+                flex: 1;
+            }
+        }
+        &:not(:has(.abt-event__item:nth-child(2))) {
+            justify-content: center;
+            .abt-event__item  {
+                flex-basis: 42%;
+                aspect-ratio: 590/387;
+            }
+        }
+    }
+    &__item {
+        flex: none;
+        flex-basis: 27.56%;
+        background-color: rgba($cl-white, .05);
+        margin-right: 2rem;
+        @include md {
+            flex-basis: 49%;
+            aspect-ratio: 1.74;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        user-select: none;
+
+        &:hover {
+            background-color: rgba($cl-white, .1);
+        }
+        &:hover & {
+            &-ic {
+                opacity: 1;
+            }
+        }
+        &.get-square {
+        }
+        &:not(.active) {
+        }
+        &.active {
+            flex-basis: 42%;
+        }
+        &-date {
+            color: rgba($cl-white, .4);
+        }
+        &-location {
+            color: rgba($cl-white, .7);
+        }
+        &-title {
+            color: rgba($cl-white, .7);
+            margin-top: auto;
+        }
+        &-ic {
+            position: absolute;
+            top: 4rem;
+            right: 4rem;
+            color: rgba($cl-orange, 1);
+            opacity: 0;
+            transition: opacity $dur-default ease;
+        }
+    }
+}
 .abt-job {
     padding-bottom: 32.4rem;
     padding-top: 20rem;

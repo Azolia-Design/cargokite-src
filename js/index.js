@@ -454,15 +454,17 @@ const scripts = () => {
     }
     const handlePopup = {
         toggle: () => {
-            $('[data-popup="contact"]').on('click', function(e) {
+            $('[data-popup]').on('click', function (e) {
                 e.preventDefault()
-                $('.popup').addClass('active')
-                lenis.stop()
-            })
-            $('[data-popup="close"]').on('click', function(e) {
-                e.preventDefault()
-                $('.popup').removeClass('active')
-                lenis.start()
+                let popupAttr = $(this).attr('data-popup');
+                if ($(this).attr('data-popup') === 'close') {
+                    $('.popup').removeClass('active')
+                    lenis.start()
+                }
+                else {
+                    $(`.popup.${popupAttr}`).addClass('active');
+                    lenis.stop()
+                }
             })
         },
         cookie: () => {

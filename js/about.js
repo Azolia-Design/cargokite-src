@@ -6,7 +6,9 @@ import { nestedLinesSplit, toHTML, sortAsc, xGetter, yGetter, xSetter, ySetter, 
 import { getAllDataByType } from "./common/prismic_fn";
 import Swiper from "swiper";
 import { Navigation, Pagination, Autoplay } from 'swiper';
+import swiper from "./components/swiper";
 import lenis from "./vendors/lenis";
+import { childrenSelect } from "./common/utils/childrenSelector";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 let typeOpts = {
@@ -299,6 +301,52 @@ function abtTeam() {
         })
     }
 }
+function abtEvent() {
+    if ($('.abt-event__item').length >= 3) {
+        const parent = childrenSelect('.abt-event');
+        swiper.initClassName(parent);
+
+        const slider = swiper.setup(parent, {
+            modules: [Pagination],
+            onView: 2,
+            spacing: 0,
+            watchSlidesProgress: true,
+            initialSlide: 1,
+            resistanceRatio: 0,
+            touchMove: true,
+            pagin: true,
+            breakpoints: {
+                991: {
+                    slidesPerView: 'auto',
+                }
+            },
+            on: {
+                slideChange: function () {
+                    if ($(window).width() > 991) {
+                        for (let i = 0; i < this.slides.length; i++) {
+                            const slide = this.slides[i];
+                            slide.classList.remove('active')
+                        }
+                        this.slides[this.activeIndex + 1].classList.add('active')
+                    }
+                },
+                progress: function () {
+                    for (let i = 0; i < this.slides.length; i++) {
+                        const slide = this.slides[i];
+                        const slideProgress = slide.progress; // This will be a value between -1 and 1
+                    }
+                },
+            }
+        })
+        setTimeout(() => {
+            $('.abt-event__main .swiper-slide').css('transition', 'all .4s');
+            slider.slideTo(0)
+        }, 2000);
+    }
+    else {
+
+    }
+}
 function abtJob() {
     const abtJobLabel = new SplitText('.abt-job__label', typeOpts.chars)
     const abtJobTitle = new SplitText('.abt-job__title', typeOpts.words)
@@ -407,7 +455,8 @@ const aboutScript = {
     afterEnter() {
         console.log('enter about')
         setTimeout(() => {
-            abtHero()
+            abtHero();
+            abtEvent();
             //abtInfo()
             //abtMiles()
             //abtTeam()
