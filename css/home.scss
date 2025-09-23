@@ -746,9 +746,21 @@
         width: 100%;
         max-width: 120rem;
         margin: -9.4rem auto 0;
-        pointer-events: none;
+        pointer-events: auto;
         z-index: 3;
         position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+        &-img {
+            grid-area: 1/1/2/2;
+            pointer-events: none;
+            // &:first-child {
+            //     opacity: 0;
+            // }
+            &:last-child {
+                // clip-path: polygon(-50% -25%, 80% -25%, 80% 120%, -50% 120%);
+            }
+        }
     }
     &__bg-tri {
         position: relative;

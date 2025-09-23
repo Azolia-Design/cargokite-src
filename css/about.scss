@@ -649,13 +649,16 @@
         }
         &:not(.active) {
         }
+        &.active {
+            flex-basis: 42%;
+        }
         &.blank-slide {
             opacity: 0;
             pointer-events: none;
         }
-        &:nth-child(3n- 1) {
-            flex-basis: 42%;
-        }
+        // &:nth-child(3n- 1) {
+        //     flex-basis: 42%;
+        // }
         &-date {
             color: rgba($cl-white, .4);
         }
