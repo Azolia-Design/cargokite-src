@@ -384,8 +384,8 @@
                 &:nth-child(3) {
                     --nav-delay-index: 4;
 
-                    grid-column: 2/3;
-                    grid-row: 2/3;
+                    grid-column: 3/4;
+                    grid-row: 1/2;
                 }
                 &:nth-child(4) {
                     --nav-delay-index: 2;
@@ -522,6 +522,10 @@
             clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
             @include transform(none);
             @include transition(.4s ease-out .5s);
+            ul {
+                grid-template-rows: auto auto auto 1fr;
+                height: 100%;
+            }
             opacity: 1;
             &-item {
                 width: 100%;
@@ -532,7 +536,7 @@
                     display: block;
                     grid-column: 1/4;
                     grid-row: 4/5;
-                    margin-block: 9.2rem;
+                    align-self: end;
                 }
             }
             &-link {

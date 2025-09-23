@@ -266,19 +266,40 @@
             @include custom-scroll(0.3rem, rgba(255, 255, 255, 0.6), $cl-orange);
             display: grid;
             grid-template-columns: 1fr;
+            @include sm {
+                max-height: calc(100% - 10rem);
+                margin-top: 5rem;
+            }
             &-event {
                 grid-area: 1/1/2/2;
                 display: flex;
                 height: 100%;
                 overflow: hidden;
+                @include sm {
+                    flex-direction: column;
+                }
                 &-info {
                     padding: 6rem 3.2rem;
                     flex-basis: 34.31%;
                     background-color: rgba($cl-txt, .1);
                     display: flex;
                     flex-direction: column;
-                    gap: 3.2rem 0;
                     height: auto;
+                    @include sm {
+                        flex-basis: auto;
+                        background-color: transparent;
+                        padding: 4.8rem 2rem 0;
+                        display: grid;
+                        grid-template-rows: 1fr;
+                    }
+                    &:before {
+                        grid-row: 3/8;
+                        grid-column: 1/-1;
+                        background-color: rgba($cl-txt, .1);
+                        @include sm {
+                            content: '';
+                        }
+                    }
                     &-label {
                         color: rgba($cl-desc, 1);
                     }
@@ -289,6 +310,50 @@
                             color: rgba($cl-orange, 1);
                         }
                     }
+                    &-img {
+                        margin-bottom: 3.2rem;
+                        @include sm {
+                            grid-column: 1 / -1;
+                            grid-row: 1/2;
+                            margin-bottom: 1.2rem;
+                        }
+                    }
+                    &-item {
+                        margin-bottom: 3.2rem;
+                        @include sm {
+                            grid-column: 1 / -1;
+                            padding-inline: 2rem;
+                            margin-bottom: 1.2rem;
+                        }
+                        @for $i from 3 through 7 {
+                            &:nth-child(#{$i}) {
+                                @include sm {
+                                    grid-row: #{$i}/#{$i + 1};
+                                }
+                            }
+                        }
+                        &:nth-child(3) {
+                            @include sm {
+                                padding-top: 2rem;
+                            }
+                        }
+                        &:last-child {
+                            margin-bottom: 0;
+                            @include sm {
+                                padding-bottom: 2rem;
+                            }
+                        }
+                    }
+                    .popup__main-event-title {
+                        display: none;
+                        @include sm {
+                            grid-column: 1/-1;
+                            grid-row: 2/3;
+                            display: block;
+                            color: #000;
+                            margin-bottom: 3.2rem;
+                        }
+                    }
                 }
                 &-content {
                     padding: 6rem;
@@ -297,11 +362,22 @@
                     flex-direction: column;
                     align-items: start;
                     height: 100%;
+                    @include sm {
+                        padding: 3.2rem 2rem 7rem;
+                    }
                     .p-line {
                         background-color: #1515151a;
                         width: 100%;
                         height: 1px;
                         margin-block: 3rem;
+                        @include sm {
+                            display: none;
+                        }
+                    }
+                }
+                &-title {
+                    @include sm {
+                        display: none;
                     }
                 }
                 &-richtext {
@@ -321,10 +397,22 @@
             color: rgba($cl-body, 1);
             position: sticky;
             margin-left: auto;
+            top: 0;
             left: auto;
             right: 0;
             grid-area: 1/1/2/2;
             align-self: start;
+            @include sm {
+                margin-right: 0;
+                margin-top: 0;
+            }
+
+            .icon {
+                @include sm {
+                    width: 2rem;
+                    height: 2rem;
+                }
+            }
         }
     }
 }
