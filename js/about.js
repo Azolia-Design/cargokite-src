@@ -302,6 +302,36 @@ function abtTeam() {
     }
 }
 function abtEvent() {
+    const abtEventLabel = new SplitText('.abt-event__label', typeOpts.chars)
+    const abtEventTitle = new SplitText('.abt-event__title', typeOpts.words);
+    const abtEventSub = new SplitText('.abt-event__sub', typeOpts.words)
+
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.abt-event__head',
+            start: 'top top+=65%'
+        },
+        onComplete: () => {
+            abtEventLabel.revert();
+        }
+    })
+    tl
+        .from(abtEventLabel.chars, { yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02 })
+        .from(abtEventTitle.words, { yPercent: 60, autoAlpha: 0, duration: .6, stagger: .03 }, '<=.2')
+        .from(abtEventSub.words, { yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02 }, '<=.2');
+
+    const abtEventItems = $('.abt-event__item')
+    const tlEventList = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.abt-event__main',
+            start: 'top top+=70%'
+        }
+    })
+    requestAnimationFrame(() => {
+        tlEventList
+            .from(abtEventItems, {autoAlpha: 0, duration: .8, yPercent: 25, stagger: .1, clearProps: 'all'})
+    })
+
     if ($('.abt-event__item').length >= 3 && $(window).width() > 767) {
         const parent = childrenSelect('.abt-event');
         swiper.initClassName(parent);
@@ -311,6 +341,7 @@ function abtEvent() {
             onView: 2,
             spacing: 20,
             watchSlidesProgress: true,
+            slidesPerGroup: 2,
             initialSlide: 1,
             resistanceRatio: 0,
             touchMove: true,
@@ -319,6 +350,7 @@ function abtEvent() {
                 991: {
                     slidesPerView: 'auto',
                     spaceBetween: 0,
+                    slidesPerGroup: 3,
                 }
             },
             on: {

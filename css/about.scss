@@ -641,13 +641,18 @@
         &:hover & {
             &-ic {
                 opacity: 1;
+                transform: translate(0);
             }
-        }
-        &.get-square {
+            &-title {
+                color: rgba($cl-white, 1);
+            }
         }
         &:not(.active) {
         }
         &.active {
+            // flex-basis: 42%;
+        }
+        &:nth-child(3n- 1) {
             flex-basis: 42%;
         }
         &-date {
@@ -662,14 +667,17 @@
         &-title {
             color: rgba($cl-white, .7);
             margin-top: auto;
+            transition: all .4s;
+            @include text-shorten(2, 'auto');
         }
         &-ic {
             position: absolute;
             top: 4rem;
             right: 4rem;
             color: rgba($cl-orange, 1);
+            transition: all .4s;
             opacity: 0;
-            transition: opacity $dur-default ease;
+            transform: translate(-100%, 100%);
             @include sm {
                 display: none;
             }

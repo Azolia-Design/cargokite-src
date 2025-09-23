@@ -104,3 +104,18 @@
 		border-radius: 2rem;
 	}
 }
+@mixin text-shorten($numLines: 1, $break: anywhere) {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	line-break: $break;
+
+	@supports (-webkit-line-clamp: $numLines) {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: initial;
+		display: -webkit-box;
+		-webkit-line-clamp: $numLines;
+		-webkit-box-orient: vertical;
+	}
+}
