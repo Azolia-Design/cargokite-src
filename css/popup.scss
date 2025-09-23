@@ -383,6 +383,12 @@
                 &-richtext {
                     color: rgba($cl-body, 1);
                     margin-bottom: 3rem;
+                    &-p {
+                        margin-bottom: 1.2rem;
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
                 }
                 &-link {
                     transition: color .4s ease;
@@ -414,6 +420,9 @@
                 }
             }
         }
+    }
+    [data-popup-event].hidden {
+        display: none;
     }
 }
 

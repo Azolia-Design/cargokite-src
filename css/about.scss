@@ -606,7 +606,7 @@
         &:not(:has(.abt-event__item:nth-child(2))) {
             justify-content: center;
             .abt-event__item  {
-                flex-basis: 42%;
+                flex: 0 0 42%;
                 aspect-ratio: 590/387;
             }
         }

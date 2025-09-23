@@ -58,7 +58,7 @@ export default class PopupComponent extends HTMLElement {
                         <div class="popup__main-submit-aspect"></div>
                     </button>
                 </form>
-                
+
                 <a href="#" class="popup__close" data-popup="close">
                     <div class="icon icon-32">
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

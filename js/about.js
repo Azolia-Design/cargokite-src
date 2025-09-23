@@ -429,6 +429,59 @@ function getApi_abtTeam() {
         abtTeam()
     })
 }
+function getApi_abtEvent() {
+    getAllDataByType('event', 'asc').then((res) => {
+        let allEvent = sortAsc(res);
+        let templateEvent = $('.abt-event__item').eq(0).clone();
+        $('.abt-event__list').html('')
+        allEvent.forEach((i) => {
+            let htmlEvent = templateEvent.clone();
+            htmlEvent.find('.abt-event__item-title').text(i.data.name);
+            htmlEvent.find('.abt-event__item-date').text(new Date(i.data.date).toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            }).replace(/(\d+) ([A-Za-z]+) (\d+)/, '$2 $1, $3'));
+            htmlEvent.find('.abt-event__item-location').text(i.data.location);
+            htmlEvent.appendTo('.abt-event__list');
+            $(htmlEvent).on('click', function (e) {
+                e.preventDefault();
+                $('.popup.event').addClass('active');
+                const infoFields = ['name', 'thumbnail', 'date', 'full_location', 'members', 'activities', 'content', 'link']
+                infoFields.forEach((attr) => {
+                    if(attr === 'date') {
+                        $('.popup.event').find(`[data-popup-event="${attr}"] .popup__main-event-info-title`).text(new Date(i.data[attr]).toLocaleDateString('en-GB', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        }))
+                        $('.popup.event').find(`[data-popup-event="${attr}"]`).toggleClass('hidden', !i.data[attr]);
+                    } else if (attr === 'name') {
+                        $('.popup.event').find(`[data-popup-event="${attr}"]`).text(i.data[attr]);
+                    } else if (attr === 'thumbnail') {
+                        $('.popup.event').find(`[data-popup-event="${attr}"] img`).attr('src', i.data[attr].url).attr('alt', i.data[attr].alt);
+                    } else if (attr === 'content') {
+                        $('.popup.event').find(`[data-popup-event="${attr}"]`).html(toHTML(i.data[attr], 'popup__main-event-richtext-p'));
+                    } else if (attr === 'link') {
+                        if (i.data[attr].url) {
+                            $('.popup.event').find(`[data-popup-event="${attr}"]`).attr('href', i.data[attr].url).attr('target', i.data[attr].target)
+                        }
+                        else {
+                            $('.popup.event').find(`[data-popup-event="${attr}"]`).attr('href', '#').attr('target', '_blank');
+                        }
+                        $('.popup.event').find(`[data-popup-event="${attr}"]`).toggleClass('hidden', !i.data[attr].url);
+                    }
+                    else {
+                        $('.popup.event').find(`[data-popup-event="${attr}"] .popup__main-event-info-title`).text(i.data[attr]);
+                        $('.popup.event').find(`[data-popup-event="${attr}"]`).toggleClass('hidden', !i.data[attr]);
+                    }
+                })
+                lenis.stop();
+            })
+        })
+        abtEvent()
+    })
+}
 function getApi_abtJob() {
     getAllDataByType('job').then((res) => {
         let allJob = res;
@@ -457,7 +510,6 @@ const aboutScript = {
         console.log('enter about')
         setTimeout(() => {
             abtHero();
-            abtEvent();
             //abtInfo()
             //abtMiles()
             //abtTeam()
@@ -466,6 +518,7 @@ const aboutScript = {
         getApit_abtInfo()
         getApi_abtMiles()
         getApi_abtTeam()
+        getApi_abtEvent()
         getApi_abtJob()
     },
     beforeLeave() {
