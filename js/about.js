@@ -340,85 +340,6 @@ function abtEvent() {
                 991: {
                     slidesPerView: 'auto',
                     spaceBetween: 0,
-                    slidesPerGroup: 3
-                }
-            },
-            on: {
-                slideChange: function () {
-                    if ($(window).width() > 991) {
-                        for (let i = 0; i < this.slides.length; i++) {
-                            const slide = this.slides[i];
-                            slide.classList.remove('active')
-                        }
-                        this.slides[this.activeIndex + 1].classList.add('active')
-                    }
-                },
-                progress: function () {
-                    for (let i = 0; i < this.slides.length; i++) {
-                        const slide = this.slides[i];
-                        const slideProgress = slide.progress; // This will be a value between -1 and 1
-                    }
-                },
-            }
-        })
-        setTimeout(() => {
-            $('.abt-event__main .swiper-slide').css('transition', 'all .4s');
-            slider.slideTo(0);
-            if ($(window).width() > 991) {
-                if ($('.abt-event__item').length % 3 !== 0) {
-                    const neededSlides = 3 - ($('.abt-event__item').length % 3);
-                    for (let i = 0; i < neededSlides; i++) {
-                        const blankSlide = $('<div>').addClass('abt-event__item swiper-slide blank-slide');
-                        parent('.swiper-wrapper').append(blankSlide);
-                    }
-                    slider.update(); // Cập nhật Swiper sau khi thêm slide
-                }
-            }
-        }, 2000);
-    }
-    else {
-
-    }
-}
-function abtEventDemo() {
-    const abtEventLabel = new SplitText('.abt-event__label', typeOpts.chars)
-    const abtEventTitle = new SplitText('.abt-event__title', typeOpts.words);
-    const abtEventSub = new SplitText('.abt-event__sub', typeOpts.words)
-
-    const tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: '.abt-event__head',
-            start: 'top top+=65%'
-        },
-        onComplete: () => {
-            abtEventLabel.revert();
-        }
-    })
-    tl
-        .from(abtEventLabel.chars, { yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02 })
-        .from(abtEventTitle.words, { yPercent: 60, autoAlpha: 0, duration: .6, stagger: .03 }, '<=.2')
-        .from(abtEventSub.words, { yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02 }, '<=.2')
-        .from('.abt-event__main', { yPercent: 25, autoAlpha: 0, duration: .8}, '<=.2');
-
-    if ($('.abt-event__item').length >= 3 && $(window).width() > 767) {
-        const parent = childrenSelect('.abt-event');
-        swiper.initClassName(parent);
-
-        const slider = swiper.setup(parent, {
-            modules: [Pagination],
-            onView: 2,
-            spacing: 20,
-            watchSlidesProgress: true,
-            slidesPerGroup: 2,
-            initialSlide: 1,
-            resistanceRatio: 0,
-            touchMove: true,
-            speed: 400,
-            pagin: true,
-            breakpoints: {
-                991: {
-                    slidesPerView: 'auto',
-                    spaceBetween: 0,
                     slidesPerGroup: 1
                 }
             },
@@ -591,8 +512,7 @@ function getApi_abtEvent() {
                 lenis.stop();
             })
         })
-        // abtEvent()
-        abtEventDemo()
+        abtEvent()
     })
 }
 function getApi_abtJob() {
@@ -633,7 +553,6 @@ const aboutScript = {
         getApi_abtTeam()
         getApi_abtEvent()
         getApi_abtJob()
-        // abtEventDemo();
     },
     beforeLeave() {
         console.log('leave about')
