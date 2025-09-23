@@ -334,6 +334,7 @@ function abtEvent() {
             initialSlide: 1,
             resistanceRatio: 0,
             touchMove: true,
+            speed: 400,
             pagin: true,
             breakpoints: {
                 991: {
