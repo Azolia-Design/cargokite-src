@@ -363,13 +363,15 @@ function abtEvent() {
         setTimeout(() => {
             $('.abt-event__main .swiper-slide').css('transition', 'all .4s');
             slider.slideTo(0);
-            if ($('.abt-event__item').length % 3 !== 0) {
-                const neededSlides = 3 - ($('.abt-event__item').length % 3);
-                for (let i = 0; i < neededSlides; i++) {
-                    const blankSlide = $('<div>').addClass('abt-event__item swiper-slide blank-slide');
-                    parent('.swiper-wrapper').append(blankSlide);
+            if ($(window).width() > 991) {
+                if ($('.abt-event__item').length % 3 !== 0) {
+                    const neededSlides = 3 - ($('.abt-event__item').length % 3);
+                    for (let i = 0; i < neededSlides; i++) {
+                        const blankSlide = $('<div>').addClass('abt-event__item swiper-slide blank-slide');
+                        parent('.swiper-wrapper').append(blankSlide);
+                    }
+                    slider.update(); // Cập nhật Swiper sau khi thêm slide
                 }
-                slider.update(); // Cập nhật Swiper sau khi thêm slide
             }
         }, 2000);
     }
