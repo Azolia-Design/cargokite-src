@@ -318,19 +318,8 @@ function abtEvent() {
     tl
         .from(abtEventLabel.chars, { yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02 })
         .from(abtEventTitle.words, { yPercent: 60, autoAlpha: 0, duration: .6, stagger: .03 }, '<=.2')
-        .from(abtEventSub.words, { yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02 }, '<=.2');
-
-    const abtEventItems = $('.abt-event__item')
-    const tlEventList = gsap.timeline({
-        scrollTrigger: {
-            trigger: '.abt-event__main',
-            start: 'top top+=70%'
-        }
-    })
-    requestAnimationFrame(() => {
-        tlEventList
-            .from(abtEventItems, {autoAlpha: 0, duration: .8, yPercent: 25, stagger: .1, clearProps: 'all'})
-    })
+        .from(abtEventSub.words, { yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02 }, '<=.2')
+        .from('.abt-event__main', { yPercent: 25, autoAlpha: 0, duration: .8}, '<=.2');
 
     if ($('.abt-event__item').length >= 3 && $(window).width() > 767) {
         const parent = childrenSelect('.abt-event');
@@ -350,7 +339,7 @@ function abtEvent() {
                 991: {
                     slidesPerView: 'auto',
                     spaceBetween: 0,
-                    slidesPerGroup: 3,
+                    slidesPerGroup: 3
                 }
             },
             on: {
@@ -373,7 +362,15 @@ function abtEvent() {
         })
         setTimeout(() => {
             $('.abt-event__main .swiper-slide').css('transition', 'all .4s');
-            slider.slideTo(0)
+            slider.slideTo(0);
+            if ($('.abt-event__item').length % 3 !== 0) {
+                const neededSlides = 3 - ($('.abt-event__item').length % 3);
+                for (let i = 0; i < neededSlides; i++) {
+                    const blankSlide = $('<div>').addClass('abt-event__item swiper-slide blank-slide');
+                    parent('.swiper-wrapper').append(blankSlide);
+                }
+                slider.update(); // Cập nhật Swiper sau khi thêm slide
+            }
         }, 2000);
     }
     else {
