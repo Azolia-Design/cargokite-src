@@ -403,7 +403,9 @@
                 grid-row: 1/2;
                 opacity: 0;
                 transition: opacity 600ms ease;
-                background-color: rgba($cl-white, 1);
+                & > img {
+                    background-color: rgba($cl-white, 1);
+                }
                 &.active {
                     opacity: 1;
                 }
