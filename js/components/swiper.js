@@ -3,17 +3,18 @@ import $ from "jquery";
 
 const swiper = {
     setup: (parent, options = {}) => {
-        return new Swiper(parent('.swiper').get(), {
+        console.log(parent('.swiper'))
+        return new Swiper(parent('.swiper')[0], {
             slidesPerView: options.onView || 1,
             spaceBetween: options.spacing || 0,
             allowTouchMove: options.touchMove || false,
             navigation: options.nav ? ({
-                nextEl: parent('.next').get(),
-                prevEl: parent('.prev').get(),
+                nextEl: parent('.next')[0],
+                prevEl: parent('.prev')[0],
                 disabledClass: "disabled"
             }) : false,
             pagination: options.pagin ? ({
-                el: parent('.pagination').get(),
+                el: parent('.pagination')[0],
                 clickable: true
             }) : false,
             ...options,

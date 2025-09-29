@@ -125,11 +125,9 @@
         @include transition(all $dur-default ease);
         white-space: nowrap;
         transition-delay: calc($dur-default / 2 + (40ms *  var(--link-delay-index)));
-        &:nth-child(1) { --link-delay-index: 5; }
-        &:nth-child(2) { --link-delay-index: 4; }
-        &:nth-child(3) { --link-delay-index: 3; }
-        &:nth-child(4) { --link-delay-index: 2; }
-        &:nth-child(5) { --link-delay-index: 1; }
+        @for $i from 1 through 6 {
+            &:nth-child(#{$i}) { --link-delay-index: #{7 - $i}; }
+        }
         &:hover, &.active {
             color: rgba(var(--header-txt), 1);
         }

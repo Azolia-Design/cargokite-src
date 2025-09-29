@@ -5,7 +5,7 @@ import SplitText from "./vendors/SplitText";
 import { nestedLinesSplit, toHTML, sortAsc, xGetter, yGetter, xSetter, ySetter, pointerCurr, lerp } from "./untils";
 import { getAllDataByType } from "./common/prismic_fn";
 import Swiper from "swiper";
-import { Navigation, Pagination, Autoplay } from 'swiper';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import swiper from "./components/swiper";
 import lenis from "./vendors/lenis";
 import { childrenSelect } from "./common/utils/childrenSelector";
@@ -325,57 +325,68 @@ function abtEvent() {
         const parent = childrenSelect('.abt-event');
         swiper.initClassName(parent);
 
-        const slider = swiper.setup(parent, {
-            modules: [Pagination],
-            onView: 2,
-            spacing: 20,
-            watchSlidesProgress: true,
-            slidesPerGroup: 2,
-            initialSlide: 1,
-            resistanceRatio: 0,
-            touchMove: true,
-            speed: 400,
-            pagin: true,
-            breakpoints: {
-                991: {
-                    slidesPerView: 'auto',
-                    spaceBetween: 0,
-                    slidesPerGroup: 1
-                }
-            },
-            on: {
-                slideChange: function () {
-                    if ($(window).width() > 991) {
+        requestAnimationFrame(() => {
+            const slider = swiper.setup(parent, {
+                modules: [Pagination],
+                onView: 2,
+                spaceBetween: 20,
+                watchSlidesProgress: true,
+                slidesPerGroup: 2,
+                initialSlide: 1,
+                resistanceRatio: 0,
+                touchMove: true,
+                speed: 400,
+                pagin: true,
+                breakpoints: {
+                    992: {
+                        slidesPerView: 'auto',
+                        spaceBetween: 0,
+                        slidesPerGroup: 1
+                    }
+                },
+                on: {
+                    beforeResize: function () {
+                        if ($(window).width() > 991) {
+                            for (let i = 0; i < this.slides.length; i++) {
+                                const slide = this.slides[i];
+                                slide.classList.remove('active')
+                            }
+                            this.slides[this.activeIndex + 1].classList.add('active')
+                        }
+                    },
+                    slideChange: function () {
+                        if ($(window).width() > 991) {
+                            for (let i = 0; i < this.slides.length; i++) {
+                                const slide = this.slides[i];
+                                slide.classList.remove('active')
+                            }
+                            this.slides[this.activeIndex + 1].classList.add('active')
+                        }
+                    },
+                    progress: function (slide) {
                         for (let i = 0; i < this.slides.length; i++) {
                             const slide = this.slides[i];
-                            slide.classList.remove('active')
+                            const slideProgress = slide.progress; // This will be a value between -1 and 1
                         }
-                        this.slides[this.activeIndex + 1].classList.add('active')
-                    }
-                },
-                progress: function () {
-                    for (let i = 0; i < this.slides.length; i++) {
-                        const slide = this.slides[i];
-                        const slideProgress = slide.progress; // This will be a value between -1 and 1
-                    }
-                },
-            }
+                    },
+                }
+            })
+            setTimeout(() => {
+                $('.abt-event__main .swiper-slide').css('transition', 'all .4s');
+                slider.slideTo(0);
+                $('.abt-event__item-title').width($('.abt-event__item-title').eq(0).width())
+                // if ($(window).width() > 991) {
+                //     if ($('.abt-event__item').length % 3 !== 0) {
+                //         const neededSlides = 3 - ($('.abt-event__item').length % 3);
+                //         for (let i = 0; i < neededSlides; i++) {
+                //             const blankSlide = $('<div>').addClass('abt-event__item swiper-slide blank-slide');
+                //             parent('.swiper-wrapper').append(blankSlide);
+                //         }
+                //         slider.update(); // Cập nhật Swiper sau khi thêm slide
+                //     }
+                // }
+            }, 2000);
         })
-        setTimeout(() => {
-            $('.abt-event__main .swiper-slide').css('transition', 'all .4s');
-            slider.slideTo(0);
-            $('.abt-event__item-title').width($('.abt-event__item-title').eq(0).width())
-            // if ($(window).width() > 991) {
-            //     if ($('.abt-event__item').length % 3 !== 0) {
-            //         const neededSlides = 3 - ($('.abt-event__item').length % 3);
-            //         for (let i = 0; i < neededSlides; i++) {
-            //             const blankSlide = $('<div>').addClass('abt-event__item swiper-slide blank-slide');
-            //             parent('.swiper-wrapper').append(blankSlide);
-            //         }
-            //         slider.update(); // Cập nhật Swiper sau khi thêm slide
-            //     }
-            // }
-        }, 2000);
     }
     else {
 

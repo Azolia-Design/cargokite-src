@@ -166,7 +166,7 @@ class techDemoWebGL {
                 }
 
                 if (obj.name === 'kite-bone') {
-                    this.kiteBone = obj 
+                    this.kiteBone = obj
                     console.log(this.kiteBone)
                 }
             })
@@ -568,6 +568,7 @@ function techVideoInteraction() {
         // goal value = 1 - 0.3 = 0.7
         gsap.quickSetter('.tech-vid__play-btn', 'scaleX', ``)(.7);
         gsap.quickSetter('.tech-vid__play-btn', 'scaleY', ``)(.7);
+        gsap.set(item, { aspectRatio: item.width() / item.height() })
         Flip.to(state, {
             simple: true,
             scrollTrigger: {
