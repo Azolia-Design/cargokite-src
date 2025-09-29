@@ -621,6 +621,9 @@
         flex-direction: column;
         position: relative;
         user-select: none;
+        &.swiper-slide {
+            display: flex;
+        }
 
         @include md {
             flex-basis: auto;
