@@ -329,7 +329,7 @@
         grid-row: 1/2;
         z-index: 2;
         &-outer {
-            height: 500vh;
+            height: 600vh;
             position: relative;
             @include sm {
                 height: 400vh;
