@@ -202,7 +202,7 @@ class techDemoWebGL {
         this.renderer.setPixelRatio(window.devicePixelRatio);
     }
     createMesh() {
-        let url = new URL('../assets/cargo-new-final-break.glb', import.meta.url)
+        let url = new URL('../assets/cargo-new-anten.glb', import.meta.url)
         url = "" + url;
         this.loader = new GLTFLoader();
         this.dracoLoader = new DRACOLoader();
@@ -276,7 +276,10 @@ class techDemoWebGL {
             this.isWireframeMode = false
             this.isTransitioning = false // Prevent overlapping animations
             this.materialCache = new Map() // Cache materials for better performance
-            
+            this.armRight = []
+            this.armLeft = []   
+            this.arm2Right = []
+            this.arm2Left = []
             this.model.traverse((obj) => {
                 if (obj instanceof THREE.Mesh) {
                     let objName = obj.name.toLowerCase()
@@ -286,29 +289,50 @@ class techDemoWebGL {
                         obj.material = this.matt_propeller;   
                     } else if (objName.includes('container')) {
                         obj.material = this.matt_container;
+                        // Store original position to avoid overlapping in animations
+                        obj.userData.originalPosition = obj.position.clone();
                         this.containerGrp.push(obj);
                     } else if (objName.includes('ship')) {
                         console.log(obj.name)
+                        // obj.material = this.matt_ship;
                         this.createHybridObject(obj, this.matt_ship, this.matt_ship_wire);
                     } else if (objName.includes('tech') ) {
                         obj.material = this.matt_tech;
                     }
-                }
 
-                if (obj.name === 'Ship_Wire') {
-                    this.kiteBoneWire = obj
-                } else if (obj.name === 'Parachute') {
-                    this.kiteBoneParachute = obj
-                }
-                if (obj.name == 'PropellerL') {
-                    this.prop1 = obj;
-                } else if (obj.name == 'PropellerR') {
-                    this.prop2 = obj;
+                    if (obj.name === 'Ship_Wire') {
+                        this.kiteBoneWire = obj
+                    } else if (obj.name === 'Parachute') {
+                        this.kiteBoneParachute = obj
+                    } else if (obj.name === 'Ship_Anten_Arm_R') {
+                        this.armRight.push(obj)
+                    } else if (obj.name === 'Ship_Anten_Arm_L') {
+                        this.armLeft.push(obj)
+                    } else if (obj.name === 'Ship_Anten_Arm_2_R') {
+                        this.arm2Right.push(obj)
+                    } else if (obj.name === 'Ship_Anten_Arm_2_L') {
+                        this.arm2Left.push(obj)
+                    } else if (obj.name == 'PropellerL') {
+                        this.prop1 = obj;
+                    } else if (obj.name == 'PropellerR') {
+                        this.prop2 = obj;
+                    }
                 }
             })
             this.clock = new THREE.Clock()
-            this.scene.add(this.model)
             
+            // Remove duplicate antenna arm objects
+            this.model.traverse((obj) => {
+                if (obj.name === 'Ship_Anten_Arm_2_R' && !this.arm2Right.includes(obj)) {
+                    console.log('Removing duplicate arm2Right')
+                    obj.parent.remove(obj)
+                }
+                if (obj.name === 'Ship_Anten_Arm_2_L' && !this.arm2Left.includes(obj)) {
+                    console.log('Removing duplicate arm2Left')
+                    obj.parent.remove(obj)
+                }
+            })
+            this.scene.add(this.model)
             // Debug: Log hybrid objects
             console.log(`Total hybrid objects created: ${this.hybridObjects.length}`);
             this.hybridObjects.forEach((obj, idx) => {
@@ -334,12 +358,16 @@ class techDemoWebGL {
         if ($('[data-barba-namespace="tech"]').length) {
             this.prop1.rotation.x += 0.1
             this.prop2.rotation.x += 0.1
-            this.kiteBoneParachute.rotation.x = Math.sin(this.clock.getElapsedTime()) * Math.PI / 36
-            this.kiteBoneParachute.rotation.y = Math.sin(this.clock.getElapsedTime() / 2) * Math.PI / 45
-            this.kiteBoneParachute.rotation.z = Math.sin(this.clock.getElapsedTime()) * Math.PI / 90
-            this.kiteBoneWire.rotation.x = Math.sin(this.clock.getElapsedTime()) * Math.PI / 36
-            this.kiteBoneWire.rotation.y = Math.sin(this.clock.getElapsedTime() / 2) * Math.PI / 45
-            this.kiteBoneWire.rotation.z = Math.sin(this.clock.getElapsedTime()) * Math.PI / 90
+            
+            if (this.kiteBoneWire && this.kiteBoneParachute) {
+                this.kiteBoneParachute.rotation.x = Math.sin(this.clock.getElapsedTime()) * Math.PI / 36
+                this.kiteBoneParachute.rotation.y = Math.sin(this.clock.getElapsedTime() / 2) * Math.PI / 45
+                this.kiteBoneParachute.rotation.z = Math.sin(this.clock.getElapsedTime()) * Math.PI / 90
+                this.kiteBoneWire.rotation.x = Math.sin(this.clock.getElapsedTime()) * Math.PI / 36
+                this.kiteBoneWire.rotation.y = Math.sin(this.clock.getElapsedTime() / 2) * Math.PI / 45
+                this.kiteBoneWire.rotation.z = Math.sin(this.clock.getElapsedTime()) * Math.PI / 90
+            }
+            
             this.renderer.render(this.scene, this.camera)
         } else {
         }
@@ -411,11 +439,64 @@ class techDemoWebGL {
                                 } else {
                                     delayTime = '<=0'
                                 }
+                                // Use original y position to calculate offset and avoid overlapping
+                                const originalY = el.userData.originalPosition ? el.userData.originalPosition.y : 0;
+                                const randomOffset = 10 * Math.random();
+                                const baseOffset = 20;
+                                const yMultiplier = originalY > 0 ? originalY * 0.5 : 0;
+                                const offsetY = originalY + baseOffset + yMultiplier + randomOffset;
                                 tl.from(el.position, {
-                                    y: `${10 + 20 * (Math.random() - 0) * 1}`,
+                                    y: `${offsetY}`,
                                     duration: .4,
                                 }, delayTime)
                             })
+                            this.armRight.forEach((el, idx) => {
+                                tl.to(el.rotation, {
+                                    x: (Math.PI / 180) * 95,
+                                    duration: .4,
+                                }, idx == 0 ? '<=.2' : '<=0')
+                            })
+                            
+                            this.armLeft.forEach((el, idx) => {
+                                tl.to(el.rotation, {
+                                x: (Math.PI / 180) * -95,
+                                duration: .4,
+                            }, '<=0')
+                            })
+                            this.arm2Right.forEach((el, idx) => {
+                                tl.to(el.rotation, {
+                                x: (Math.PI / 180) * 166,
+                                duration: .4,
+                            }, idx == 0 ? '<=.2' : '<=0')
+                            })
+                            this.arm2Left.forEach((el, idx) => {
+                                tl.to(el.rotation, {
+                                    x: (Math.PI / 180) * 166,
+                                    duration: .4,
+                                }, '<=0')
+                            })
+                            
+                            // // Animate antenna arm hybrid objects (solid and wireframe)
+                            // this.hybridObjects.forEach(hybridObj => {
+                            //     if (hybridObj.solid.name === "Ship_Anten_Arm_R" || 
+                            //         hybridObj.solid.name === "Ship_Anten_Arm_L" || 
+                            //         hybridObj.solid.name === "Ship_Anten_Arm_2_R" || 
+                            //         hybridObj.solid.name === "Ship_Anten_Arm_2_L") {
+                                    
+                            //         const rotationX = hybridObj.solid.name.includes("_L") ? 
+                            //             (hybridObj.solid.name.includes("2_") ? (Math.PI / 180) * 166 : (Math.PI / 180) * -95) :
+                            //             (hybridObj.solid.name.includes("2_") ? (Math.PI / 180) * 166 : (Math.PI / 180) * 95);
+                                    
+                            //         tl.to(hybridObj.solid.rotation, {
+                            //             x: rotationX,
+                            //             duration: .4,
+                            //         }, '<=.2')
+                            //         .to(hybridObj.wireframe.rotation, {
+                            //             x: rotationX,
+                            //             duration: .4,
+                            //         }, '<=0')
+                            //     }
+                            // })
                             break;
                         case 4:
                             tl.fromTo(this.matt_propeller.color, {
@@ -642,8 +723,14 @@ class techDemoWebGL {
                 } else {
                     delayTime = '<=0'
                 }
+                // Use original y position to calculate offset and avoid overlapping
+                const originalY = el.userData.originalPosition ? el.userData.originalPosition.y : 0;
+                const randomOffset = 3 * (Math.random() - 0.5) * 2;
+                const baseOffset = 10;
+                const yMultiplier = originalY > 0 ? originalY * 0.3 : 0;
+                const offsetY = originalY + baseOffset + yMultiplier + randomOffset;
                 tl.to(el.position, {
-                    y: `${10 + 3 * (Math.random() - .5) * 2}`,
+                    y: `${offsetY}`,
                     duration: .6,
                 }, delayTime)
                 .to(el.material, {
@@ -721,7 +808,7 @@ class techDemoWebGL {
             this.materialCache.set(materialKey, cachedMaterials);
         }
         
-        // Clone the mesh efficiently
+        // Clone the mesh efficiently - skip antenna arms
         const wireframeMesh = this._cloneMeshOptimized(mesh);
         
         // Set up materials with proper initial states
@@ -739,7 +826,6 @@ class techDemoWebGL {
         
         // Add to scene efficiently
         mesh.parent.add(wireframeMesh);
-        
         // Create optimized hybrid object
         const hybridObject = {
             id: mesh.uuid, // Unique identifier for tracking
