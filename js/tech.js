@@ -1,7 +1,9 @@
 import $ from "jquery";
 import * as THREE from 'three';
 import * as L from 'leaflet';
-import portData from '../data/port.json'
+import portData from '../data/port.json';
+import portLookup from '../data/ports_lookup.json';
+import adjacencyData from '../data/adjacency_by_port.json';
 import lenis from './vendors/lenis';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
@@ -109,13 +111,13 @@ class techDemoWebGL {
                 {
                     x: viewportBreak({ md: 89.3979, sm: 55.7516 }),
                     y: viewportBreak({ md: 44.3087, sm: 16.9304 }),
-                    z: -1.35464 
+                    z: -1.35464
                 },
                 // LookAt 1 Kite
                 {
                     x: viewportBreak({ md: 73.3979, sm: 45.7516 }),
                     y: viewportBreak({ md: 44.3087, sm: 21.9304 }),
-                    z: -1.35464 
+                    z: -1.35464
                 },
                 // LookAt 2 Hull
                 {
@@ -337,16 +339,16 @@ class techDemoWebGL {
         this.camera = new THREE.PerspectiveCamera(fov, this.viewport.aspectRatio, 0.1, 10000);
 
         if ($(window).width() > 767) {
-            
+
             this.camera.position.set(
-                124.2853, 
-                35.6434, 
-                viewportBreak({ md: -51.4899, sm:  -68.48991394042969 }) 
+                124.2853,
+                35.6434,
+                viewportBreak({ md: -51.4899, sm:  -68.48991394042969 })
             )
             this.lookAtTarget = new THREE.Vector3(
-                89.3979, 
-                44.3087, 
-                -1.35464 
+                89.3979,
+                44.3087,
+                -1.35464
             )
         } else {
             this.camera.position.set(
@@ -365,46 +367,46 @@ class techDemoWebGL {
         })
         this.renderer.setSize(this.viewport.width, this.viewport.height);
         this.renderer.setPixelRatio(window.devicePixelRatio);
-        
+
         // Setup post-processing for bloom effect
         this.setupPostProcessing();
     }
-    
+
     // Simple noise function for texture generation
     noise2D(x, y) {
         // Simple pseudo-random noise based on sine waves
         const n = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
         return n - Math.floor(n);
     }
-    
+
     // Perlin-like noise with smoothing
     smoothNoise(x, y, scale) {
         const scaledX = x * scale;
         const scaledY = y * scale;
-        
+
         const x0 = Math.floor(scaledX);
         const x1 = x0 + 1;
         const y0 = Math.floor(scaledY);
         const y1 = y0 + 1;
-        
+
         const sx = scaledX - x0;
         const sy = scaledY - y0;
-        
+
         // Smooth interpolation
         const smoothX = sx * sx * (3 - 2 * sx);
         const smoothY = sy * sy * (3 - 2 * sy);
-        
+
         const n00 = this.noise2D(x0, y0);
         const n10 = this.noise2D(x1, y0);
         const n01 = this.noise2D(x0, y1);
         const n11 = this.noise2D(x1, y1);
-        
+
         const nx0 = n00 * (1 - smoothX) + n10 * smoothX;
         const nx1 = n01 * (1 - smoothX) + n11 * smoothX;
-        
+
         return nx0 * (1 - smoothY) + nx1 * smoothY;
     }
-    
+
     // Generate noise texture with multiple octaves
     createNoiseTexture() {
         const size = 512;
@@ -412,36 +414,36 @@ class techDemoWebGL {
         canvas.width = size;
         canvas.height = size;
         const ctx = canvas.getContext('2d');
-        
+
         const imageData = ctx.createImageData(size, size);
         const data = imageData.data;
-        
+
         for (let y = 0; y < size; y++) {
             for (let x = 0; x < size; x++) {
                 const nx = x / size;
                 const ny = y / size;
-                
+
                 // Multi-octave noise for more detail
                 let value = 0;
                 value += this.smoothNoise(nx, ny, 4) * 0.5;    // Large features
                 value += this.smoothNoise(nx, ny, 8) * 0.25;   // Medium features
                 value += this.smoothNoise(nx, ny, 16) * 0.125; // Fine details
                 value += this.smoothNoise(nx, ny, 32) * 0.0625; // Very fine details
-                
+
                 // Normalize to 0-1 range
                 value = value / 0.9375;
-                
+
                 // Add some contrast and brightness adjustment
                 value = Math.pow(value, 1.2); // Increase contrast
                 value = Math.max(0, Math.min(1, value));
-                
+
                 // Remap value from 0-1 to 0.5-1 (grey to white instead of black to white)
                 // This makes the darkest parts 50% grey instead of black
                 value = 0.5 + (value * 0.5);
-                
+
                 // Convert to grayscale
                 const brightness = Math.floor(value * 255);
-                
+
                 const idx = (y * size + x) * 4;
                 data[idx] = brightness;     // R
                 data[idx + 1] = brightness; // G
@@ -449,7 +451,7 @@ class techDemoWebGL {
                 data[idx + 3] = 255;        // A
             }
         }
-        
+
         ctx.putImageData(imageData, 0, 0);
         return canvas;
     }
@@ -457,29 +459,29 @@ class techDemoWebGL {
     createPipeTextures() {
         // Generate noise texture
         const noiseCanvas = this.createNoiseTexture();
-        
+
         // Create textures for both pipe types
         this.pipeTextureTec = new THREE.CanvasTexture(noiseCanvas);
         this.pipeTextureProp = new THREE.CanvasTexture(noiseCanvas);
-        
+
         // Configure texture wrapping and filtering to prevent stretching
         [this.pipeTextureTec, this.pipeTextureProp].forEach(texture => {
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            
+
             // Use maximum anisotropic filtering to reduce stretching
             texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
-            
+
             // Set reasonable repeat values to avoid stretching
             // Adjust these based on your pipe dimensions
             texture.repeat.set(1, 4); // Less horizontal repeat, more vertical
-            
+
             // Use high-quality filtering
             texture.minFilter = THREE.LinearMipmapLinearFilter;
             texture.magFilter = THREE.LinearFilter;
             texture.generateMipmaps = true;
         });
-        
+
         // Store initial offset for animation
         this.pipeTextureOffset = 0;
     }
@@ -487,11 +489,11 @@ class techDemoWebGL {
     setupPostProcessing() {
         // Create effect composer
         this.composer = new EffectComposer(this.renderer);
-        
+
         // Add render pass
         const renderPass = new RenderPass(this.scene, this.camera);
         this.composer.addPass(renderPass);
-        
+
         // Add bloom pass
         this.bloomPass = new UnrealBloomPass(
             new THREE.Vector2(this.viewport.width, this.viewport.height),
@@ -500,13 +502,13 @@ class techDemoWebGL {
             1    // threshold
         );
         this.composer.addPass(this.bloomPass);
-        
+
         // Enable bloom for glowing materials
         this.bloomPass.threshold = 1; // Lower threshold for more bloom
         this.bloomPass.strength = 1.5;  // Higher strength for more glow
         this.bloomPass.radius = 0;    // Bloom radius
     }
-    
+
     createMesh() {
         let url = new URL('../assets/cargo-new-pipe-dense.glb', import.meta.url)
         url = "" + url;
@@ -548,7 +550,7 @@ class techDemoWebGL {
             })
             // Create animated noise textures for pipes
             this.createPipeTextures();
-            
+
             this.matt_pipeTec = new THREE.MeshStandardMaterial({
                 color: new THREE.Color('#00E5FF'),
                 map: this.pipeTextureTec, // Apply noise to base color
@@ -605,14 +607,14 @@ class techDemoWebGL {
                 opacity: 0.0,
                 depthWrite: false
             })
-            
+
             // Hybrid material system - objects that will have both wireframe and solid
             this.hybridObjects = []
             this.isWireframeMode = false
             this.isTransitioning = false // Prevent overlapping animations
             this.materialCache = new Map() // Cache materials for better performance
             this.armRight = []
-            this.armLeft = []   
+            this.armLeft = []
             this.arm2Right = []
             this.arm2Left = []
             this.model.traverse((obj) => {
@@ -621,7 +623,7 @@ class techDemoWebGL {
                     if (objName.includes('parachute'))  {
                         obj.material = this.matt_parachute;
                     } else if (objName.includes('propeller')) {
-                        obj.material = this.matt_propeller;   
+                        obj.material = this.matt_propeller;
                     } else if (objName.includes('container')) {
                         if (objName.includes('large')) {
                             if (!this.bigContainerBaseModel) {
@@ -669,7 +671,7 @@ class techDemoWebGL {
                 }
             })
             this.clock = new THREE.Clock()
-            
+
             // Remove duplicate antenna arm objects
             // this.model.traverse((obj) => {
             //     if (obj.name === 'Ship_Anten_Arm_2_R' && !this.arm2Right.includes(obj)) {
@@ -682,16 +684,16 @@ class techDemoWebGL {
             //     }
             // })
             this.scene.add(this.model)
-            
+
             // Create container instances using predefined positions
             this.createContainerInstancesFromPositions();
-            
+
             // Debug: Log hybrid objects
             console.log(`Total hybrid objects created: ${this.hybridObjects.length}`);
             this.hybridObjects.forEach((obj, idx) => {
                 console.log(`Hybrid object ${idx}:`, obj.solid.name, 'opacity:', obj.solidMaterial.opacity, 'wireframe opacity:', obj.wireframeMaterial.opacity);
             });
-            
+
             this.animate()
             this.scrollAnimate()
         },
@@ -706,7 +708,7 @@ class techDemoWebGL {
         this.camera.aspect = this.viewport.aspectRatio;
         this.renderer.setSize(this.viewport.width, this.viewport.height)
         this.camera.updateProjectionMatrix();
-        
+
         // Update composer size
         if (this.composer) {
             this.composer.setSize(this.viewport.width, this.viewport.height);
@@ -716,7 +718,7 @@ class techDemoWebGL {
         if ($('[data-barba-namespace="tech"]').length) {
             this.prop1.rotation.x += 0.1 * this.propellerSpeed.value
             this.prop2.rotation.x += 0.1 * this.propellerSpeed.value
-            
+
             if (this.kiteBoneWire && this.kiteBoneParachute) {
                 this.kiteBoneParachute.rotation.x = Math.sin(this.clock.getElapsedTime()) * Math.PI / 36
                 this.kiteBoneParachute.rotation.y = Math.sin(this.clock.getElapsedTime() / 2) * Math.PI / 45
@@ -725,41 +727,41 @@ class techDemoWebGL {
                 this.kiteBoneWire.rotation.y = Math.sin(this.clock.getElapsedTime() / 2) * Math.PI / 45
                 this.kiteBoneWire.rotation.z = Math.sin(this.clock.getElapsedTime()) * Math.PI / 90
             }
-            
+
             // Sync wireframe transformations with solid meshes
             this.hybridObjects.forEach(hybridObj => {
                 hybridObj.syncTransformations();
             });
-            
+
             // Animate pipe glow effects
             this.animatePipeGlow();
-            
+
             this.composer.render()
         } else {
         }
         requestAnimationFrame(this.animate.bind(this))
     }
-    
+
     animatePipeGlow() {
         if (this.matt_pipeTec && this.matt_pipeProp) {
             const time = this.clock.getElapsedTime();
-            
+
             // Animate tech pipe glow (cyan)
             this.matt_pipeTec.emissiveIntensity = (.75 + Math.sin(time * 3) * .25) * this.glowPipe.value;
-            
+
             // Animate prop pipe glow (orange) with different timing
             this.matt_pipeProp.emissiveIntensity = (2.75 + Math.sin(time * 3) * .25) * this.glowPipe.value;
-            
+
             // Animate checkerboard texture moving along the pipes
             if (this.pipeTextureTec && this.pipeTextureProp) {
                 // Move texture offset to create running animation
                 const speed = 0.15; // Animation speed
                 this.pipeTextureOffset += speed * 0.016; // Assuming ~60fps
-                
+
                 // Update texture offsets (V coordinate for along-pipe movement)
                 this.pipeTextureTec.offset.y = this.pipeTextureOffset;
                 this.pipeTextureProp.offset.y = -this.pipeTextureOffset; // Move in opposite direction
-                
+
                 // Keep offset in reasonable range to prevent precision issues
                 if (Math.abs(this.pipeTextureOffset) > 100) {
                     this.pipeTextureOffset = this.pipeTextureOffset % 1.0;
@@ -767,7 +769,7 @@ class techDemoWebGL {
             }
         }
     }
-    
+
     scrollAnimate() {
         if (this.viewport.width > 767) {
             let lastProgress = 0;
@@ -777,15 +779,14 @@ class techDemoWebGL {
                     start: 'top bottom',
                     end: 'bottom top+=25%',
                     scrub: true,
-                    markers: true,
                     onUpdate: (self) => {
                         this.camera.lookAt( this.lookAtTarget );
-                        
+
                         // Track scroll direction
                         const currentProgress = self.progress;
                         const isScrollingForward = currentProgress > lastProgress;
                         lastProgress = currentProgress;
-                        
+
                         // Store scroll direction for use in waypoint cases
                         this.isScrollingForward = isScrollingForward;
                         if (this.matt_container.opacity > 0.01) {
@@ -883,7 +884,7 @@ class techDemoWebGL {
                                     duration: .4,
                                 }, idx == 0 ? '<=.2' : '<=0')
                             })
-                            
+
                             this.armLeft.forEach((el, idx) => {
                                 tl.to(el.rotation, {
                                 x: (Math.PI / 180) * -95,
@@ -929,7 +930,7 @@ class techDemoWebGL {
                                     duration: .4,
                                 }, delayTime)
                             })
-                            
+
                             // Add wireframe toggle for case 4 - handle scroll direction
                             tl.call(() => {
                                 if (this.isScrollingForward && !this.isWireframeMode) {
@@ -958,7 +959,7 @@ class techDemoWebGL {
                                 metalness: 0.9,
                                 duration: .6,
                             }, '<=0')
-                            
+
                             tl.fromTo([this.matt_tech.color, this.matt_pipeProp.color, this.matt_pipeProp.emissive], {
                                 r: new THREE.Color('#2B2C2F').r,
                                 g: new THREE.Color('#2B2C2F').g,
@@ -1238,9 +1239,9 @@ class techDemoWebGL {
         this.container.append(this.renderer.domElement);
         this.onWindowResize()
     }
-    
+
     // Create container instances from predefined positions
-    createContainerInstancesFromPositions() {        
+    createContainerInstancesFromPositions() {
         // Create big container instances
         if (this.bigContainerBaseModel && this.containerPos.big) {
             this.containerPos.big.forEach((position, index) => {
@@ -1252,14 +1253,14 @@ class techDemoWebGL {
                     instance.userData.isInstance = true;
                     instance.userData.instanceIndex = index;
                     instance.userData.containerType = 'big';
-                    
+
                     // Add to scene
                     this.scene.add(instance);
                     this.containerGrp.push(instance);
                 }
             });
         }
-        
+
         // Create small container instances
         if (this.smallContainerBaseModel && this.containerPos.small) {
             this.containerPos.small.forEach((position, index) => {
@@ -1279,54 +1280,54 @@ class techDemoWebGL {
             });
         }
     }
-    
+
     // Create a hybrid object that can switch between solid and wireframe
     createHybridObject(mesh, solidMaterial, wireframeMaterial) {
         // Performance: Check if materials are already cached
         const materialKey = `${solidMaterial.uuid}_${wireframeMaterial.uuid}`;
         let cachedMaterials = this.materialCache.get(materialKey);
-        
+
         if (!cachedMaterials) {
             // Create optimized materials with proper settings
             const solidMat = solidMaterial.clone();
             const wireMat = wireframeMaterial.clone();
-            
+
             // Optimize material properties for better performance
             this._optimizeMaterialForTransparency(solidMat);
             this._optimizeMaterialForTransparency(wireMat);
-            
+
             cachedMaterials = { solid: solidMat, wireframe: wireMat };
             this.materialCache.set(materialKey, cachedMaterials);
         }
-        
+
         // Create wireframe mesh using EdgesGeometry
         const wireframeMesh = new THREE.LineSegments(
             new THREE.EdgesGeometry(mesh.geometry),
             cachedMaterials.wireframe.clone()
         );
-        
+
         // Copy position, rotation, and scale from original mesh
         wireframeMesh.position.copy(mesh.position);
         wireframeMesh.rotation.copy(mesh.rotation);
         wireframeMesh.scale.copy(mesh.scale);
-        
+
         // Set up materials with proper initial states
         mesh.material = cachedMaterials.solid.clone();
-        
+
         // Initial visibility states - ensure proper setup
         mesh.material.opacity = 1.0;
         mesh.material.depthWrite = true;
         mesh.material.depthTest = true;
         mesh.material.transparent = true;
         mesh.renderOrder = 0; // Render solid first
-        
+
         wireframeMesh.material.opacity = 0.0;
         wireframeMesh.material.depthWrite = false;
         wireframeMesh.material.depthTest = true;
         wireframeMesh.material.transparent = true;
         wireframeMesh.renderOrder = 1; // Render wireframe after solid
         wireframeMesh.visible = false; // Start hidden to prevent flickering
-        
+
         // Add to scene efficiently
         mesh.parent.add(wireframeMesh);
         // Create optimized hybrid object
@@ -1344,25 +1345,25 @@ class techDemoWebGL {
                 wireframeMesh.scale.copy(mesh.scale);
             }
         };
-        
+
         this.hybridObjects.push(hybridObject);
         return hybridObject;
     }
-    
+
     // Helper: Optimize material for transparency performance
     _optimizeMaterialForTransparency(material) {
         material.transparent = true;
         material.alphaTest = 0.001; // Slight performance boost
         material.needsUpdate = true;
-        
+
         // Optimize for line segments (EdgesGeometry)
         if (material.isLineBasicMaterial || material.isLineDashedMaterial) {
             material.linewidth = 1; // Consistent line width
         }
-        
+
         return material;
     }
-    
+
     // Helper: Optimized mesh cloning
     _cloneMeshOptimized(mesh) {
         const cloned = mesh.clone();
@@ -1370,7 +1371,7 @@ class techDemoWebGL {
         cloned.geometry = mesh.geometry;
         return cloned;
     }
-    
+
     // Toggle between wireframe and solid mode with smooth crossfade
     toggleWireframeMode(duration = 1.2) {
         // Prevent overlapping animations
@@ -1378,25 +1379,25 @@ class techDemoWebGL {
             console.log('Animation in progress, skipping...');
             return;
         }
-        
+
         this.isWireframeMode = !this.isWireframeMode;
         this.isTransitioning = true;
-        
+
         console.log(`Toggling to ${this.isWireframeMode ? 'wireframe' : 'solid'} mode with ${this.hybridObjects.length} hybrid objects`);
-        
+
         // Smoother easing curves for better visual quality
         const easing = 'power3.inOut';
         const staggerDelay = 0.015; // Refined stagger for smooth wave effect
-        
+
         // Batch animations for better performance
         const animations = [];
-        
+
         this.hybridObjects.forEach((hybridObj, index) => {
             if (hybridObj.isAnimating) return; // Skip if already animating
-            
+
             hybridObj.isAnimating = true;
             const delay = index * staggerDelay;
-            
+
             if (this.isWireframeMode) {
                 // Crossfade to wireframe with simultaneous animations
                 // Fade out solid
@@ -1422,7 +1423,7 @@ class techDemoWebGL {
                         }
                     })
                 );
-                
+
                 // Fade in wireframe with overlap
                 animations.push(
                     gsap.to(hybridObj.wireframeMaterial, {
@@ -1465,7 +1466,7 @@ class techDemoWebGL {
                         }
                     })
                 );
-                
+
                 // Fade in solid with overlap
                 animations.push(
                     gsap.to(hybridObj.solidMaterial, {
@@ -1487,48 +1488,48 @@ class techDemoWebGL {
                 );
             }
         });
-        
+
         // Track when all animations complete
         Promise.all(animations.map(anim => anim.then())).finally(() => {
             this.isTransitioning = false;
         });
     }
-    
+
     // Set wireframe blend (0 = solid, 1 = wireframe) with smooth crossfade
     setWireframeBlend(blend, duration = 0.5) {
         // Clamp blend value for safety
         blend = Math.max(0, Math.min(1, blend));
-        
+
         const solidOpacity = 1 - blend;
         const wireframeOpacity = blend;
-        
+
         // Batch operations for better performance
         const batchUpdates = [];
-        
+
         this.hybridObjects.forEach((hybridObj, index) => {
             // Skip if already at target values (performance optimization)
             const currentSolidOpacity = hybridObj.solidMaterial.opacity;
             const currentWireOpacity = hybridObj.wireframeMaterial.opacity;
-            
-            if (Math.abs(currentSolidOpacity - solidOpacity) < 0.001 && 
+
+            if (Math.abs(currentSolidOpacity - solidOpacity) < 0.001 &&
                 Math.abs(currentWireOpacity - wireframeOpacity) < 0.001) {
                 return; // Skip unchanged objects
             }
-            
+
             // Refined stagger for smooth wave effect
             const delay = index * 0.008;
-            
+
             // Control visibility for better performance
             const onBlendStart = () => {
                 if (blend > 0.01) hybridObj.wireframe.visible = true;
                 if (blend < 0.99) hybridObj.solid.visible = true;
             };
-            
+
             const onBlendComplete = () => {
                 if (blend < 0.01) hybridObj.wireframe.visible = false;
                 if (blend > 0.99) hybridObj.solid.visible = false;
             };
-            
+
             batchUpdates.push(
                 gsap.to(hybridObj.solidMaterial, {
                     opacity: solidOpacity,
@@ -1547,7 +1548,7 @@ class techDemoWebGL {
                     onComplete: onBlendComplete
                 })
             );
-            
+
             batchUpdates.push(
                 gsap.to(hybridObj.wireframeMaterial, {
                     opacity: wireframeOpacity,
@@ -1564,10 +1565,10 @@ class techDemoWebGL {
                 })
             );
         });
-        
+
         return batchUpdates; // Return for potential chaining
     }
-    
+
     // Helper: Efficient material update flagging
     _updateMaterialNeedsUpdate(material) {
         if (!material.needsUpdate) {
@@ -1578,7 +1579,7 @@ class techDemoWebGL {
             });
         }
     }
-    
+
     // Performance: Cleanup method for memory management
     dispose() {
         // Clear hybrid objects
@@ -1590,19 +1591,19 @@ class techDemoWebGL {
             hybridObj.solidMaterial?.dispose();
             hybridObj.wireframeMaterial?.dispose();
         });
-        
+
         // Clear container instances
         this.containerGrp.forEach(instance => {
             if (instance.parent) {
                 instance.parent.remove(instance);
             }
         });
-        
+
         // Clear caches
         this.hybridObjects.length = 0;
         this.containerGrp.length = 0;
         this.materialCache.clear();
-        
+
         console.log('Hybrid system and container instances disposed');
     }
 }
@@ -1880,11 +1881,11 @@ function techMap() {
             </div>
             <div class="route-info-item">
             Estimated Median Distance:<br>
-            <span class="txt-bold">${distance_km.toFixed(2)} km</span>
+            <span class="txt-bold">${distance_km?.toFixed(2)} km</span>
             </div>
             <div class="route-info-item">
             Estimated Average Speed:<br>
-            <span class="txt-bold">${average_speed_km_h.toFixed(2)} km/h</span>
+            <span class="txt-bold">${average_speed_km_h?.toFixed(2)} km/h</span>
             </div
             </div>
             `;
@@ -1919,6 +1920,7 @@ function techMap() {
         } else {
             // Valid response, update the map
             const geojsonData = await response.json();
+            console.log(geojsonData)
             return geojsonData;
         }
     }
@@ -1956,40 +1958,168 @@ function techMap() {
         const geojsonData = await getRouteData(startPortId, endPortId);
 
         if (geojsonData) {
-            $(updateButton).removeClass('loading')
-            plotRoute(map, geojsonData);
+            $(updateButton).removeClass('loading');
+            if (!$('.tech-map__map').hasClass('active') && $(window).width() > 767) {
+                $('.tech-map__chart').slideDown(400, function() {
+                    map.invalidateSize();
+                    plotRoute(map, geojsonData);
+                });
+                $('.tech-map__map').addClass('active');
+            }
+            else {
+                plotRoute(map, geojsonData);
+            }
+            createChart('cumulative-duration', geojsonData.properties.cumulative_segment_durations_hr, 'cumulative', 50, 5);
+            createChart('kite-usage', geojsonData.properties.kite_usage, 'kite', 0.2, 5);
         }
     });
+    function createChart(svgId, dataY, color, yStep, xStep) {
+        const svg = document.querySelector(`.tech-map__chart[data-chart="${svgId}"] svg`);
+        const width = 390;
+        const height = 230;
+        const padding = { top: 20, right: 20, bottom: 25, left: 35 };
+        const chartWidth = width - padding.left - padding.right;
+        const chartHeight = height - padding.top - padding.bottom;
+        svg.innerHTML = '';
+        svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
-    function createPortItem(item, template) {
-        let html = template.clone()
-        html.find('.port-item-id').text(item.id)
-        html.find('.port-item-name').text(convertToTitleCase(item.portName))
-        return html;
+        // Tính toán maxY dựa trên yStep
+        const maxDataY = Math.max(...dataY);
+        const ceiledMaxY = Math.ceil(maxDataY / yStep) * yStep;
+        // Chỉ thêm 1 bước nếu giá trị max đúng bằng điểm chia
+        const maxY = (maxDataY === ceiledMaxY) ? ceiledMaxY + yStep : ceiledMaxY;
+        const ySteps = Math.round(maxY / yStep);
+
+        // Tính toán maxX dựa trên xStep
+        const maxDataX = dataY.length - 1;
+        const ceiledMaxX = Math.ceil(maxDataX / xStep) * xStep;
+        // Chỉ thêm 1 bước nếu giá trị max đúng bằng điểm chia
+        const maxX = (maxDataX === ceiledMaxX) ? ceiledMaxX + xStep : ceiledMaxX;
+        const xSteps = Math.round(maxX / xStep);
+
+        // Tính toán scale
+        const scaleX = chartWidth / maxX;
+        const scaleY = chartHeight / maxY;
+
+        // Vẽ Y grid lines và labels
+        for (let i = 0; i <= ySteps; i++) {
+            const y = padding.top + (chartHeight / ySteps) * i;
+
+            // Chỉ vẽ grid line nếu không phải đường biên trên cùng hoặc dưới cùng
+            if (i > 0 && i < ySteps) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', padding.left);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', padding.left + chartWidth);
+                line.setAttribute('y2', y);
+                line.classList.add('grid-line');
+                svg.appendChild(line);
+            }
+
+            // Y axis labels
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            const value = maxY - (yStep * i);
+            text.setAttribute('x', padding.left - 10);
+            text.setAttribute('y', y + 4);
+            text.setAttribute('text-anchor', 'end');
+            text.classList.add('axis-text');
+            // Sửa vấn đề số thập phân bằng cách làm tròn đúng
+            text.textContent = Math.round(value * 10) / 10;
+            svg.appendChild(text);
+        }
+
+        // Vẽ X grid lines và labels
+        for (let i = 0; i <= xSteps; i++) {
+            const x = padding.left + (chartWidth / xSteps) * i;
+
+            // Chỉ vẽ grid line nếu không phải đường biên trái hoặc phải
+            if (i > 0 && i < xSteps) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x);
+                line.setAttribute('y1', padding.top);
+                line.setAttribute('x2', x);
+                line.setAttribute('y2', padding.top + chartHeight);
+                line.classList.add('grid-line');
+                svg.appendChild(line);
+            }
+
+            // X axis labels
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            const value = xStep * i;
+            text.setAttribute('x', x);
+            text.setAttribute('y', padding.top + chartHeight + 20);
+            text.setAttribute('text-anchor', 'middle');
+            text.classList.add('axis-text');
+            text.textContent = value;
+            svg.appendChild(text);
+        }
+
+        // Vẽ đường biên trục X (dưới)
+        const axisBottom = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        axisBottom.setAttribute('x1', padding.left);
+        axisBottom.setAttribute('y1', padding.top + chartHeight);
+        axisBottom.setAttribute('x2', padding.left + chartWidth);
+        axisBottom.setAttribute('y2', padding.top + chartHeight);
+        axisBottom.classList.add('axis-border');
+        svg.appendChild(axisBottom);
+
+        // Vẽ đường biên trục Y (trái)
+        const axisLeft = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        axisLeft.setAttribute('x1', padding.left);
+        axisLeft.setAttribute('y1', padding.top);
+        axisLeft.setAttribute('x2', padding.left);
+        axisLeft.setAttribute('y2', padding.top + chartHeight);
+        axisLeft.classList.add('axis-border');
+        svg.appendChild(axisLeft);
+
+        // Vẽ polyline từ các points
+        const points = dataY.map((value, index) => {
+            const x = padding.left + index * scaleX;
+            const y = padding.top + chartHeight - value * scaleY;
+            return `${x},${y}`;
+        }).join(' ');
+
+        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        polyline.setAttribute('points', points);
+        polyline.classList.add('data-line', `${color}-line`);
+        svg.appendChild(polyline);
+
+        // Vẽ các điểm
+        dataY.forEach((value, index) => {
+            const x = padding.left + index * scaleX;
+            const y = padding.top + chartHeight - value * scaleY;
+
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', x);
+            circle.setAttribute('cy', y);
+            circle.classList.add('data-point', `${color}-point`);
+            svg.appendChild(circle);
+        });
     }
-    function updatePortList() {
-        let template = $('.port-item').eq(0).clone();
-        $('.input-drop-inner').html('');
-        let portList = portData.ports
-
-        portList.forEach((el) => {
-            createPortItem(el, template).appendTo('.input-drop-inner')
-        })
-
-        $('.port-item').on('click', function(e) {
+    function createPortItem(id, template) {
+        let html = template.clone()
+        html.find('.port-item-id').text(id)
+        html.find('.port-item-name').text(convertToTitleCase(portLookup[id].port_name))
+        html.on('click', function(e) {
             e.preventDefault();
             let name = $(this).find('.port-item-name').text();
             let id = $(this).find('.port-item-id').text();
+
             $(this).closest('.input-wrap').find('.input-field').val(name)
             $(this).closest('.input-wrap').find('.input-hidden').val(id)
+            const clickedStart = $(this).closest('.input-wrap').hasClass('input-wrap-start');
 
-            if ($(this).closest('.input-wrap').hasClass('input-wrap-start')) {
-                $('.input-wrap-end .port-item').removeClass('hidden-dup')
-                $('.input-wrap-end .port-item').each((idx, el) => {
-                    if ($(el).find('.port-item-id').text() === id) {
-                        $(el).addClass('hidden-dup')
-                    }
+            if (clickedStart) {
+                $('.input-wrap-end .input-drop-inner').empty();
+                $('.input-wrap-end .port-item').removeClass('hidden-dup');
+                adjacencyData[id]?.forEach((adjId) => {
+                    createPortItem(adjId, template).appendTo('.input-wrap-end .input-drop-inner')
                 })
+                $('.input-wrap-end .input-field').attr('disabled', !adjacencyData[id]);
+                $('.tech-map__submit').addClass('disable');
+                $('.tech-map__submit').attr('disabled', true)
+                $('.input-wrap-end .input-field').val('');
+                $('.input-wrap-end .input-hidden').val('');
             } else {
                 $('.input-wrap-start .port-item').removeClass('hidden-dup')
                 $('.input-wrap-start .port-item').each((idx, el) => {
@@ -1997,11 +2127,25 @@ function techMap() {
                         $(el).addClass('hidden-dup')
                     }
                 })
+                $('.tech-map__submit').removeClass('disable');
+                $('.tech-map__submit').attr('disabled', false)
             }
+        })
+        return html;
+    }
+
+    function updatePortList() {
+        let template = $('.port-item').eq(0).clone();
+        $('.input-drop-inner').empty();
+
+        $('.tech-map__submit').addClass('disable');
+        $('.tech-map__submit').attr('disabled', true)
+        Object.keys(portLookup).forEach((id) => {
+            createPortItem(id, template).appendTo('.input-wrap-start .input-drop-inner')
         })
     }
     updatePortList()
-
+    $(window).width() > 767 && $('.tech-map__chart').slideUp();
     let techMapInput = $('.tech-map .input-field');
 
     techMapInput.on('keyup', function(e) {
@@ -2103,8 +2247,6 @@ const techScript = {
             techMap()
             techMapInteraction()
             techControl()
-
-
         }, 100);
     },
     beforeLeave() {

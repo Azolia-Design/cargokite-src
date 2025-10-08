@@ -1,0 +1,974 @@
+{
+  "48264": {
+    "port_name": "Mina Saqr",
+    "country": "United Arab Emirates"
+  },
+  "48600": {
+    "port_name": "Karachi",
+    "country": "Pakistan"
+  },
+  "46560": {
+    "port_name": "Luanda",
+    "country": "Angola"
+  },
+  "31085": {
+    "port_name": "Europoort",
+    "country": "Netherlands"
+  },
+  "13970": {
+    "port_name": "Rio Grande",
+    "country": "Argentina"
+  },
+  "14470": {
+    "port_name": "Puerto San Antonio",
+    "country": "Chile"
+  },
+  "54520": {
+    "port_name": "Fremantle",
+    "country": "Australia"
+  },
+  "50970": {
+    "port_name": "Jakarta",
+    "country": "Indonesia"
+  },
+  "54030": {
+    "port_name": "Melbourne",
+    "country": "Australia"
+  },
+  "55230": {
+    "port_name": "Manukau Harbor",
+    "country": "New Zealand"
+  },
+  "53655": {
+    "port_name": "Botany Bay",
+    "country": "Australia"
+  },
+  "53490": {
+    "port_name": "Brisbane",
+    "country": "Australia"
+  },
+  "11690": {
+    "port_name": "Bridgetown",
+    "country": "Barbados"
+  },
+  "10580": {
+    "port_name": "Georgetown",
+    "country": "Cayman Islands"
+  },
+  "31270": {
+    "port_name": "Ghent",
+    "country": "Belgium"
+  },
+  "30230": {
+    "port_name": "Horsens",
+    "country": "Denmark"
+  },
+  "37040": {
+    "port_name": "Rochefort",
+    "country": "France"
+  },
+  "34480": {
+    "port_name": "Dublin",
+    "country": "Ireland"
+  },
+  "24180": {
+    "port_name": "Landskrona",
+    "country": "Sweden"
+  },
+  "31320": {
+    "port_name": "Nieuwpoort",
+    "country": "Belgium"
+  },
+  "24040": {
+    "port_name": "Falkenberg",
+    "country": "Sweden"
+  },
+  "12890": {
+    "port_name": "Macae",
+    "country": "Brazil"
+  },
+  "12775": {
+    "port_name": "Madre De Deus",
+    "country": "Brazil"
+  },
+  "12491": {
+    "port_name": "Vila Do Conde",
+    "country": "Brazil"
+  },
+  "11901": {
+    "port_name": "Covenas Offshore Term.",
+    "country": "Colombia"
+  },
+  "9985": {
+    "port_name": "Freeport",
+    "country": "The Bahamas"
+  },
+  "11370": {
+    "port_name": "Philipsburg",
+    "country": "Sint Maarten"
+  },
+  "9990": {
+    "port_name": "Nassau",
+    "country": "The Bahamas"
+  },
+  "8750": {
+    "port_name": "Panama City",
+    "country": "United States"
+  },
+  "14660": {
+    "port_name": "Antofagasta",
+    "country": "Chile"
+  },
+  "14955": {
+    "port_name": "La Pampilla Oil Terminal",
+    "country": "Peru"
+  },
+  "14500": {
+    "port_name": "Bahia De Valparaiso",
+    "country": "Chile"
+  },
+  "15170": {
+    "port_name": "Paita",
+    "country": "Peru"
+  },
+  "57818": {
+    "port_name": "Chiwan",
+    "country": "China"
+  },
+  "57870": {
+    "port_name": "Xiamen",
+    "country": "China"
+  },
+  "49930": {
+    "port_name": "Port Klang",
+    "country": "Malaysia"
+  },
+  "59960": {
+    "port_name": "Zhoushan",
+    "country": "China"
+  },
+  "60165": {
+    "port_name": "Penglai",
+    "country": "China"
+  },
+  "60390": {
+    "port_name": "Busan",
+    "country": "South Korea"
+  },
+  "57820": {
+    "port_name": "Qinzhou",
+    "country": "China"
+  },
+  "59970": {
+    "port_name": "Shanghai",
+    "country": "China"
+  },
+  "60240": {
+    "port_name": "Lushun",
+    "country": "China"
+  },
+  "57890": {
+    "port_name": "Chi-Lung",
+    "country": "Taiwan"
+  },
+  "57840": {
+    "port_name": "Hong Kong",
+    "country": "Hong Kong"
+  },
+  "51130": {
+    "port_name": "Surabaya",
+    "country": "Indonesia"
+  },
+  "59991": {
+    "port_name": "Nantong",
+    "country": "China"
+  },
+  "15370": {
+    "port_name": "Buenaventura",
+    "country": "Colombia"
+  },
+  "15423": {
+    "port_name": "Vacamonte",
+    "country": "Panama"
+  },
+  "38395": {
+    "port_name": "Puerto De Carboneras",
+    "country": "Spain"
+  },
+  "38460": {
+    "port_name": "Puerto De Gandia",
+    "country": "Spain"
+  },
+  "15770": {
+    "port_name": "Manzanillo",
+    "country": "Mexico"
+  },
+  "11934": {
+    "port_name": "Puerto Prodeco",
+    "country": "Colombia"
+  },
+  "9810": {
+    "port_name": "Puerto Limon",
+    "country": "Costa Rica"
+  },
+  "45880": {
+    "port_name": "Porto Grande",
+    "country": "Cabo Verde"
+  },
+  "45730": {
+    "port_name": "Ceuta",
+    "country": "Spain"
+  },
+  "30720": {
+    "port_name": "Brunsbuttel Canal Terminals",
+    "country": "Germany"
+  },
+  "28654": {
+    "port_name": "Butinge Oil Terminal",
+    "country": "Lithuania"
+  },
+  "23700": {
+    "port_name": "Larvik",
+    "country": "Norway"
+  },
+  "28740": {
+    "port_name": "Gdynia",
+    "country": "Poland"
+  },
+  "30725": {
+    "port_name": "Itzehoe",
+    "country": "Germany"
+  },
+  "30800": {
+    "port_name": "Cuxhaven",
+    "country": "Germany"
+  },
+  "24900": {
+    "port_name": "Farosund",
+    "country": "Sweden"
+  },
+  "29490": {
+    "port_name": "Kalundborg",
+    "country": "Denmark"
+  },
+  "11048": {
+    "port_name": "Punta Nizao Oil Terminal",
+    "country": "Dominican Republic"
+  },
+  "10930": {
+    "port_name": "Cap Haitien",
+    "country": "Haiti"
+  },
+  "8050": {
+    "port_name": "Wilmington",
+    "country": "United States"
+  },
+  "45570": {
+    "port_name": "Alger",
+    "country": "Algeria"
+  },
+  "39140": {
+    "port_name": "Maddalena",
+    "country": "Italy"
+  },
+  "39720": {
+    "port_name": "Portoferraio",
+    "country": "Italy"
+  },
+  "45793": {
+    "port_name": "Casablanca",
+    "country": "Morocco"
+  },
+  "40330": {
+    "port_name": "Valletta Harbors",
+    "country": "Malta"
+  },
+  "45650": {
+    "port_name": "Mers El Kebir",
+    "country": "Algeria"
+  },
+  "45515": {
+    "port_name": "Port Methanier",
+    "country": "Algeria"
+  },
+  "28190": {
+    "port_name": "Helsinki",
+    "country": "Finland"
+  },
+  "45140": {
+    "port_name": "Bur Sa'id",
+    "country": "Egypt"
+  },
+  "45755": {
+    "port_name": "Tanger",
+    "country": "Morocco"
+  },
+  "44805": {
+    "port_name": "Marmaris",
+    "country": "Turkey"
+  },
+  "44801": {
+    "port_name": "Toros Gubre",
+    "country": "Turkey"
+  },
+  "38440": {
+    "port_name": "Alicante",
+    "country": "Spain"
+  },
+  "38270": {
+    "port_name": "Sevilla",
+    "country": "Spain"
+  },
+  "38220": {
+    "port_name": "Huelva",
+    "country": "Spain"
+  },
+  "37770": {
+    "port_name": "La Coruna",
+    "country": "Spain"
+  },
+  "37990": {
+    "port_name": "Lisboa",
+    "country": "Portugal"
+  },
+  "45821": {
+    "port_name": "Rufisque",
+    "country": "Senegal"
+  },
+  "38543": {
+    "port_name": "Villanueva Y Geltru",
+    "country": "Spain"
+  },
+  "39550": {
+    "port_name": "Marina Di Carrara",
+    "country": "Italy"
+  },
+  "44620": {
+    "port_name": "Izmit",
+    "country": "Turkey"
+  },
+  "37400": {
+    "port_name": "Puerto De Bilbao",
+    "country": "Spain"
+  },
+  "37900": {
+    "port_name": "Vigo",
+    "country": "Spain"
+  },
+  "31470": {
+    "port_name": "London",
+    "country": "United Kingdom"
+  },
+  "38170": {
+    "port_name": "Las Palmas",
+    "country": "Spain"
+  },
+  "35650": {
+    "port_name": "Newhaven Harbour",
+    "country": "United Kingdom"
+  },
+  "38150": {
+    "port_name": "Santa Cruz De La Palma",
+    "country": "Spain"
+  },
+  "45802": {
+    "port_name": "Agadir",
+    "country": "Morocco"
+  },
+  "37470": {
+    "port_name": "Santander",
+    "country": "Spain"
+  },
+  "35700": {
+    "port_name": "Folkestone Harbour",
+    "country": "United Kingdom"
+  },
+  "38005": {
+    "port_name": "Sines",
+    "country": "Portugal"
+  },
+  "27650": {
+    "port_name": "Vaasa",
+    "country": "Finland"
+  },
+  "21315": {
+    "port_name": "Olavsvern",
+    "country": "Norway"
+  },
+  "20690": {
+    "port_name": "Vadso",
+    "country": "Norway"
+  },
+  "55530": {
+    "port_name": "Lautoka Harbor",
+    "country": "Fiji"
+  },
+  "55275": {
+    "port_name": "Tarakohe",
+    "country": "New Zealand"
+  },
+  "55560": {
+    "port_name": "Savusavu Bay",
+    "country": "Fiji"
+  },
+  "55617": {
+    "port_name": "Funafuti Atoll",
+    "country": "Tuvalu"
+  },
+  "57230": {
+    "port_name": "Port Vila",
+    "country": "Vanuatu"
+  },
+  "32690": {
+    "port_name": "Torshavn",
+    "country": "Faroe Islands"
+  },
+  "31680": {
+    "port_name": "Bridlington",
+    "country": "United Kingdom"
+  },
+  "31550": {
+    "port_name": "Ipswich",
+    "country": "United Kingdom"
+  },
+  "38780": {
+    "port_name": "Port-de-Bouc",
+    "country": "France"
+  },
+  "45490": {
+    "port_name": "Annaba",
+    "country": "Algeria"
+  },
+  "31930": {
+    "port_name": "Leith",
+    "country": "United Kingdom"
+  },
+  "24030": {
+    "port_name": "Varberg",
+    "country": "Sweden"
+  },
+  "23870": {
+    "port_name": "Stromstad",
+    "country": "Sweden"
+  },
+  "28828": {
+    "port_name": "Wolgast",
+    "country": "Germany"
+  },
+  "605": {
+    "port_name": "Gronnedal (Kangilinnguit)",
+    "country": "Greenland"
+  },
+  "29110": {
+    "port_name": "Ronne",
+    "country": "Denmark"
+  },
+  "45855": {
+    "port_name": "Conakry",
+    "country": "Guinea"
+  },
+  "46090": {
+    "port_name": "Lome",
+    "country": "Togo"
+  },
+  "43260": {
+    "port_name": "Kalimnos",
+    "country": "Greece"
+  },
+  "56550": {
+    "port_name": "Apra Harbor",
+    "country": "Guam"
+  },
+  "61355": {
+    "port_name": "Onahama Ko",
+    "country": "Japan"
+  },
+  "40985": {
+    "port_name": "Brsica",
+    "country": "Croatia"
+  },
+  "40080": {
+    "port_name": "Reggio Di Calabria",
+    "country": "Italy"
+  },
+  "40460": {
+    "port_name": "Corigliano Calabro",
+    "country": "Italy"
+  },
+  "51280": {
+    "port_name": "Ampenan",
+    "country": "Indonesia"
+  },
+  "52065": {
+    "port_name": "Bitung",
+    "country": "Indonesia"
+  },
+  "50730": {
+    "port_name": "Belawan",
+    "country": "Indonesia"
+  },
+  "50210": {
+    "port_name": "Pangkalpinang",
+    "country": "Indonesia"
+  },
+  "51501": {
+    "port_name": "Belanak Field Terminal",
+    "country": "Indonesia"
+  },
+  "51811": {
+    "port_name": "Bontang Lng Terminal",
+    "country": "Indonesia"
+  },
+  "51584": {
+    "port_name": "Tg. Mani",
+    "country": "Malaysia"
+  },
+  "53282": {
+    "port_name": "Vanimo",
+    "country": "Papua New Guinea"
+  },
+  "49962": {
+    "port_name": "Pelabuhan Sungai Udang",
+    "country": "Malaysia"
+  },
+  "51860": {
+    "port_name": "Kota Baru",
+    "country": "Indonesia"
+  },
+  "52510": {
+    "port_name": "Ternate",
+    "country": "Indonesia"
+  },
+  "50055": {
+    "port_name": "Sekupang",
+    "country": "Indonesia"
+  },
+  "58320": {
+    "port_name": "Batangas City",
+    "country": "Philippines"
+  },
+  "52240": {
+    "port_name": "Kendari",
+    "country": "Indonesia"
+  },
+  "51350": {
+    "port_name": "Waingapu",
+    "country": "Indonesia"
+  },
+  "50925": {
+    "port_name": "Banten",
+    "country": "Indonesia"
+  },
+  "50070": {
+    "port_name": "Lalang Marine Terminal",
+    "country": "Indonesia"
+  },
+  "52320": {
+    "port_name": "Ujung Pandang",
+    "country": "Indonesia"
+  },
+  "51020": {
+    "port_name": "Tegal",
+    "country": "Indonesia"
+  },
+  "33400": {
+    "port_name": "Faslane",
+    "country": "United Kingdom"
+  },
+  "34360": {
+    "port_name": "Cork",
+    "country": "Ireland"
+  },
+  "34400": {
+    "port_name": "Waterford",
+    "country": "Ireland"
+  },
+  "45080": {
+    "port_name": "Haifa",
+    "country": "Israel"
+  },
+  "40745": {
+    "port_name": "Porto Di Chioggia",
+    "country": "Italy"
+  },
+  "40790": {
+    "port_name": "Monfalcone",
+    "country": "Italy"
+  },
+  "39930": {
+    "port_name": "Baia",
+    "country": "Italy"
+  },
+  "40520": {
+    "port_name": "Mola Di Bari",
+    "country": "Italy"
+  },
+  "45100": {
+    "port_name": "Ashdod",
+    "country": "Israel"
+  },
+  "40710": {
+    "port_name": "Cesenatico",
+    "country": "Italy"
+  },
+  "40040": {
+    "port_name": "Salerno",
+    "country": "Italy"
+  },
+  "44910": {
+    "port_name": "Xeros",
+    "country": "Cyprus"
+  },
+  "45320": {
+    "port_name": "Misratah",
+    "country": "Libya"
+  },
+  "45550": {
+    "port_name": "Bejaia",
+    "country": "Algeria"
+  },
+  "39500": {
+    "port_name": "Chiavari - Lavagna",
+    "country": "Italy"
+  },
+  "39370": {
+    "port_name": "Imperia",
+    "country": "Italy"
+  },
+  "10772": {
+    "port_name": "Port Esquivel",
+    "country": "Jamaica"
+  },
+  "62380": {
+    "port_name": "Sasebo",
+    "country": "Japan"
+  },
+  "61932": {
+    "port_name": "Mega",
+    "country": "Japan"
+  },
+  "61378": {
+    "port_name": "Katsunan Ko",
+    "country": "Japan"
+  },
+  "61695": {
+    "port_name": "Hikari",
+    "country": "Japan"
+  },
+  "62190": {
+    "port_name": "Hososhima Ko",
+    "country": "Japan"
+  },
+  "60250": {
+    "port_name": "Dalian",
+    "country": "China"
+  },
+  "60140": {
+    "port_name": "Qingdao Gang",
+    "country": "China"
+  },
+  "17700": {
+    "port_name": "Tacoma",
+    "country": "United States"
+  },
+  "12410": {
+    "port_name": "Paramaribo",
+    "country": "Suriname"
+  },
+  "12275": {
+    "port_name": "Puerto De Hierro",
+    "country": "Venezuela"
+  },
+  "11770": {
+    "port_name": "Point Fortin",
+    "country": "Trinidad and Tobago"
+  },
+  "45030": {
+    "port_name": "Bayrut",
+    "country": "Lebanon"
+  },
+  "44740": {
+    "port_name": "Dikili",
+    "country": "Turkey"
+  },
+  "28230": {
+    "port_name": "Kotka",
+    "country": "Finland"
+  },
+  "37980": {
+    "port_name": "Figueira Da Foz",
+    "country": "Portugal"
+  },
+  "45862": {
+    "port_name": "Freetown",
+    "country": "Sierra Leone"
+  },
+  "40690": {
+    "port_name": "Pesaro",
+    "country": "Italy"
+  },
+  "15990": {
+    "port_name": "Ensenada",
+    "country": "Mexico"
+  },
+  "9510": {
+    "port_name": "Progreso",
+    "country": "Mexico"
+  },
+  "9360": {
+    "port_name": "Tampico",
+    "country": "Mexico"
+  },
+  "11930": {
+    "port_name": "Barranquilla",
+    "country": "Colombia"
+  },
+  "57410": {
+    "port_name": "Kuantan New Port",
+    "country": "Malaysia"
+  },
+  "50380": {
+    "port_name": "Panjang",
+    "country": "Indonesia"
+  },
+  "46910": {
+    "port_name": "Quelimane",
+    "country": "Mozambique"
+  },
+  "46935": {
+    "port_name": "Nacala",
+    "country": "Mozambique"
+  },
+  "46870": {
+    "port_name": "Maputo",
+    "country": "Mozambique"
+  },
+  "46650": {
+    "port_name": "Luderitz Bay",
+    "country": "Namibia"
+  },
+  "46770": {
+    "port_name": "Cape Town",
+    "country": "South Africa"
+  },
+  "31150": {
+    "port_name": "Dordrecht",
+    "country": "Netherlands"
+  },
+  "23118": {
+    "port_name": "Orstav",
+    "country": "Norway"
+  },
+  "24000": {
+    "port_name": "Stenungsund",
+    "country": "Sweden"
+  },
+  "23107": {
+    "port_name": "Bud",
+    "country": "Norway"
+  },
+  "23525": {
+    "port_name": "Stusvik",
+    "country": "Norway"
+  },
+  "23040": {
+    "port_name": "Rorvik",
+    "country": "Norway"
+  },
+  "55330": {
+    "port_name": "Akaroa",
+    "country": "New Zealand"
+  },
+  "55080": {
+    "port_name": "Tauranga",
+    "country": "New Zealand"
+  },
+  "55840": {
+    "port_name": "Papeete",
+    "country": "French Polynesia"
+  },
+  "55130": {
+    "port_name": "Napier",
+    "country": "New Zealand"
+  },
+  "55350": {
+    "port_name": "Timaru",
+    "country": "New Zealand"
+  },
+  "55370": {
+    "port_name": "Otago Harbor",
+    "country": "New Zealand"
+  },
+  "14800": {
+    "port_name": "Rada De Arica",
+    "country": "Chile"
+  },
+  "15250": {
+    "port_name": "Puerto Bolivar",
+    "country": "Ecuador"
+  },
+  "59580": {
+    "port_name": "Zamboanga",
+    "country": "Philippines"
+  },
+  "58370": {
+    "port_name": "Manila",
+    "country": "Philippines"
+  },
+  "58890": {
+    "port_name": "Tubigan",
+    "country": "Philippines"
+  },
+  "59400": {
+    "port_name": "Mati",
+    "country": "Philippines"
+  },
+  "59190": {
+    "port_name": "Iloilo",
+    "country": "Philippines"
+  },
+  "59485": {
+    "port_name": "General Santos",
+    "country": "Philippines"
+  },
+  "59720": {
+    "port_name": "Bugo",
+    "country": "Philippines"
+  },
+  "37290": {
+    "port_name": "Puerto De Pasajes",
+    "country": "Spain"
+  },
+  "6500": {
+    "port_name": "Windsor",
+    "country": "Canada"
+  },
+  "43560": {
+    "port_name": "Constanta",
+    "country": "Romania"
+  },
+  "44200": {
+    "port_name": "Novorossiysk",
+    "country": "Russia"
+  },
+  "48276": {
+    "port_name": "Mina Jabal Ali",
+    "country": "United Arab Emirates"
+  },
+  "57100": {
+    "port_name": "Tulaghi",
+    "country": "Solomon Islands"
+  },
+  "57200": {
+    "port_name": "Luganville",
+    "country": "Vanuatu"
+  },
+  "24300": {
+    "port_name": "Ahus",
+    "country": "Sweden"
+  },
+  "26710": {
+    "port_name": "Kopmanholmen",
+    "country": "Sweden"
+  },
+  "25610": {
+    "port_name": "Norrsundet",
+    "country": "Sweden"
+  },
+  "27130": {
+    "port_name": "Brannfors",
+    "country": "Sweden"
+  },
+  "45812": {
+    "port_name": "Nouadhibou",
+    "country": "Mauritania"
+  },
+  "57462": {
+    "port_name": "Laem Chabang",
+    "country": "Thailand"
+  },
+  "57435": {
+    "port_name": "Pattani",
+    "country": "Thailand"
+  },
+  "51440": {
+    "port_name": "Dili",
+    "country": "Timor-Leste"
+  },
+  "54670": {
+    "port_name": "Darwin",
+    "country": "Australia"
+  },
+  "43500": {
+    "port_name": "Burgas",
+    "country": "Bulgaria"
+  },
+  "44640": {
+    "port_name": "Mudanya",
+    "country": "Turkey"
+  },
+  "44860": {
+    "port_name": "Mersin",
+    "country": "Turkey"
+  },
+  "44650": {
+    "port_name": "Bandirma",
+    "country": "Turkey"
+  },
+  "44820": {
+    "port_name": "Antalya",
+    "country": "Turkey"
+  },
+  "44542": {
+    "port_name": "Botas Natural Gas Terminal",
+    "country": "Turkey"
+  },
+  "8225": {
+    "port_name": "Annapolis",
+    "country": "United States"
+  },
+  "7650": {
+    "port_name": "Yonkers",
+    "country": "United States"
+  },
+  "20097": {
+    "port_name": "Akutan Harbor",
+    "country": "United States"
+  },
+  "61370": {
+    "port_name": "Tateyama Ko",
+    "country": "Japan"
+  },
+  "56270": {
+    "port_name": "Barbers Point Terminal",
+    "country": "United States"
+  },
+  "16070": {
+    "port_name": "Long Beach",
+    "country": "United States"
+  },
+  "9170": {
+    "port_name": "Baytown",
+    "country": "United States"
+  },
+  "8180": {
+    "port_name": "Cape Charles",
+    "country": "United States"
+  },
+  "7560": {
+    "port_name": "Port Jefferson",
+    "country": "United States"
+  },
+  "20110": {
+    "port_name": "Makushin",
+    "country": "United States"
+  },
+  "57650": {
+    "port_name": "Da Nang",
+    "country": "Vietnam"
+  },
+  "46690": {
+    "port_name": "Jamestown",
+    "country": "Saint Helena, Ascension, and Tristan da Cunha"
+  }
+}
