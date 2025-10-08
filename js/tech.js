@@ -5,6 +5,9 @@ import portData from '../data/port.json'
 import lenis from './vendors/lenis';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 import gsap from "gsap";
 import Flip from "./vendors/Flip";
@@ -40,6 +43,7 @@ class techDemoWebGL {
     constructor() {
         this.container = $('.tech-demo__canvas-inner');
         this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color('#212121');
         this.hdri = new THREE.CubeTextureLoader()
         .load([
             new URL('../assets/map/high/px.png', import.meta.url),
@@ -89,15 +93,15 @@ class techDemoWebGL {
                 },
                 // Waypoint 6 Twin
                 {
-                    x: viewportBreak({ md: 58.5225, sm: -20.182 }),
-                    y: viewportBreak({ md: 18.8382, sm: 15.6084 }),
-                    z: viewportBreak({ md: -68.0648, sm: 10.1051 })
+                    x: viewportBreak({ md: 2.14813, sm: -20.182 }),
+                    y: viewportBreak({ md: 9.41323, sm: 15.6084 }),
+                    z: viewportBreak({ md: -79.4959, sm: 10.1051 })
                 },
                 // Waypoint Outro
                 {
-                    x: viewportBreak({ md: 58.5225, sm: -20.182 }),
-                    y: viewportBreak({ md: 18.8382, sm: 15.6084 }),
-                    z: viewportBreak({ md: -68.0648, sm: 10.1051 })
+                    x: viewportBreak({ md: 2.14813, sm: -20.182 }),
+                    y: viewportBreak({ md: 9.41323, sm: 15.6084 }),
+                    z: viewportBreak({ md: -79.4959, sm: 10.1051 })
                 }
             ],
             target: [
@@ -139,16 +143,178 @@ class techDemoWebGL {
                 },
                 // LookAt 6 Twin
                 {
-                    x: viewportBreak({ md: 0.728863, sm: 7.3448 }),
-                    y: 5.99502,
-                    z: 4.26576
+                    x: viewportBreak({ md: 2.14813, sm: 7.3448 }),
+                    y: 9.41323,
+                    z: 0
                 },
                 // LookAt Outro
                 {
-                    x: viewportBreak({ md: 0.728863, sm: 7.3448 }),
-                    y: 5.99502,
-                    z: 4.26576
+                    x: viewportBreak({ md: 2.14813, sm: 7.3448 }),
+                    y: 9.41323,
+                    z: 0
                 }
+            ]
+        }
+        this.containerPos = {
+            big: [
+                {x: -17.340879440307617, y: 8.71361255645752, z: 6.250551223754883},
+                {x: -17.343441009521484, y: 8.713434219360352, z: -6.136998653411865},
+                {x: -17.343441009521484, y: 8.713434219360352, z: -4.365642547607422},
+                {x: -17.343441009521484, y: 8.713434219360352, z: -2.5943846702575684},
+                {x: -17.343441009521484, y: 8.713434219360352, z: -0.8231337070465088},
+                {x: -17.343441009521484, y: 8.713434219360352, z: 0.9481694102287292},
+                {x: -17.343441009521484, y: 8.713434219360352, z: 2.7193949222564697},
+                {x: -17.343441009521484, y: 8.713434219360352, z: 4.4906158447265625},
+                {x: -17.340879440307617, y: 10.237847328186035, z: 6.250551223754883},
+                {x: -17.343441009521484, y: 10.237668991088867, z: -6.136998653411865},
+                {x: -17.343441009521484, y: 10.237668991088867, z: -4.365642547607422},
+                {x: -17.343441009521484, y: 10.237668991088867, z: -2.5943846702575684},
+                {x: -17.343441009521484, y: 10.237668991088867, z: -0.8231337070465088},
+                {x: -17.343441009521484, y: 10.237668991088867, z: 0.9481694102287292},
+                {x: -17.343441009521484, y: 10.237668991088867, z: 2.7193949222564697},
+                {x: -17.343441009521484, y: 10.237668991088867, z: 4.4906158447265625},
+                {x: -17.340879440307617, y: 11.762081146240234, z: 6.250551223754883},
+                {x: -17.343441009521484, y: 11.761903762817383, z: -6.136998653411865},
+                {x: -17.343441009521484, y: 11.761903762817383, z: -4.365642547607422},
+                {x: -17.343441009521484, y: 11.761903762817383, z: -2.5943846702575684},
+                {x: -17.343441009521484, y: 11.761903762817383, z: -0.8231337070465088},
+                {x: -17.343441009521484, y: 11.761903762817383, z: 0.9481694102287292},
+                {x: -17.343441009521484, y: 11.761903762817383, z: 2.7193949222564697},
+                {x: -17.343441009521484, y: 11.761903762817383, z: 4.4906158447265625},
+                {x: -9.594785690307617, y: 8.71361255645752, z: 6.250551223754883},
+                {x: -9.597347259521484, y: 8.713434219360352, z: -6.136998653411865},
+                {x: -9.597347259521484, y: 8.713434219360352, z: -4.365642547607422},
+                {x: -9.597347259521484, y: 8.713434219360352, z: -2.5943846702575684},
+                {x: -9.597347259521484, y: 8.713434219360352, z: -0.8231337070465088},
+                {x: -9.597347259521484, y: 8.713434219360352, z: 0.9481694102287292},
+                {x: -9.597347259521484, y: 8.713434219360352, z: 2.7193949222564697},
+                {x: -9.597347259521484, y: 8.713434219360352, z: 4.4906158447265625},
+                {x: -9.594785690307617, y: 10.237847328186035, z: 6.250551223754883},
+                {x: -9.597347259521484, y: 10.237668991088867, z: -6.136998653411865},
+                {x: -9.597347259521484, y: 10.237668991088867, z: -4.365642547607422},
+                {x: -9.597347259521484, y: 10.237668991088867, z: -2.5943846702575684},
+                {x: -9.597347259521484, y: 10.237668991088867, z: -0.8231337070465088},
+                {x: -9.597347259521484, y: 10.237668991088867, z: 0.9481694102287292},
+                {x: -9.597347259521484, y: 10.237668991088867, z: 2.7193949222564697},
+                {x: -9.597347259521484, y: 10.237668991088867, z: 4.4906158447265625},
+                {x: -9.594785690307617, y: 11.762081146240234, z: 6.250551223754883},
+                {x: -9.597347259521484, y: 11.761903762817383, z: -6.136998653411865},
+                {x: -9.597347259521484, y: 11.761903762817383, z: -4.365642547607422},
+                {x: -9.597347259521484, y: 11.761903762817383, z: -2.5943846702575684},
+                {x: -9.597347259521484, y: 11.761903762817383, z: -0.8231337070465088},
+                {x: -9.597347259521484, y: 11.761903762817383, z: 0.9481694102287292},
+                {x: -9.597347259521484, y: 11.761903762817383, z: 2.7193949222564697},
+                {x: -9.597347259521484, y: 11.761903762817383, z: 4.4906158447265625},
+                {x: 10.053949356079102, y: 8.713508605957031, z: 6.25051736831665},
+                {x: 10.051405906677246, y: 8.713330268859863, z: -6.136936187744141},
+                {x: 10.051405906677246, y: 8.713330268859863, z: -4.365665435791016},
+                {x: 10.051405906677246, y: 8.713330268859863, z: -2.5943942070007324},
+                {x: 10.051405906677246, y: 8.713330268859863, z: -0.8231255412101746},
+                {x: 10.051405906677246, y: 8.713330268859863, z: 0.9481428861618042},
+                {x: 10.051405906677246, y: 8.713330268859863, z: 2.7194151878356934},
+                {x: 10.051405906677246, y: 8.713330268859863, z: 4.4906816482543945},
+                {x: 10.053949356079102, y: 10.237743377685547, z: 6.25051736831665},
+                {x: 10.051405906677246, y: 10.237565040588379, z: -6.136936187744141},
+                {x: 10.051405906677246, y: 10.237565040588379, z: -4.365665435791016},
+                {x: 10.051405906677246, y: 10.237565040588379, z: -2.5943942070007324},
+                {x: 10.051405906677246, y: 10.237565040588379, z: -0.8231255412101746},
+                {x: 10.051405906677246, y: 10.237565040588379, z: 0.9481428861618042},
+                {x: 10.051405906677246, y: 10.237565040588379, z: 2.7194151878356934},
+                {x: 10.051405906677246, y: 10.237565040588379, z: 4.4906816482543945},
+                {x: 10.053949356079102, y: 11.761977195739746, z: 6.25051736831665},
+                {x: 10.051405906677246, y: 11.761799812316895, z: -6.136936187744141},
+                {x: 10.051405906677246, y: 11.761799812316895, z: -4.365665435791016},
+                {x: 10.051405906677246, y: 11.761799812316895, z: -2.5943942070007324},
+                {x: 10.051405906677246, y: 11.761799812316895, z: -0.8231255412101746},
+                {x: 10.051405906677246, y: 11.761799812316895, z: 0.9481428861618042},
+                {x: 10.051405906677246, y: 11.761799812316895, z: 2.7194151878356934},
+                {x: 10.051405906677246, y: 11.761799812316895, z: 4.4906816482543945},
+                {x: 17.8000431060791, y: 8.713508605957031, z: 6.25051736831665},
+                {x: 17.797500610351562, y: 8.713330268859863, z: -6.136936187744141},
+                {x: 17.797500610351562, y: 8.713330268859863, z: -4.365665435791016},
+                {x: 17.797500610351562, y: 8.713330268859863, z: -2.5943942070007324},
+                {x: 17.797500610351562, y: 8.713330268859863, z: -0.8231255412101746},
+                {x: 17.797500610351562, y: 8.713330268859863, z: 0.9481428861618042},
+                {x: 17.797500610351562, y: 8.713330268859863, z: 2.7194151878356934},
+                {x: 17.797500610351562, y: 8.713330268859863, z: 4.4906816482543945},
+                {x: 17.8000431060791, y: 10.237743377685547, z: 6.25051736831665},
+                {x: 17.797500610351562, y: 10.237565040588379, z: -6.136936187744141},
+                {x: 17.797500610351562, y: 10.237565040588379, z: -4.365665435791016},
+                {x: 17.797500610351562, y: 10.237565040588379, z: -2.5943942070007324},
+                {x: 17.797500610351562, y: 10.237565040588379, z: -0.8231255412101746},
+                {x: 17.797500610351562, y: 10.237565040588379, z: 0.9481428861618042},
+                {x: 17.797500610351562, y: 10.237565040588379, z: 2.7194151878356934},
+                {x: 17.797500610351562, y: 10.237565040588379, z: 4.4906816482543945},
+                {x: 17.8000431060791, y: 11.761977195739746, z: 6.25051736831665},
+                {x: 17.797500610351562, y: 11.761799812316895, z: -6.136936187744141},
+                {x: 17.797500610351562, y: 11.761799812316895, z: -4.365665435791016},
+                {x: 17.797500610351562, y: 11.761799812316895, z: -2.5943942070007324},
+                {x: 17.797500610351562, y: 11.761799812316895, z: -0.8231255412101746},
+                {x: 17.797500610351562, y: 11.761799812316895, z: 0.9481428861618042},
+                {x: 17.797500610351562, y: 11.761799812316895, z: 2.7194151878356934},
+                {x: 17.797500610351562, y: 11.761799812316895, z: 4.4906816482543945}
+            ],
+            small: [
+                {x: -0.9320406913757324, y: 8.713940620422363, z: 6.214669227600098},
+                {x: -4.922352313995361, y: 8.713022232055664, z: 6.173358917236328},
+                {x: -4.908895015716553, y: 8.714495658874512, z: -6.179901599884033},
+                {x: -4.908895015716553, y: 8.714495658874512, z: -4.408578872680664},
+                {x: -4.908895015716553, y: 8.714495658874512, z: -2.6373260021209717},
+                {x: -4.908895015716553, y: 8.714495658874512, z: -0.8660440444946289},
+                {x: -4.908895015716553, y: 8.714495658874512, z: 0.9052312970161438},
+                {x: -4.908895015716553, y: 8.714495658874512, z: 2.6764540672302246},
+                {x: -4.908895015716553, y: 8.714495658874512, z: 4.447768211364746},
+                {x: -4.922352313995361, y: 10.237255096435547, z: 6.173358917236328},
+                {x: -4.908895015716553, y: 10.238728523254395, z: -6.179901599884033},
+                {x: -4.908895015716553, y: 10.238728523254395, z: -4.408578872680664},
+                {x: -4.908895015716553, y: 10.238728523254395, z: -2.6373260021209717},
+                {x: -4.908895015716553, y: 10.238728523254395, z: -0.8660440444946289},
+                {x: -4.908895015716553, y: 10.238728523254395, z: 0.9052312970161438},
+                {x: -4.908895015716553, y: 10.238728523254395, z: 2.6764540672302246},
+                {x: -4.908895015716553, y: 10.238728523254395, z: 4.447768211364746},
+                {x: -4.922352313995361, y: 11.761488914489746, z: 6.173358917236328},
+                {x: -4.908895015716553, y: 11.762962341308594, z: -6.179901599884033},
+                {x: -4.908895015716553, y: 11.762962341308594, z: -4.408578872680664},
+                {x: -4.908895015716553, y: 11.762962341308594, z: -2.6373260021209717},
+                {x: -4.908895015716553, y: 11.762962341308594, z: -0.8660440444946289},
+                {x: -4.908895015716553, y: 11.762962341308594, z: 0.9052312970161438},
+                {x: -4.908895015716553, y: 11.762962341308594, z: 2.6764540672302246},
+                {x: -4.908895015716553, y: 11.762962341308594, z: 4.447768211364746},
+                {x: -0.9269681572914124, y: 8.714495658874512, z: 3.0063652992248535},
+                {x: -0.9269681572914124, y: 8.714495658874512, z: 4.612671375274658},
+                {x: 3.059438943862915, y: 8.713940620422363, z: 6.214669227600098},
+                {x: 3.06451153755188, y: 8.714495658874512, z: 3.0063652992248535},
+                {x: 3.06451153755188, y: 8.714495658874512, z: 4.612671375274658},
+                {x: -0.9320406913757324, y: 10.238174438476562, z: 6.214669227600098},
+                {x: -0.9269681572914124, y: 10.238729476928711, z: 3.0063652992248535},
+                {x: -0.9269681572914124, y: 10.238729476928711, z: 4.612671375274658},
+                {x: 3.059438943862915, y: 10.238174438476562, z: 6.214669227600098},
+                {x: 3.06451153755188, y: 10.238729476928711, z: 3.0063652992248535},
+                {x: 3.06451153755188, y: 10.238729476928711, z: 4.612671375274658},
+                {x: -0.9320406913757324, y: 11.762408256530762, z: 6.214669227600098},
+                {x: -0.9269681572914124, y: 11.76296329498291, z: 3.0063652992248535},
+                {x: -0.9269681572914124, y: 11.76296329498291, z: 4.612671375274658},
+                {x: 3.059438943862915, y: 11.762408256530762, z: 6.214669227600098},
+                {x: 3.06451153755188, y: 11.76296329498291, z: 3.0063652992248535},
+                {x: 3.06451153755188, y: 11.76296329498291, z: 4.612671375274658},
+                {x: -0.9320406913757324, y: 8.713940620422363, z: -2.971550464630127},
+                {x: -0.9269681572914124, y: 8.714495658874512, z: -6.179854393005371},
+                {x: -0.9269681572914124, y: 8.714495658874512, z: -4.573548316955566},
+                {x: 3.059438943862915, y: 8.713940620422363, z: -2.971550464630127},
+                {x: 3.06451153755188, y: 8.714495658874512, z: -6.179854393005371},
+                {x: 3.06451153755188, y: 8.714495658874512, z: -4.573548316955566},
+                {x: -0.9320406913757324, y: 10.238174438476562, z: -2.971550464630127},
+                {x: -0.9269681572914124, y: 10.238729476928711, z: -6.179854393005371},
+                {x: -0.9269681572914124, y: 10.238729476928711, z: -4.573548316955566},
+                {x: 3.059438943862915, y: 10.238174438476562, z: -2.971550464630127},
+                {x: 3.06451153755188, y: 10.238729476928711, z: -6.179854393005371},
+                {x: 3.06451153755188, y: 10.238729476928711, z: -4.573548316955566},
+                {x: -0.9320406913757324, y: 11.762408256530762, z: -2.971550464630127},
+                {x: -0.9269681572914124, y: 11.76296329498291, z: -6.179854393005371},
+                {x: -0.9269681572914124, y: 11.76296329498291, z: -4.573548316955566},
+                {x: 3.059438943862915, y: 11.762408256530762, z: -2.971550464630127},
+                {x: 3.06451153755188, y: 11.76296329498291, z: -6.179854393005371},
+                {x: 3.06451153755188, y: 11.76296329498291, z: -4.573548316955566}
             ]
         }
     }
@@ -195,14 +361,154 @@ class techDemoWebGL {
 
         //renderer
         this.renderer = new THREE.WebGLRenderer({
-            antialias: true,
-            alpha: true
+            preserveDrawingBuffer: false, logarithmicDepthBuffer: true
         })
         this.renderer.setSize(this.viewport.width, this.viewport.height);
         this.renderer.setPixelRatio(window.devicePixelRatio);
+        
+        // Setup post-processing for bloom effect
+        this.setupPostProcessing();
     }
+    
+    // Simple noise function for texture generation
+    noise2D(x, y) {
+        // Simple pseudo-random noise based on sine waves
+        const n = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+        return n - Math.floor(n);
+    }
+    
+    // Perlin-like noise with smoothing
+    smoothNoise(x, y, scale) {
+        const scaledX = x * scale;
+        const scaledY = y * scale;
+        
+        const x0 = Math.floor(scaledX);
+        const x1 = x0 + 1;
+        const y0 = Math.floor(scaledY);
+        const y1 = y0 + 1;
+        
+        const sx = scaledX - x0;
+        const sy = scaledY - y0;
+        
+        // Smooth interpolation
+        const smoothX = sx * sx * (3 - 2 * sx);
+        const smoothY = sy * sy * (3 - 2 * sy);
+        
+        const n00 = this.noise2D(x0, y0);
+        const n10 = this.noise2D(x1, y0);
+        const n01 = this.noise2D(x0, y1);
+        const n11 = this.noise2D(x1, y1);
+        
+        const nx0 = n00 * (1 - smoothX) + n10 * smoothX;
+        const nx1 = n01 * (1 - smoothX) + n11 * smoothX;
+        
+        return nx0 * (1 - smoothY) + nx1 * smoothY;
+    }
+    
+    // Generate noise texture with multiple octaves
+    createNoiseTexture() {
+        const size = 512;
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        
+        const imageData = ctx.createImageData(size, size);
+        const data = imageData.data;
+        
+        for (let y = 0; y < size; y++) {
+            for (let x = 0; x < size; x++) {
+                const nx = x / size;
+                const ny = y / size;
+                
+                // Multi-octave noise for more detail
+                let value = 0;
+                value += this.smoothNoise(nx, ny, 4) * 0.5;    // Large features
+                value += this.smoothNoise(nx, ny, 8) * 0.25;   // Medium features
+                value += this.smoothNoise(nx, ny, 16) * 0.125; // Fine details
+                value += this.smoothNoise(nx, ny, 32) * 0.0625; // Very fine details
+                
+                // Normalize to 0-1 range
+                value = value / 0.9375;
+                
+                // Add some contrast and brightness adjustment
+                value = Math.pow(value, 1.2); // Increase contrast
+                value = Math.max(0, Math.min(1, value));
+                
+                // Remap value from 0-1 to 0.5-1 (grey to white instead of black to white)
+                // This makes the darkest parts 50% grey instead of black
+                value = 0.5 + (value * 0.5);
+                
+                // Convert to grayscale
+                const brightness = Math.floor(value * 255);
+                
+                const idx = (y * size + x) * 4;
+                data[idx] = brightness;     // R
+                data[idx + 1] = brightness; // G
+                data[idx + 2] = brightness; // B
+                data[idx + 3] = 255;        // A
+            }
+        }
+        
+        ctx.putImageData(imageData, 0, 0);
+        return canvas;
+    }
+
+    createPipeTextures() {
+        // Generate noise texture
+        const noiseCanvas = this.createNoiseTexture();
+        
+        // Create textures for both pipe types
+        this.pipeTextureTec = new THREE.CanvasTexture(noiseCanvas);
+        this.pipeTextureProp = new THREE.CanvasTexture(noiseCanvas);
+        
+        // Configure texture wrapping and filtering to prevent stretching
+        [this.pipeTextureTec, this.pipeTextureProp].forEach(texture => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            
+            // Use maximum anisotropic filtering to reduce stretching
+            texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+            
+            // Set reasonable repeat values to avoid stretching
+            // Adjust these based on your pipe dimensions
+            texture.repeat.set(1, 4); // Less horizontal repeat, more vertical
+            
+            // Use high-quality filtering
+            texture.minFilter = THREE.LinearMipmapLinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            texture.generateMipmaps = true;
+        });
+        
+        // Store initial offset for animation
+        this.pipeTextureOffset = 0;
+    }
+
+    setupPostProcessing() {
+        // Create effect composer
+        this.composer = new EffectComposer(this.renderer);
+        
+        // Add render pass
+        const renderPass = new RenderPass(this.scene, this.camera);
+        this.composer.addPass(renderPass);
+        
+        // Add bloom pass
+        this.bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(this.viewport.width, this.viewport.height),
+            1.5,    // strength
+            0,    // radius
+            1    // threshold
+        );
+        this.composer.addPass(this.bloomPass);
+        
+        // Enable bloom for glowing materials
+        this.bloomPass.threshold = 1; // Lower threshold for more bloom
+        this.bloomPass.strength = 1.5;  // Higher strength for more glow
+        this.bloomPass.radius = 0;    // Bloom radius
+    }
+    
     createMesh() {
-        let url = new URL('../assets/cargo-new-anten.glb', import.meta.url)
+        let url = new URL('../assets/cargo-new-pipe-dense.glb', import.meta.url)
         url = "" + url;
         this.loader = new GLTFLoader();
         this.dracoLoader = new DRACOLoader();
@@ -211,6 +517,10 @@ class techDemoWebGL {
         this.dracoLoader.setDecoderConfig({type: 'js'})
         this.loader.setDRACOLoader( this.dracoLoader )
         this.containerGrp = []
+        this.bigContainerBaseModel = null
+        this.smallContainerBaseModel = null
+        this.propellerSpeed = {value: 1}
+        this.glowPipe = {value: 0}
         this.loader.load(url,
         (glb) => {
             console.log('Model loaded, processing objects...')
@@ -221,7 +531,7 @@ class techDemoWebGL {
                 color: new THREE.Color('#FF471D'),
                 envMapIntensity: 4,
                 roughness: .35,
-                metalness: 0
+                metalness: 0,
             })
             this.matt_default = new THREE.MeshStandardMaterial({
                 color: new THREE.Color('#2B2C2F'),
@@ -236,11 +546,40 @@ class techDemoWebGL {
                 metalness: 1,
                 transparent: true,
             })
+            // Create animated noise textures for pipes
+            this.createPipeTextures();
+            
+            this.matt_pipeTec = new THREE.MeshStandardMaterial({
+                color: new THREE.Color('#00E5FF'),
+                map: this.pipeTextureTec, // Apply noise to base color
+                emissive: new THREE.Color('#00E5FF'),
+                emissiveIntensity: 0,
+                // emissiveMap: this.pipeTextureTec, // Apply noise to emissive for glow pattern
+                toneMapped: false,
+                envMapIntensity: 3,
+                roughness: 0.1,
+                metalness: 0.9,
+                transparent: true,
+                opacity: 0,
+            })
+            this.matt_pipeProp = new THREE.MeshStandardMaterial({
+                color: new THREE.Color('#FF471D'),
+                // map: this.pipeTextureProp, // Apply noise to base color
+                emissive: new THREE.Color('#FF471D'),
+                emissiveIntensity: 0,
+                // emissiveMap: this.pipeTextureProp, // Apply noise to emissive for glow pattern
+                toneMapped: false,
+                envMapIntensity: 2,
+                roughness: .70,
+                metalness: 1,
+                transparent: true,
+            })
             this.matt_container = new THREE.MeshStandardMaterial({
                 color: new THREE.Color('#2B2C2F'),
                 envMapIntensity: 2,
                 roughness: .35,
                 metalness: 0,
+                opacity: 0,
                 transparent: true,
             })
             this.matt_tech = new THREE.MeshStandardMaterial({
@@ -260,12 +599,8 @@ class techDemoWebGL {
                 opacity: 1.0,
                 depthWrite: true
             })
-            this.matt_ship_wire = new THREE.MeshStandardMaterial({
-                color: new THREE.Color('#2B2C2F'),
-                wireframe: true,
-                envMapIntensity: 2,
-                roughness: .70,
-                metalness: 1,
+            this.matt_ship_wire = new THREE.LineBasicMaterial({
+                color: new THREE.Color('#313235'),
                 transparent: true,
                 opacity: 0.0,
                 depthWrite: false
@@ -288,16 +623,40 @@ class techDemoWebGL {
                     } else if (objName.includes('propeller')) {
                         obj.material = this.matt_propeller;   
                     } else if (objName.includes('container')) {
-                        obj.material = this.matt_container;
-                        // Store original position to avoid overlapping in animations
-                        obj.userData.originalPosition = obj.position.clone();
-                        this.containerGrp.push(obj);
+                        if (objName.includes('large')) {
+                            // Store large container as base model for instancing
+                            if (!this.bigContainerBaseModel) {
+                                obj.material = this.matt_container;
+                                this.bigContainerBaseModel = obj.clone();
+                                // this.bigContainerBaseModel.material = this.matt_container;
+                                // this.bigContainerBaseModel.visible = false; // Hide the original
+                                this.containerGrp.push(obj)
+                                console.log(obj.userData.position)
+                            }
+                            // Remove original container from scene
+                            // obj.parent.remove(obj);
+                        } else if (objName.includes('small')) {
+                            // Store small container as base model for instancing
+                            if (!this.smallContainerBaseModel) {
+                                obj.material = this.matt_container;
+                                this.smallContainerBaseModel = obj.clone();
+                                // this.smallContainerBaseModel.material = this.matt_container;
+                                // this.smallContainerBaseModel.visible = false; // Hide the original
+                                this.containerGrp.push(obj)
+                            }
+                            // Remove original container from scene
+                            // obj.parent.remove(obj);
+                        }
                     } else if (objName.includes('ship')) {
                         console.log(obj.name)
                         // obj.material = this.matt_ship;
                         this.createHybridObject(obj, this.matt_ship, this.matt_ship_wire);
                     } else if (objName.includes('tech') ) {
                         obj.material = this.matt_tech;
+                    } else if (objName.includes('pipeprop')) {
+                        obj.material = this.matt_pipeProp;
+                    } else if (objName.includes('pipete')) {
+                        obj.material = this.matt_pipeTec;
                     }
 
                     if (obj.name === 'Ship_Wire') {
@@ -333,6 +692,10 @@ class techDemoWebGL {
                 }
             })
             this.scene.add(this.model)
+            
+            // Create container instances using predefined positions
+            this.createContainerInstancesFromPositions();
+            
             // Debug: Log hybrid objects
             console.log(`Total hybrid objects created: ${this.hybridObjects.length}`);
             this.hybridObjects.forEach((obj, idx) => {
@@ -353,11 +716,16 @@ class techDemoWebGL {
         this.camera.aspect = this.viewport.aspectRatio;
         this.renderer.setSize(this.viewport.width, this.viewport.height)
         this.camera.updateProjectionMatrix();
+        
+        // Update composer size
+        if (this.composer) {
+            this.composer.setSize(this.viewport.width, this.viewport.height);
+        }
     }
     animate() {
         if ($('[data-barba-namespace="tech"]').length) {
-            this.prop1.rotation.x += 0.1
-            this.prop2.rotation.x += 0.1
+            this.prop1.rotation.x += 0.1 * this.propellerSpeed.value
+            this.prop2.rotation.x += 0.1 * this.propellerSpeed.value
             
             if (this.kiteBoneWire && this.kiteBoneParachute) {
                 this.kiteBoneParachute.rotation.x = Math.sin(this.clock.getElapsedTime()) * Math.PI / 36
@@ -368,11 +736,48 @@ class techDemoWebGL {
                 this.kiteBoneWire.rotation.z = Math.sin(this.clock.getElapsedTime()) * Math.PI / 90
             }
             
-            this.renderer.render(this.scene, this.camera)
+            // Sync wireframe transformations with solid meshes
+            this.hybridObjects.forEach(hybridObj => {
+                hybridObj.syncTransformations();
+            });
+            
+            // Animate pipe glow effects
+            this.animatePipeGlow();
+            
+            this.composer.render()
         } else {
         }
         requestAnimationFrame(this.animate.bind(this))
     }
+    
+    animatePipeGlow() {
+        if (this.matt_pipeTec && this.matt_pipeProp) {
+            const time = this.clock.getElapsedTime();
+            
+            // Animate tech pipe glow (cyan)
+            this.matt_pipeTec.emissiveIntensity = (.75 + Math.sin(time * 3) * .25) * this.glowPipe.value;
+            
+            // Animate prop pipe glow (orange) with different timing
+            this.matt_pipeProp.emissiveIntensity = (2.75 + Math.sin(time * 3) * .25) * this.glowPipe.value;
+            
+            // Animate checkerboard texture moving along the pipes
+            if (this.pipeTextureTec && this.pipeTextureProp) {
+                // Move texture offset to create running animation
+                const speed = 0.15; // Animation speed
+                this.pipeTextureOffset += speed * 0.016; // Assuming ~60fps
+                
+                // Update texture offsets (V coordinate for along-pipe movement)
+                this.pipeTextureTec.offset.y = this.pipeTextureOffset;
+                this.pipeTextureProp.offset.y = -this.pipeTextureOffset; // Move in opposite direction
+                
+                // Keep offset in reasonable range to prevent precision issues
+                if (Math.abs(this.pipeTextureOffset) > 100) {
+                    this.pipeTextureOffset = this.pipeTextureOffset % 1.0;
+                }
+            }
+        }
+    }
+    
     scrollAnimate() {
         if (this.viewport.width > 767) {
             let lastProgress = 0;
@@ -393,19 +798,29 @@ class techDemoWebGL {
                         
                         // Store scroll direction for use in waypoint cases
                         this.isScrollingForward = isScrollingForward;
+                        if (this.matt_container.opacity > 0.01) {
+                            this.matt_container.visible = true
+                        } else {
+                            this.matt_container.visible = false
+                        }
                     }
                 },
                 defaults: {
                     ease: 'none'
                 }
             });
-            tl.set(this.matt_tech, {
+            tl.set([this.matt_tech, this.matt_container, this.matt_pipeTec], {
                 opacity: 0,
             })
-            .set(this.matt_propeller.color, {
+            .set([this.matt_propeller.color, this.matt_pipeProp.color, this.matt_pipeProp.emissive, this.matt_pipeTec.color, this.matt_pipeTec.emissive], {
                 r: new THREE.Color('#2B2C2F').r,
                 g: new THREE.Color('#2B2C2F').g,
                 b: new THREE.Color('#2B2C2F').b,
+            })
+            .set(this.matt_pipeProp, {
+                envMapIntensity: 2,
+                roughness: .7,
+                metalness: 1,
             })
             this.waypointPos.camera.forEach((waypoint, idx) => {
                 if (idx !== 0 ) {
@@ -425,7 +840,29 @@ class techDemoWebGL {
                         }, '<=0')
                     }
                     switch (idx) {
-                        case 3:
+                        case 2: //parachute
+                            tl.fromTo(this.matt_parachute.color, {
+                                r: new THREE.Color('#FF471D').r,
+                                g: new THREE.Color('#FF471D').g,
+                                b: new THREE.Color('#FF471D').b,
+                            }, {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                                duration: .6
+                            }, '<=0')
+                            .fromTo(this.matt_parachute, {
+                                envMapIntensity: 4,
+                                roughness: .35,
+                                metalness: 0
+                            }, {
+                                envMapIntensity: 2,
+                                roughness: .70,
+                                metalness: 1,
+                                duration: .6
+                            }, '<=0')
+                            break
+                        case 3: //container
                             tl.fromTo(this.matt_container, {
                                 opacity: 0,
                             }, {
@@ -475,30 +912,8 @@ class techDemoWebGL {
                                     duration: .4,
                                 }, '<=0')
                             })
-                            
-                            // // Animate antenna arm hybrid objects (solid and wireframe)
-                            // this.hybridObjects.forEach(hybridObj => {
-                            //     if (hybridObj.solid.name === "Ship_Anten_Arm_R" || 
-                            //         hybridObj.solid.name === "Ship_Anten_Arm_L" || 
-                            //         hybridObj.solid.name === "Ship_Anten_Arm_2_R" || 
-                            //         hybridObj.solid.name === "Ship_Anten_Arm_2_L") {
-                                    
-                            //         const rotationX = hybridObj.solid.name.includes("_L") ? 
-                            //             (hybridObj.solid.name.includes("2_") ? (Math.PI / 180) * 166 : (Math.PI / 180) * -95) :
-                            //             (hybridObj.solid.name.includes("2_") ? (Math.PI / 180) * 166 : (Math.PI / 180) * 95);
-                                    
-                            //         tl.to(hybridObj.solid.rotation, {
-                            //             x: rotationX,
-                            //             duration: .4,
-                            //         }, '<=.2')
-                            //         .to(hybridObj.wireframe.rotation, {
-                            //             x: rotationX,
-                            //             duration: .4,
-                            //         }, '<=0')
-                            //     }
-                            // })
                             break;
-                        case 4:
+                        case 4: //propeller
                             tl.fromTo(this.matt_propeller.color, {
                                 r: new THREE.Color('#2B2C2F').r,
                                 g: new THREE.Color('#2B2C2F').g,
@@ -507,7 +922,9 @@ class techDemoWebGL {
                                 r: new THREE.Color('#FF471D').r,
                                 g: new THREE.Color('#FF471D').g,
                                 b: new THREE.Color('#FF471D').b,
+                                duration: .6
                             }, '<=.2')
+                            .fromTo(this.propellerSpeed, {value: 1}, {value: 2, duration: .6}, '<=.2')
                             this.containerGrp.forEach((el, idx) => {
                                 let delayTime;
                                 if (idx == 0) {
@@ -515,14 +932,11 @@ class techDemoWebGL {
                                 } else {
                                     delayTime = '<=0'
                                 }
-                                // Scale from object's center by using a custom update function
-                                tl.to({}, {
+                                tl.fromTo(this.matt_container, {
+                                    opacity: 1,
+                                }, {
+                                    opacity: 0,
                                     duration: .4,
-                                    onUpdate: function() {
-                                        const progress = this.progress();
-                                        const scaleValue = 1 - progress; // Scale from 1 to 0
-                                        el.scale.set(scaleValue, scaleValue, scaleValue);
-                                    }
                                 }, delayTime)
                             })
                             
@@ -537,15 +951,25 @@ class techDemoWebGL {
                                 }
                             }, null, '<=0.3')
                             break;
-                        case 5:
-                            tl.fromTo(this.matt_tech, {
+                        case 5: //tech
+                            tl.fromTo([this.matt_tech, this.matt_pipeTec], {
                                 opacity: 0,
                             }, {
                                 opacity: 1,
+                                duration: .6,
+                            }, '<=0')
+                            .fromTo(this.matt_pipeProp, {
+                                envMapIntensity: 2,
+                                roughness: .7,
+                                metalness: 1,
+                            }, {
+                                envMapIntensity: 3,
+                                roughness: 0.1,
+                                metalness: 0.9,
                                 duration: .6,
                             }, '<=0')
                             
-                            tl.fromTo(this.matt_tech.color, {
+                            tl.fromTo([this.matt_tech.color, this.matt_pipeProp.color, this.matt_pipeProp.emissive], {
                                 r: new THREE.Color('#2B2C2F').r,
                                 g: new THREE.Color('#2B2C2F').g,
                                 b: new THREE.Color('#2B2C2F').b,
@@ -553,25 +977,63 @@ class techDemoWebGL {
                                 r: new THREE.Color('#FF471D').r,
                                 g: new THREE.Color('#FF471D').g,
                                 b: new THREE.Color('#FF471D').b,
+                                duration: .6,
+                            }, '<=0')
+                            .fromTo([this.matt_pipeTec.color, this.matt_pipeTec.emissive], {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                            }, {
+                                r: new THREE.Color('#00E5FF').r,
+                                g: new THREE.Color('#00E5FF').g,
+                                b: new THREE.Color('#00E5FF').b,
+                                duration: .6,
+                            }, '<=0')
+                            .fromTo(this.glowPipe, {
+                                value: 0,
+                            }, {
+                                value: 1,
+                                duration: .6,
                             }, '<=0')
                             break;
-                        case 6:
+                        case 6: //end
                             // Handle scroll direction for case 6
-                            tl.fromTo(this.matt_tech, {
-                                opacity: 1,
+                            tl.fromTo([this.matt_propeller.color, this.matt_pipeProp.color, this.matt_pipeProp.emissive], {
+                                r: new THREE.Color('#FF471D').r,
+                                g: new THREE.Color('#FF471D').g,
+                                b: new THREE.Color('#FF471D').b,
+                            }, {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                                duration: .6,
+                            }, '<=.4')
+                            .fromTo([this.matt_pipeTec.color, this.matt_pipeTec.emissive], {
+                                r: new THREE.Color('#00E5FF').r,
+                                g: new THREE.Color('#00E5FF').g,
+                                b: new THREE.Color('#00E5FF').b,
+                            }, {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                                duration: .6,
+                            }, '<=0')
+                            .fromTo([this.matt_tech, this.matt_pipeTec, this.matt_pipeProp], {
+                                opacity: 1
                             }, {
                                 opacity: 0,
                                 duration: .6,
                             }, '<=0')
-                            tl.fromTo([this.matt_propeller.color, this.matt_tech.color], {
-                                r: new THREE.Color('#FF471D').r,
-                                g: new THREE.Color('#FF471D').g,
-                                b: new THREE.Color('#FF471D').b,
+                            .fromTo(this.matt_pipeProp, {
+                                envMapIntensity: 3,
+                                roughness: 0.1,
+                                metalness: 0.9,
                             }, {
-                                r: new THREE.Color('#2B2C2F').r,
-                                g: new THREE.Color('#2B2C2F').g,
-                                b: new THREE.Color('#2B2C2F').b,
-                            }, '<=.2')
+                                envMapIntensity: 2,
+                                roughness: .7,
+                                metalness: 1,
+                                duration: .6,
+                            }, '<=0')
                             tl.call(() => {
                                 if (this.isScrollingForward && this.isWireframeMode) {
                                     // Scrolling forward: switch to solid
@@ -587,7 +1049,6 @@ class techDemoWebGL {
                     }
                 }
             })
-            
         } else {
             let pointer = [
                 {
@@ -777,7 +1238,6 @@ class techDemoWebGL {
                 //console.log(target)
                 lenis.scrollTo(tl.scrollTrigger.labelToScroll(`demo${target}`), {force: true})
             })
-
         }
     }
     init() {
@@ -787,6 +1247,47 @@ class techDemoWebGL {
     reset() {
         this.container.append(this.renderer.domElement);
         this.onWindowResize()
+    }
+    
+    // Create container instances from predefined positions
+    createContainerInstancesFromPositions() {        
+        // Create big container instances
+        if (this.bigContainerBaseModel && this.containerPos.big) {
+            this.containerPos.big.forEach((position, index) => {
+                if (!this.bigContainerBaseModel.position.equals(position)) {
+                    const instance = this.bigContainerBaseModel.clone();
+                    instance.position.set(position.x, position.y, position.z);
+                    instance.visible = true;
+                    instance.userData.originalPosition = { x: position.x, y: position.y, z: position.z };
+                    instance.userData.isInstance = true;
+                    instance.userData.instanceIndex = index;
+                    instance.userData.containerType = 'big';
+                    
+                    // Add to scene
+                    this.scene.add(instance);
+                    this.containerGrp.push(instance);
+                }
+            });
+        }
+        
+        // Create small container instances
+        if (this.smallContainerBaseModel && this.containerPos.small) {
+            this.containerPos.small.forEach((position, index) => {
+                if (!this.smallContainerBaseModel.position.equals(position)) {
+                    const instance = this.smallContainerBaseModel.clone();
+                    instance.position.set(position.x, position.y, position.z);
+                    instance.visible = true;
+                    instance.userData.originalPosition = { x: position.x, y: position.y, z: position.z };
+                    instance.userData.isInstance = true;
+                    instance.userData.instanceIndex = index;
+                    instance.userData.containerType = 'small';
+
+                    // Add to scene
+                    this.scene.add(instance);
+                    this.containerGrp.push(instance);
+                }
+            });
+        }
     }
     
     // Create a hybrid object that can switch between solid and wireframe
@@ -808,21 +1309,33 @@ class techDemoWebGL {
             this.materialCache.set(materialKey, cachedMaterials);
         }
         
-        // Clone the mesh efficiently - skip antenna arms
-        const wireframeMesh = this._cloneMeshOptimized(mesh);
+        // Create wireframe mesh using EdgesGeometry
+        const wireframeMesh = new THREE.LineSegments(
+            new THREE.EdgesGeometry(mesh.geometry),
+            cachedMaterials.wireframe.clone()
+        );
+        
+        // Copy position, rotation, and scale from original mesh
+        wireframeMesh.position.copy(mesh.position);
+        wireframeMesh.rotation.copy(mesh.rotation);
+        wireframeMesh.scale.copy(mesh.scale);
         
         // Set up materials with proper initial states
         mesh.material = cachedMaterials.solid.clone();
-        wireframeMesh.material = cachedMaterials.wireframe.clone();
         
         // Initial visibility states - ensure proper setup
         mesh.material.opacity = 1.0;
         mesh.material.depthWrite = true;
+        mesh.material.depthTest = true;
         mesh.material.transparent = true;
+        mesh.renderOrder = 0; // Render solid first
         
         wireframeMesh.material.opacity = 0.0;
         wireframeMesh.material.depthWrite = false;
+        wireframeMesh.material.depthTest = true;
         wireframeMesh.material.transparent = true;
+        wireframeMesh.renderOrder = 1; // Render wireframe after solid
+        wireframeMesh.visible = false; // Start hidden to prevent flickering
         
         // Add to scene efficiently
         mesh.parent.add(wireframeMesh);
@@ -833,7 +1346,13 @@ class techDemoWebGL {
             wireframe: wireframeMesh,
             solidMaterial: mesh.material,
             wireframeMaterial: wireframeMesh.material,
-            isAnimating: false // Track individual animation state
+            isAnimating: false, // Track individual animation state
+            syncTransformations: () => {
+                // Sync wireframe transformations with solid mesh
+                wireframeMesh.position.copy(mesh.position);
+                wireframeMesh.rotation.copy(mesh.rotation);
+                wireframeMesh.scale.copy(mesh.scale);
+            }
         };
         
         this.hybridObjects.push(hybridObject);
@@ -846,9 +1365,9 @@ class techDemoWebGL {
         material.alphaTest = 0.001; // Slight performance boost
         material.needsUpdate = true;
         
-        // Optimize for wireframe if applicable
-        if (material.wireframe) {
-            material.wireframeLinewidth = 1; // Consistent line width
+        // Optimize for line segments (EdgesGeometry)
+        if (material.isLineBasicMaterial || material.isLineDashedMaterial) {
+            material.linewidth = 1; // Consistent line width
         }
         
         return material;
@@ -862,8 +1381,8 @@ class techDemoWebGL {
         return cloned;
     }
     
-    // Toggle between wireframe and solid mode (Optimized)
-    toggleWireframeMode(duration = 0.8) {
+    // Toggle between wireframe and solid mode with smooth crossfade
+    toggleWireframeMode(duration = 1.2) {
         // Prevent overlapping animations
         if (this.isTransitioning) {
             console.log('Animation in progress, skipping...');
@@ -875,9 +1394,9 @@ class techDemoWebGL {
         
         console.log(`Toggling to ${this.isWireframeMode ? 'wireframe' : 'solid'} mode with ${this.hybridObjects.length} hybrid objects`);
         
-        // Enhanced easing for smoother visual transitions
-        const easing = 'power2.inOut';
-        const staggerDelay = 0.02; // Slight stagger for visual appeal
+        // Smoother easing curves for better visual quality
+        const easing = 'power3.inOut';
+        const staggerDelay = 0.015; // Refined stagger for smooth wave effect
         
         // Batch animations for better performance
         const animations = [];
@@ -889,28 +1408,40 @@ class techDemoWebGL {
             const delay = index * staggerDelay;
             
             if (this.isWireframeMode) {
-                // Animate to wireframe with optimized timing
+                // Crossfade to wireframe with simultaneous animations
+                // Fade out solid
                 animations.push(
                     gsap.to(hybridObj.solidMaterial, {
                         opacity: 0,
-                        duration: duration * 0.6, // Slightly faster fade out
+                        duration: duration * 0.7,
                         delay: delay,
                         ease: easing,
+                        onStart: () => {
+                            // Enable wireframe visibility and proper rendering at start
+                            hybridObj.wireframe.visible = true;
+                            hybridObj.wireframe.renderOrder = 1; // Restore render order
+                            hybridObj.wireframeMaterial.depthTest = true;
+                        },
                         onComplete: () => {
+                            // Disable solid mesh completely to prevent flickering
                             hybridObj.solidMaterial.depthWrite = false;
+                            hybridObj.solidMaterial.depthTest = false;
+                            hybridObj.solid.visible = false;
+                            hybridObj.solid.renderOrder = -1; // Push behind everything
                             this._updateMaterialNeedsUpdate(hybridObj.solidMaterial);
                         }
                     })
                 );
                 
+                // Fade in wireframe with overlap
                 animations.push(
                     gsap.to(hybridObj.wireframeMaterial, {
                         opacity: 1,
-                        duration: duration,
-                        delay: delay + duration * 0.2, // Start wireframe slightly after solid fades
+                        duration: duration * 0.8,
+                        delay: delay + duration * 0.1, // Small overlap for smooth crossfade
                         ease: easing,
                         onStart: () => {
-                            hybridObj.wireframeMaterial.depthWrite = true;
+                            hybridObj.wireframeMaterial.depthWrite = false; // Lines don't need depth write
                             this._updateMaterialNeedsUpdate(hybridObj.wireframeMaterial);
                         },
                         onComplete: () => {
@@ -920,28 +1451,42 @@ class techDemoWebGL {
                     })
                 );
             } else {
-                // Animate to solid with optimized timing
+                // Crossfade to solid with simultaneous animations
+                // Fade out wireframe
                 animations.push(
                     gsap.to(hybridObj.wireframeMaterial, {
                         opacity: 0,
-                        duration: duration * 0.6,
+                        duration: duration * 0.7,
                         delay: delay,
                         ease: easing,
+                        onStart: () => {
+                            // Enable solid visibility and proper rendering at start
+                            hybridObj.solid.visible = true;
+                            hybridObj.solid.renderOrder = 0; // Restore render order
+                            hybridObj.solidMaterial.depthTest = true;
+                        },
                         onComplete: () => {
+                            // Disable wireframe mesh completely to prevent flickering
                             hybridObj.wireframeMaterial.depthWrite = false;
+                            hybridObj.wireframeMaterial.depthTest = false;
+                            hybridObj.wireframe.visible = false;
+                            hybridObj.wireframe.renderOrder = -1; // Push behind everything
                             this._updateMaterialNeedsUpdate(hybridObj.wireframeMaterial);
                         }
                     })
                 );
                 
+                // Fade in solid with overlap
                 animations.push(
                     gsap.to(hybridObj.solidMaterial, {
                         opacity: 1,
-                        duration: duration,
-                        delay: delay + duration * 0.2,
+                        duration: duration * 0.8,
+                        delay: delay + duration * 0.1, // Small overlap for smooth crossfade
                         ease: easing,
                         onStart: () => {
                             hybridObj.solidMaterial.depthWrite = true;
+                            hybridObj.solidMaterial.depthTest = true;
+                            hybridObj.solid.renderOrder = 0;
                             this._updateMaterialNeedsUpdate(hybridObj.solidMaterial);
                         },
                         onComplete: () => {
@@ -959,14 +1504,13 @@ class techDemoWebGL {
         });
     }
     
-    // Set wireframe blend (0 = solid, 1 = wireframe) - Optimized
-    setWireframeBlend(blend, duration = 0.3) {
+    // Set wireframe blend (0 = solid, 1 = wireframe) with smooth crossfade
+    setWireframeBlend(blend, duration = 0.5) {
         // Clamp blend value for safety
         blend = Math.max(0, Math.min(1, blend));
         
         const solidOpacity = 1 - blend;
         const wireframeOpacity = blend;
-        const threshold = 0.01; // Optimized threshold
         
         // Batch operations for better performance
         const batchUpdates = [];
@@ -981,23 +1525,36 @@ class techDemoWebGL {
                 return; // Skip unchanged objects
             }
             
-            // Optimized stagger for smooth visual flow
-            const delay = index * 0.01;
+            // Refined stagger for smooth wave effect
+            const delay = index * 0.008;
+            
+            // Control visibility for better performance
+            const onBlendStart = () => {
+                if (blend > 0.01) hybridObj.wireframe.visible = true;
+                if (blend < 0.99) hybridObj.solid.visible = true;
+            };
+            
+            const onBlendComplete = () => {
+                if (blend < 0.01) hybridObj.wireframe.visible = false;
+                if (blend > 0.99) hybridObj.solid.visible = false;
+            };
             
             batchUpdates.push(
                 gsap.to(hybridObj.solidMaterial, {
                     opacity: solidOpacity,
                     duration: duration,
                     delay: delay,
-                    ease: 'power2.out', // Smoother easing for blend
+                    ease: 'power3.inOut', // Smoother easing curve
+                    onStart: onBlendStart,
                     onUpdate: () => {
-                        // Dynamic depth writing with optimized checks
-                        const shouldWrite = hybridObj.solidMaterial.opacity > threshold;
+                        // Solid needs depth write when visible
+                        const shouldWrite = hybridObj.solidMaterial.opacity > 0.1;
                         if (hybridObj.solidMaterial.depthWrite !== shouldWrite) {
                             hybridObj.solidMaterial.depthWrite = shouldWrite;
                             this._updateMaterialNeedsUpdate(hybridObj.solidMaterial);
                         }
-                    }
+                    },
+                    onComplete: onBlendComplete
                 })
             );
             
@@ -1006,12 +1563,11 @@ class techDemoWebGL {
                     opacity: wireframeOpacity,
                     duration: duration,
                     delay: delay,
-                    ease: 'power2.out',
+                    ease: 'power3.inOut', // Match solid easing
                     onUpdate: () => {
-                        // Dynamic depth writing with optimized checks
-                        const shouldWrite = hybridObj.wireframeMaterial.opacity > threshold;
-                        if (hybridObj.wireframeMaterial.depthWrite !== shouldWrite) {
-                            hybridObj.wireframeMaterial.depthWrite = shouldWrite;
+                        // Lines generally don't need depth write
+                        if (hybridObj.wireframeMaterial.depthWrite !== false) {
+                            hybridObj.wireframeMaterial.depthWrite = false;
                             this._updateMaterialNeedsUpdate(hybridObj.wireframeMaterial);
                         }
                     }
@@ -1045,11 +1601,19 @@ class techDemoWebGL {
             hybridObj.wireframeMaterial?.dispose();
         });
         
+        // Clear container instances
+        this.containerGrp.forEach(instance => {
+            if (instance.parent) {
+                instance.parent.remove(instance);
+            }
+        });
+        
         // Clear caches
         this.hybridObjects.length = 0;
+        this.containerGrp.length = 0;
         this.materialCache.clear();
         
-        console.log('Hybrid system disposed');
+        console.log('Hybrid system and container instances disposed');
     }
 }
 
