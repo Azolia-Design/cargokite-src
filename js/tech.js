@@ -59,99 +59,99 @@ class techDemoWebGL {
             camera: [
                 // Waypoint Intro (already set in setupCamera)
                 {
-                    x: viewportBreak({ md: 124.2853, sm: 85.63897705078125 }),
-                    y: viewportBreak({ md: 35.6434, sm: 14.265151023864746 }),
-                    z: viewportBreak({ md: -51.4899, sm: -68.48991394042969 })
+                    x: viewportBreak({ md: 124.2853, sm: 124.2853}),
+                    y: viewportBreak({ md: 35.6434, sm: 35.6434}),
+                    z: viewportBreak({ md: -51.4899, sm: -51.4899})
                 },
                 // Waypoint 1 Kite
                 {
-                    x: viewportBreak({ md: 98.2853, sm: 85.63897705078125 }),
-                    y: viewportBreak({ md: 35.6434, sm: 10.265151023864746 }),
-                    z: viewportBreak({ md: -51.4899, sm: -68.48991394042969 })
+                    x: viewportBreak({ md: 98.2853, sm: 98.2853}),
+                    y: viewportBreak({ md: 35.6434, sm: 35.6434}),
+                    z: viewportBreak({ md: -51.4899, sm: -51.4899})
                 },
                 // Waypoint 2 Hull
                 {
-                    x: viewportBreak({ md: 61.1701, sm: -75.3858 }),
-                    y: viewportBreak({ md: 4.58209, sm: -1.16929 }),
-                    z: viewportBreak({ md: 32.9954, sm: -38.9227 })
+                    x: viewportBreak({ md: 61.1701, sm: 61.1701}),
+                    y: viewportBreak({ md: 4.58209, sm: 4.58209}),
+                    z: viewportBreak({ md: 32.9954, sm: 32.9954})
                 },
                 // Waypoint 3 Container
                 {
-                    x: viewportBreak({ md: 42.094, sm: -75.182 }),
-                    y: viewportBreak({ md: 24.5614, sm: 40.6084 }),
-                    z: viewportBreak({ md: 32.5401, sm: 100.1051 })
+                    x: viewportBreak({ md: 42.094, sm: 42.094}),
+                    y: viewportBreak({ md: 24.5614, sm: 24.5614}),
+                    z: viewportBreak({ md: 32.5401, sm: 32.5401})
                 },
                 // Waypoint 4 Hydrofoils
                 {
-                    x: viewportBreak({ md: -42.9873, sm: -20.182 }),
-                    y: viewportBreak({ md: 0.581775, sm: 15.6084 }),
-                    z: viewportBreak({ md: 20.0917, sm: 10.1051 })
+                    x: viewportBreak({ md: -42.9873, sm: -42.9873}),
+                    y: viewportBreak({ md: 0.581775, sm: 0.581775}),
+                    z: viewportBreak({ md: 20.0917, sm: 20.0917})
                 },
                 // Waypoint 5 Auto
                 {
-                    x: viewportBreak({ md: -23.4135, sm: -20.182 }),
-                    y: viewportBreak({ md: 62.8855, sm: 15.6084 }),
-                    z: viewportBreak({ md: -27.1162, sm: 10.1051 })
+                    x: viewportBreak({ md: -23.4135, sm: -23.4135}),
+                    y: viewportBreak({ md: 62.8855, sm: 62.8855}),
+                    z: viewportBreak({ md: -27.1162, sm: -27.1162})
                 },
                 // Waypoint 6 Twin
                 {
-                    x: viewportBreak({ md: 2.14813, sm: -20.182 }),
-                    y: viewportBreak({ md: 9.41323, sm: 15.6084 }),
-                    z: viewportBreak({ md: -79.4959, sm: 10.1051 })
+                    x: viewportBreak({ md: 2.14813, sm: 2.14813}),
+                    y: viewportBreak({ md: 9.41323, sm: 9.41323}),
+                    z: viewportBreak({ md: -79.4959, sm: -79.4959})
                 },
                 // Waypoint Outro
                 {
-                    x: viewportBreak({ md: 2.14813, sm: -20.182 }),
-                    y: viewportBreak({ md: 9.41323, sm: 15.6084 }),
-                    z: viewportBreak({ md: -79.4959, sm: 10.1051 })
+                    x: viewportBreak({ md: 2.14813, sm: 2.14813}),
+                    y: viewportBreak({ md: 9.41323, sm: 9.41323}),
+                    z: viewportBreak({ md: -79.4959, sm: -79.4959})
                 }
             ],
             target: [
                 // lookAt Intro (already set in setupCamera)
                 {
-                    x: viewportBreak({ md: 89.3979, sm: 55.7516 }),
-                    y: viewportBreak({ md: 44.3087, sm: 16.9304 }),
-                    z: -1.35464
+                    x: viewportBreak({ md: 89.3979, sm: 89.3979}),
+                    y: viewportBreak({ md: 44.3087, sm: 44.3087}),
+                    z: -1.35464 
                 },
                 // LookAt 1 Kite
                 {
-                    x: viewportBreak({ md: 73.3979, sm: 45.7516 }),
-                    y: viewportBreak({ md: 44.3087, sm: 21.9304 }),
-                    z: -1.35464
+                    x: viewportBreak({ md: 73.3979, sm: 73.3979}),
+                    y: viewportBreak({ md: 44.3087, sm: 44.3087}),
+                    z: -1.35464 
                 },
                 // LookAt 2 Hull
                 {
-                    x: viewportBreak({ md: 21.5902, sm: -24.2134 }),
-                    y: viewportBreak({ md: 6.77748, sm: 4.46543 }),
+                    x: viewportBreak({ md: 21.5902, sm: 21.5902}),
+                    y: viewportBreak({ md: 6.77748, sm: 6.77748}),
                     z: 0.392013
                 },
                 // LookAt 3 Container
                 {
-                    x: viewportBreak({ md: 12.1088, sm: 20.3448 }),
+                    x: viewportBreak({ md: 12.1088, sm: 12.1088}),
                     y: 10.0996,
                     z: -0.376612
                 },
                 // LookAt 4 Hydrofoils
                 {
-                    x: viewportBreak({ md: -19.5171, sm: 7.3448 }),
+                    x: viewportBreak({ md: -19.5171, sm: -19.5171}),
                     y: 5.83064,
                     z: 6.94174
                 },
                 // LookAt 5 Auto
                 {
-                    x: viewportBreak({ md: -3.34757, sm: 7.3448 }),
+                    x: viewportBreak({ md: -3.34757, sm: -3.34757}),
                     y: 3.08693,
                     z: 4.26576
                 },
                 // LookAt 6 Twin
                 {
-                    x: viewportBreak({ md: 2.14813, sm: 7.3448 }),
+                    x: viewportBreak({ md: 2.14813, sm: 2.14813}),
                     y: 9.41323,
                     z: 0
                 },
                 // LookAt Outro
                 {
-                    x: viewportBreak({ md: 2.14813, sm: 7.3448 }),
+                    x: viewportBreak({ md: 2.14813, sm: 2.14813}),
                     y: 9.41323,
                     z: 0
                 }
@@ -777,7 +777,7 @@ class techDemoWebGL {
                 scrollTrigger: {
                     trigger: '.tech-demo__main',
                     start: 'top bottom',
-                    end: 'bottom top+=25%',
+                    end: `bottom-=${$(window).height() * .5} top+=125%`,
                     scrub: true,
                     onUpdate: (self) => {
                         this.camera.lookAt( this.lookAtTarget );
@@ -1025,21 +1025,57 @@ class techDemoWebGL {
                                 metalness: 1,
                                 duration: .6,
                             }, '<=0')
-                            tl.call(() => {
-                                if (this.isScrollingForward && this.isWireframeMode) {
-                                    // Scrolling forward: switch to solid
-                                    this.toggleWireframeMode(1.0);
-                                } else if (!this.isScrollingForward && !this.isWireframeMode) {
-                                    // Scrolling backward: switch to wireframe
-                                    this.toggleWireframeMode(1.0);
-                                }
-                            }, null, '<=0.3')
                             break;
                         default:
                             break;
                     }
                 }
             })
+            let tlDashboard = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.tech-demo__main',
+                    start: 'bottom bottom+=200%',
+                    end: `bottom bottom+=125%`,
+                    scrub: true,
+                },
+                defaults: {
+                    ease: 'none'
+                }
+            })
+            tlDashboard
+            .fromTo('.tech-demo__canvas', {
+                y: 0,
+            }, {
+                y: $(window).height() * .18,
+                duration: 1
+            }, '<=0')
+            .fromTo('.tech-demo__dash-upper-item.fullitem', {
+                y: $(window).height() * -.18,
+            }, {
+                y: 0,
+                duration: 1
+            }, '<=0')
+            .fromTo('.tech-demo__canvas', {
+                opacity: 1,
+            }, {
+                opacity: 0,
+                duration: .4
+            }, '<=.3')
+            .fromTo('.tech-demo__dash-upper-item.fullitem', {
+                opacity: 0,
+            }, {
+                opacity: 1,
+                duration: .4
+            }, '<=0')
+            .fromTo('.tech-demo__dash-upper-item:not(.fullitem)', {
+                opacity: 0,
+                y: $(window).height() * .09,
+            }, {
+                opacity: 1,
+                y: 0,
+                duration: .4,
+            }, '<=.6')
+            
         } else {
             let pointer = [
                 {

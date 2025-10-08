@@ -180,6 +180,11 @@ img {
         width: 100%;
         object-fit: cover;
     }
+    &-fit {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
     &-abs {
         position: absolute;
         top: 0;
