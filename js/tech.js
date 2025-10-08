@@ -624,28 +624,18 @@ class techDemoWebGL {
                         obj.material = this.matt_propeller;   
                     } else if (objName.includes('container')) {
                         if (objName.includes('large')) {
-                            // Store large container as base model for instancing
                             if (!this.bigContainerBaseModel) {
                                 obj.material = this.matt_container;
                                 this.bigContainerBaseModel = obj.clone();
-                                // this.bigContainerBaseModel.material = this.matt_container;
-                                // this.bigContainerBaseModel.visible = false; // Hide the original
                                 this.containerGrp.push(obj)
                                 console.log(obj.userData.position)
                             }
-                            // Remove original container from scene
-                            // obj.parent.remove(obj);
                         } else if (objName.includes('small')) {
-                            // Store small container as base model for instancing
                             if (!this.smallContainerBaseModel) {
                                 obj.material = this.matt_container;
                                 this.smallContainerBaseModel = obj.clone();
-                                // this.smallContainerBaseModel.material = this.matt_container;
-                                // this.smallContainerBaseModel.visible = false; // Hide the original
                                 this.containerGrp.push(obj)
                             }
-                            // Remove original container from scene
-                            // obj.parent.remove(obj);
                         }
                     } else if (objName.includes('ship')) {
                         console.log(obj.name)
@@ -681,16 +671,16 @@ class techDemoWebGL {
             this.clock = new THREE.Clock()
             
             // Remove duplicate antenna arm objects
-            this.model.traverse((obj) => {
-                if (obj.name === 'Ship_Anten_Arm_2_R' && !this.arm2Right.includes(obj)) {
-                    console.log('Removing duplicate arm2Right')
-                    obj.parent.remove(obj)
-                }
-                if (obj.name === 'Ship_Anten_Arm_2_L' && !this.arm2Left.includes(obj)) {
-                    console.log('Removing duplicate arm2Left')
-                    obj.parent.remove(obj)
-                }
-            })
+            // this.model.traverse((obj) => {
+            //     if (obj.name === 'Ship_Anten_Arm_2_R' && !this.arm2Right.includes(obj)) {
+            //         console.log('Removing duplicate arm2Right')
+            //         obj.parent.remove(obj)
+            //     }
+            //     if (obj.name === 'Ship_Anten_Arm_2_L' && !this.arm2Left.includes(obj)) {
+            //         console.log('Removing duplicate arm2Left')
+            //         obj.parent.remove(obj)
+            //     }
+            // })
             this.scene.add(this.model)
             
             // Create container instances using predefined positions
