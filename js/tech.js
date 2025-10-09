@@ -372,120 +372,6 @@ class techDemoWebGL {
         this.setupPostProcessing();
     }
 
-    // Simple noise function for texture generation
-    noise2D(x, y) {
-        // Simple pseudo-random noise based on sine waves
-        const n = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
-        return n - Math.floor(n);
-    }
-
-    // Perlin-like noise with smoothing
-    smoothNoise(x, y, scale) {
-        const scaledX = x * scale;
-        const scaledY = y * scale;
-
-        const x0 = Math.floor(scaledX);
-        const x1 = x0 + 1;
-        const y0 = Math.floor(scaledY);
-        const y1 = y0 + 1;
-
-        const sx = scaledX - x0;
-        const sy = scaledY - y0;
-
-        // Smooth interpolation
-        const smoothX = sx * sx * (3 - 2 * sx);
-        const smoothY = sy * sy * (3 - 2 * sy);
-
-        const n00 = this.noise2D(x0, y0);
-        const n10 = this.noise2D(x1, y0);
-        const n01 = this.noise2D(x0, y1);
-        const n11 = this.noise2D(x1, y1);
-
-        const nx0 = n00 * (1 - smoothX) + n10 * smoothX;
-        const nx1 = n01 * (1 - smoothX) + n11 * smoothX;
-
-        return nx0 * (1 - smoothY) + nx1 * smoothY;
-    }
-
-    // Generate noise texture with multiple octaves
-    createNoiseTexture() {
-        const size = 512;
-        const canvas = document.createElement('canvas');
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext('2d');
-
-        const imageData = ctx.createImageData(size, size);
-        const data = imageData.data;
-
-        for (let y = 0; y < size; y++) {
-            for (let x = 0; x < size; x++) {
-                const nx = x / size;
-                const ny = y / size;
-
-                // Multi-octave noise for more detail
-                let value = 0;
-                value += this.smoothNoise(nx, ny, 4) * 0.5;    // Large features
-                value += this.smoothNoise(nx, ny, 8) * 0.25;   // Medium features
-                value += this.smoothNoise(nx, ny, 16) * 0.125; // Fine details
-                value += this.smoothNoise(nx, ny, 32) * 0.0625; // Very fine details
-
-                // Normalize to 0-1 range
-                value = value / 0.9375;
-
-                // Add some contrast and brightness adjustment
-                value = Math.pow(value, 1.2); // Increase contrast
-                value = Math.max(0, Math.min(1, value));
-
-                // Remap value from 0-1 to 0.5-1 (grey to white instead of black to white)
-                // This makes the darkest parts 50% grey instead of black
-                value = 0.5 + (value * 0.5);
-
-                // Convert to grayscale
-                const brightness = Math.floor(value * 255);
-
-                const idx = (y * size + x) * 4;
-                data[idx] = brightness;     // R
-                data[idx + 1] = brightness; // G
-                data[idx + 2] = brightness; // B
-                data[idx + 3] = 255;        // A
-            }
-        }
-
-        ctx.putImageData(imageData, 0, 0);
-        return canvas;
-    }
-
-    createPipeTextures() {
-        // Generate noise texture
-        const noiseCanvas = this.createNoiseTexture();
-
-        // Create textures for both pipe types
-        this.pipeTextureTec = new THREE.CanvasTexture(noiseCanvas);
-        this.pipeTextureProp = new THREE.CanvasTexture(noiseCanvas);
-
-        // Configure texture wrapping and filtering to prevent stretching
-        [this.pipeTextureTec, this.pipeTextureProp].forEach(texture => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-
-            // Use maximum anisotropic filtering to reduce stretching
-            texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
-
-            // Set reasonable repeat values to avoid stretching
-            // Adjust these based on your pipe dimensions
-            texture.repeat.set(1, 4); // Less horizontal repeat, more vertical
-
-            // Use high-quality filtering
-            texture.minFilter = THREE.LinearMipmapLinearFilter;
-            texture.magFilter = THREE.LinearFilter;
-            texture.generateMipmaps = true;
-        });
-
-        // Store initial offset for animation
-        this.pipeTextureOffset = 0;
-    }
-
     setupPostProcessing() {
         // Create effect composer
         this.composer = new EffectComposer(this.renderer);
@@ -548,15 +434,11 @@ class techDemoWebGL {
                 metalness: 1,
                 transparent: true,
             })
-            // Create animated noise textures for pipes
-            this.createPipeTextures();
 
             this.matt_pipeTec = new THREE.MeshStandardMaterial({
                 color: new THREE.Color('#00E5FF'),
-                map: this.pipeTextureTec, // Apply noise to base color
                 emissive: new THREE.Color('#00E5FF'),
                 emissiveIntensity: 0,
-                // emissiveMap: this.pipeTextureTec, // Apply noise to emissive for glow pattern
                 toneMapped: false,
                 envMapIntensity: 3,
                 roughness: 0.1,
@@ -566,10 +448,8 @@ class techDemoWebGL {
             })
             this.matt_pipeProp = new THREE.MeshStandardMaterial({
                 color: new THREE.Color('#FF471D'),
-                // map: this.pipeTextureProp, // Apply noise to base color
                 emissive: new THREE.Color('#FF471D'),
                 emissiveIntensity: 0,
-                // emissiveMap: this.pipeTextureProp, // Apply noise to emissive for glow pattern
                 toneMapped: false,
                 envMapIntensity: 2,
                 roughness: .70,
@@ -751,22 +631,6 @@ class techDemoWebGL {
 
             // Animate prop pipe glow (orange) with different timing
             this.matt_pipeProp.emissiveIntensity = (2.75 + Math.sin(time * 3) * .25) * this.glowPipe.value;
-
-            // Animate checkerboard texture moving along the pipes
-            if (this.pipeTextureTec && this.pipeTextureProp) {
-                // Move texture offset to create running animation
-                const speed = 0.15; // Animation speed
-                this.pipeTextureOffset += speed * 0.016; // Assuming ~60fps
-
-                // Update texture offsets (V coordinate for along-pipe movement)
-                this.pipeTextureTec.offset.y = this.pipeTextureOffset;
-                this.pipeTextureProp.offset.y = -this.pipeTextureOffset; // Move in opposite direction
-
-                // Keep offset in reasonable range to prevent precision issues
-                if (Math.abs(this.pipeTextureOffset) > 100) {
-                    this.pipeTextureOffset = this.pipeTextureOffset % 1.0;
-                }
-            }
         }
     }
 
@@ -1077,56 +941,7 @@ class techDemoWebGL {
             }, '<=.6')
 
         } else {
-            let pointer = [
-                {
-                    position: {
-                        x: 85.63897705078125,
-                        y: 14.265151023864746,
-                        z: -68.48991394042969
-                    },
-                    lookAt: {
-                        x: 55.7516,
-                        y: 16.9304,
-                        z: -1.35464
-                    }
-                },
-                {
-                    position: {
-                        x: -50.3858,
-                        y: 4.16929,
-                        z: -30.9227,
-                    },
-                    lookAt: {
-                        x: -11.2134,
-                        y: 1.46543,
-                        z: -1.014547,
-                    }
-                },
-                {
-                    position: {
-                        x: -72.182,
-                        y: 58.6084,
-                        z: 90.1051
-                    },
-                    lookAt: {
-                        x: 0.3448,
-                        y: -4.2503,
-                        z: 0.056603
-                    }
-                },
-                {
-                    position: {
-                        x: -20.182,
-                        y: 12.6084,
-                        z: 10.1051
-                    },
-                    lookAt: {
-                        x: 0.65,
-                        y: 6.7503,
-                        z: 0.056603
-                    }
-                }
-            ]
+            const numItems = $('.tech-demo__main-item').length;
             let activeIndex = 0;
             let prog;
             let tl = gsap.timeline({
@@ -1136,25 +951,18 @@ class techDemoWebGL {
                     end: 'bottom top+=50%',
                     scrub: true,
                     snap: {
-                        snapTo: [.125, .375, .625, .875],
+                        snapTo: Array.from({length: numItems}, (_, i) => (i + 0.5) / numItems),
                         duration: { min: 0.2, max: 3 },
                         delay: 0.1,
-                        onComplete: (self) => {
-
-                        }
                     },
                     onUpdate: (self) => {
                         this.camera.lookAt( this.lookAtTarget );
                         prog = self.progress.toFixed(2);
-                        if (prog <= .25) {
-                            activeIndex = 0
-                        } else if (prog > .25 && prog <= .5) {
-                            activeIndex = 1
-                        } else if (prog > .5 && prog <= .75) {
-                            activeIndex = 2
-                        } else if (prog > .75) {
-                            activeIndex = 3
-                        }
+                        let step = 1 / numItems;
+                        activeIndex = Math.min(
+                            Math.floor(prog / step),
+                            numItems - 1
+                        );
                         $('.tech-demo__main-item').removeClass('active')
                         $('.tech-demo__main-item').eq(activeIndex).addClass('active')
                     },
