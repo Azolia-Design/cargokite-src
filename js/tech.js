@@ -1649,6 +1649,30 @@ function techDemo() {
         })
     }
 }
+function techIntro() {
+    $('.tech-intro__main').each((_, el) => {
+        const techIntroTitle = new SplitText($(el).find('.tech-intro__title'), typeOpts.words)
+        const techIntroSub = new SplitText($(el).find('.tech-intro__sub'), typeOpts.words)
+        const techIntroTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: $(el).find('.tech-intro__title'),
+                start: 'top top+=75%',
+            },
+            onComplete: () => {
+                techIntroTitle.revert()
+                new SplitText($(el).find('.tech-intro__title'), typeOpts.lines)
+                techIntroSub.revert()
+            }
+        })
+        gsap.set($(el).find('.tech-intro__main-img'), {clipPath: 'inset(10%)'})
+        gsap.set($(el).find('.tech-intro__main-img img'), {scale: 1.4, autoAlpha: 0 })
+        techIntroTl
+            .to($(el).find('.tech-intro__main-img'), { clipPath: 'inset(0%)', duration: 1, ease: 'expo.out'}, '0')
+            .to($(el).find('.tech-intro__main-img img'), { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'transform'}, '<=0')
+            .from(techIntroTitle.words, { yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02 }, '<=0')
+            .from(techIntroSub.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02}, '<=.2')
+    })
+}
 function techMap() {
     function reverseLineStringCoordinates(lineString) {
         const reversedCoordinates = lineString.coordinates.map(coord => [coord[1], coord[0]]);
@@ -1803,12 +1827,12 @@ function techMap() {
 
         if (geojsonData) {
             $(updateButton).removeClass('loading');
-            if (!$('.tech-map__map').hasClass('active') && $(window).width() > 767) {
-                $('.tech-map__chart').slideDown(400, function() {
+            if (!$('.tech-intro__map-main').hasClass('active') && $(window).width() > 767) {
+                $('.tech-intro__map-chart').slideDown(400, function() {
                     map.invalidateSize();
                     plotRoute(map, geojsonData);
                 });
-                $('.tech-map__map').addClass('active');
+                $('.tech-intro__map-main').addClass('active');
             }
             else {
                 plotRoute(map, geojsonData);
@@ -1818,7 +1842,7 @@ function techMap() {
         }
     });
     function createChart(svgId, dataY, color, yStep, xStep) {
-        const svg = document.querySelector(`.tech-map__chart[data-chart="${svgId}"] svg`);
+        const svg = document.querySelector(`.tech-intro__map-chart[data-chart="${svgId}"] svg`);
         const width = 390;
         const height = 230;
         const padding = { top: 20, right: 20, bottom: 25, left: 35 };
@@ -1960,8 +1984,8 @@ function techMap() {
                     createPortItem(adjId, template).appendTo('.input-wrap-end .input-drop-inner')
                 })
                 $('.input-wrap-end .input-field').attr('disabled', !adjacencyData[id]);
-                $('.tech-map__submit').addClass('disable');
-                $('.tech-map__submit').attr('disabled', true)
+                $('.tech-intro__map-submit').addClass('disable');
+                $('.tech-intro__map-submit').attr('disabled', true)
                 $('.input-wrap-end .input-field').val('');
                 $('.input-wrap-end .input-hidden').val('');
             } else {
@@ -1971,8 +1995,8 @@ function techMap() {
                         $(el).addClass('hidden-dup')
                     }
                 })
-                $('.tech-map__submit').removeClass('disable');
-                $('.tech-map__submit').attr('disabled', false)
+                $('.tech-intro__map-submit').removeClass('disable');
+                $('.tech-intro__map-submit').attr('disabled', false)
             }
         })
         return html;
@@ -1982,16 +2006,16 @@ function techMap() {
         let template = $('.port-item').eq(0).clone();
         $('.input-drop-inner').empty();
 
-        $('.tech-map__submit').addClass('disable');
-        $('.tech-map__submit').attr('disabled', true);
+        $('.tech-intro__map-submit').addClass('disable');
+        $('.tech-intro__map-submit').attr('disabled', true);
         $('.input-wrap-end .input-field').attr('disabled', true);
         Object.keys(portLookup).forEach((id) => {
             createPortItem(id, template).appendTo('.input-wrap-start .input-drop-inner')
         })
     }
     updatePortList()
-    $(window).width() > 767 && $('.tech-map__chart').slideUp();
-    let techMapInput = $('.tech-map .input-field');
+    $(window).width() > 767 && $('.tech-intro__map-chart').slideUp();
+    let techMapInput = $('.tech-intro .input-field');
 
     techMapInput.on('keyup', function(e) {
         let itemList = $(this).closest('.input-wrap').find('.port-item');
@@ -2026,23 +2050,27 @@ function techMap() {
 
 }
 function techMapInteraction() {
-    const techMapTitle = new SplitText('.tech-map__title', typeOpts.words)
-    const techMapSub = new SplitText('.tech-map__sub', typeOpts.words)
+    const techMapTitle = new SplitText('.tech-intro__map__title', typeOpts.words)
+    const techMapSub = new SplitText('.tech-intro_map__sub', typeOpts.words)
     const techMapTl = gsap.timeline({
         scrollTrigger: {
-            trigger: '.tech-map__head',
+            trigger: '.tech-intro__map-head',
             start: 'top top+=65%',
         },
         onComplete: () => {
             techMapTitle.revert()
-            new SplitText('.tech-map__title', typeOpts.lines)
+            new SplitText('.tech-intro__map-title', typeOpts.lines)
             techMapSub.revert()
         }
     })
+    gsap.set('.tech-intro__map-main', {clipPath: 'inset(10%)'})
+    gsap.set('.tech-intro__map-main-inner', {scale: 1.4, autoAlpha: 0 })
     techMapTl
-    .from(techMapTitle.words, {yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02})
-    .from(techMapSub.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02}, '<=.2')
-    .from('.tech-map__form > *', {yPercent: 25, autoAlpha: 0, duration: .6, stagger: .2, clearProps: 'all'}, '>=-.2')
+        .to('.tech-intro__map-main', { clipPath: 'inset(0%)', duration: 1, ease: 'expo.out'}, '0')
+        .to('.tech-intro__map-main-inner', { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'transform, opacity'}, '<=0')
+        .from(techMapTitle.words, {yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02}, "<=0")
+        .from(techMapSub.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02}, '<=.2')
+        .from('.tech-intro__map-form > *', {yPercent: 25, autoAlpha: 0, duration: .6, stagger: .2, clearProps: 'all'}, '>=-.2')
 }
 function techControl() {
     const techControlTitle = new SplitText('.tech-control__title', typeOpts.words)
@@ -2092,6 +2120,7 @@ const techScript = {
             techMap()
             techMapInteraction()
             techControl()
+            techIntro();
         }, 100);
     },
     beforeLeave() {

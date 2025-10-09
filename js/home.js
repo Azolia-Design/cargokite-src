@@ -101,7 +101,7 @@ class homeHeroWebGL {
                 }
                 this.model.scale.set(scaleFactorShip,scaleFactorShip,scaleFactorShip)
                 this.model.position.y = -this.viewport.height * .293 * 1;
-                this.model.position.x = this.viewport.width * -.0018;
+                this.model.position.x = this.viewport.width * 0.0045;
                 this.scene.environment = this.hdri;
                 this.orangeMat = new THREE.MeshStandardMaterial({
                     color: new THREE.Color('#FF471D'),

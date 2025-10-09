@@ -666,7 +666,8 @@
                             </h2>
                             <p class="txt txt-18 tech-intro__sub">
                                 Crafted from the ground up, our vessel architecture is entirely proprietary—engineered to harness the full potential of kite propulsion. Drawing from the precision and agility of high-performance sailing, we translate elite maritime design principles into scalable solutions for commercial shipping.
-                                <br/>
+                            </p>
+                            <p class="txt txt-18 tech-intro__sub">
                                 But it's more than just a ship—it's a platform. Designed with adaptability at its core, it's ready to accommodate larger kite systems, integrate advanced autonomy software, and transition to alternative fuels—all without major structural modifications. This is performance built to evolve.
                             </p>
                         </div>
@@ -683,59 +684,41 @@
                             </h2>
                             <p class="txt txt-18 tech-intro__sub">
                                 Our vessel is built for autonomy from the keel up. At its core is our proprietary kite controller, complemented by a modular, scalable software architecture that enables real-time decision-making, smooth coordination across onboard systems, and secure data handling throughout the vessel's digital backbone.
-                                <br/>
+                            </p>
+                            <p class="txt txt-18 tech-intro__sub">
                                 Seamless hardware integration ensures that sensors, actuators, and embedded electronics operate as a unified system—translating data into action with precision.
                             </p>
                         </div>
                         <div class="tech-intro__main-img">
-                            <img src="./imgs/tech-intro-vesel.jpg?width=692" alt="Proprietary Vessel Intelligence" width="692" height="523">
+                            <img src="./imgs/tech-intro-2.jpg?width=692" alt="Proprietary Vessel Intelligence" width="692" height="523">
                         </div>
                     </div>
                 </div>
-                <div class="tech-intro__main">
+                <div class="tech-intro__map" id="route">
                     <div class="container grid">
-                        <div class="tech-intro__main-text">
-                            <h2 class="heading h3 tech-intro__title">
-                                Fleet Optimization
-                            </h2>
-                            <p class="txt txt-18 tech-intro__sub">
-                                Our vessel class breaks with convention. Instead of scaling up, we scale smart—with ships sized at < 1000 standard containers. This shift enables a distributed fleet model where multiple agile vessels replace a single mega-ship. The result: more frequent port calls, faster point-to-point transport, and flexible capacity allocation across trades to match seasonal demand.
-                                <br/>
-                                Behind the scenes, our coordination algorithm takes orders—each with its own origin, destination, and time window—and dynamically assigns them across the fleet. It's logistics reimagined: responsive, efficient, and built for a world that demands flexibility.
-                            </p>
-                        </div>
-                        <div class="tech-intro__main-img">
-                            <img src="./imgs/tech-intro-vesel.jpg?width=692" alt="Fleet Optimization" width="692" height="523">
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="tech-map" id="route">
-                <div class="container grid">
-                    <div class="tech-map__main">
-                        <div class="tech-map__map">
-                            <div class="tech-map__map-inner" id="techMap" data-logo-main="mix-mb"></div>
-                            <div class="tech-map__chart" data-chart="cumulative-duration">
-                                <h3 class="txt txt-12 txt-med tech-map__chart-title">
+                        <div class="tech-intro__map-main">
+                            <div class="tech-intro__map-main-inner" id="techMap" data-logo-main="mix-mb"></div>
+                            <div class="tech-intro__map-chart" data-chart="cumulative-duration">
+                                <h3 class="txt txt-12 txt-med tech-intro__map-chart-title">
                                     Cumulative duration (Hours)
                                 </h3>
                                 <svg></svg>
                             </div>
-                            <div class="tech-map__chart" data-chart="kite-usage">
-                                <h3 class="txt txt-12 txt-med tech-map__chart-title">
+                            <div class="tech-intro__map-chart" data-chart="kite-usage">
+                                <h3 class="txt txt-12 txt-med tech-intro__map-chart-title">
                                     Kite usage over time
                                 </h3>
                                 <svg></svg>
                             </div>
                         </div>
-                        <div class="tech-map__head">
-                            <h2 class="heading h3 tech-map__title">
+                        <div class="tech-intro__map-head">
+                            <h2 class="heading h3 tech-intro__map-title">
                                 Route <br>Planning Tool
                             </h2>
-                            <p class="txt txt-18 tech-map__sub">
+                            <p class="txt txt-18 tech-intro__map-sub">
                                 Our in-house-developed system calculates the optimal routes for CargoKite ships based on real-time weather conditions, ensuring efficient and safe navigation. Additionally, it excels in providing highly accurate Estimated Time of Arrival (ETA) predictions, allowing for precise planning and scheduling.
                             </p>
-                            <div class="tech-map__form">
+                            <div class="tech-intro__map-form">
                                 <div class="input-wrap input-wrap-start">
                                     <div class="icon icon-24 input-icon">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -776,8 +759,8 @@
                                         <div class="txt txt-16 port-item-empty-txt">No port found</div>
                                     </div>
                                 </div>
-                                <button class="btn btn-pri btn-lg tech-map__submit" id="updateRoute">
-                                    <div class="tech-map__submit-icon">
+                                <button class="btn btn-pri btn-lg tech-intro__map-submit" id="updateRoute">
+                                    <div class="tech-intro__map-submit-icon">
                                         <div class="icon icon-20">
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M17 10C17 6.13401 13.866 3 10 3C6.13401 3 3 6.13401 3 10C3 13.866 6.13401 17 10 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -787,6 +770,24 @@
                                     <span class="txt txt-18">See the route</span>
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tech-intro__main">
+                    <div class="container grid">
+                        <div class="tech-intro__main-text">
+                            <h2 class="heading h3 tech-intro__title">
+                                Fleet Optimization
+                            </h2>
+                            <p class="txt txt-18 tech-intro__sub">
+                                Our vessel class breaks with convention. Instead of scaling up, we scale smart—with ships sized at < 1000 standard containers. This shift enables a distributed fleet model where multiple agile vessels replace a single mega-ship. The result: more frequent port calls, faster point-to-point transport, and flexible capacity allocation across trades to match seasonal demand.
+                            </p>
+                            <p class="txt txt-18 tech-intro__sub">
+                                Behind the scenes, our coordination algorithm takes orders—each with its own origin, destination, and time window—and dynamically assigns them across the fleet. It's logistics reimagined: responsive, efficient, and built for a world that demands flexibility.
+                            </p>
+                        </div>
+                        <div class="tech-intro__main-img">
+                            <img src="./imgs/tech-intro-vesel.jpg?width=692" alt="Fleet Optimization" width="692" height="523">
                         </div>
                     </div>
                 </div>
