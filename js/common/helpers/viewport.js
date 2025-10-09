@@ -21,14 +21,11 @@ const viewportBreak = (options) => {
     const { md, sm, xs } = options;
     let result;
     switch (true) {
-        case viewport.width <= device.sm:
+        case viewport.width < 768:
             result = xs;
             break;
-        case viewport.width <= device.md:
+        case viewport.width < 992:
             result = sm;
-            break;
-        case viewport.width <= device.lg:
-            result = md;
             break;
         default:
             result = md;
