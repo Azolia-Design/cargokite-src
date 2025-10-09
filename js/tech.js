@@ -111,13 +111,13 @@ class techDemoWebGL {
                 {
                     x: viewportBreak({ md: 89.3979, sm: 89.3979}),
                     y: viewportBreak({ md: 44.3087, sm: 44.3087}),
-                    z: -1.35464 
+                    z: -1.35464
                 },
                 // LookAt 1 Kite
                 {
                     x: viewportBreak({ md: 73.3979, sm: 73.3979}),
                     y: viewportBreak({ md: 44.3087, sm: 44.3087}),
-                    z: -1.35464 
+                    z: -1.35464
                 },
                 // LookAt 2 Hull
                 {
@@ -1075,7 +1075,7 @@ class techDemoWebGL {
                 y: 0,
                 duration: .4,
             }, '<=.6')
-            
+
         } else {
             let pointer = [
                 {
@@ -2175,7 +2175,8 @@ function techMap() {
         $('.input-drop-inner').empty();
 
         $('.tech-map__submit').addClass('disable');
-        $('.tech-map__submit').attr('disabled', true)
+        $('.tech-map__submit').attr('disabled', true);
+        $('.input-wrap-end .input-field').attr('disabled', true);
         Object.keys(portLookup).forEach((id) => {
             createPortItem(id, template).appendTo('.input-wrap-start .input-drop-inner')
         })
