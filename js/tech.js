@@ -2150,8 +2150,8 @@ function techMap() {
 
 }
 function techMapInteraction() {
-    const techMapTitle = new SplitText('.tech-intro__map__title', typeOpts.words)
-    const techMapSub = new SplitText('.tech-intro_map__sub', typeOpts.words)
+    const techMapTitle = new SplitText('.tech-intro__map-title', typeOpts.words)
+    const techMapSub = new SplitText('.tech-intro__map-sub', typeOpts.words)
     const techMapTl = gsap.timeline({
         scrollTrigger: {
             trigger: '.tech-intro__map-head',

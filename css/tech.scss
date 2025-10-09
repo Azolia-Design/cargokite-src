@@ -133,7 +133,7 @@
             grid-area: span 1 / span 2;
         }
         &-inner {
-
+            aspect-ratio: 1.77783 / 1;
             //width: 24%;
             width: calc(28.5714% - 1.42857rem);
             margin-right: calc(-7.14286% - .142857rem);
@@ -441,6 +441,7 @@
         z-index: 1;
         padding-block: 12rem 4rem;
         overflow: hidden;
+        padding-inline: 4rem;
         @include sm {
             opacity: 0;
         }
@@ -534,7 +535,7 @@
                 }
             }
             &-img {
-                grid-column: 9/16;
+                grid-column: 8/16;
                 @include md {
                     grid-column: 7/-1;
                     height: 100%;
@@ -555,7 +556,7 @@
                 }
             }
             &-img {
-                grid-column: 2/9;
+                grid-column: 2/10;
                 @include md {
                     grid-column: 1/7;
                 }
@@ -571,7 +572,11 @@
             }
         }
         &-img {
-            height: 52.3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            min-height: 52.3rem;
             @include md {
                 height: 35.3rem;
             }
