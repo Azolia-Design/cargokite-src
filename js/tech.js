@@ -335,7 +335,7 @@ class techDemoWebGL {
         window.addEventListener('resize', this.onWindowResize.bind(this))
         //camera
         let fov = (Math.atan(this.viewport.height / 2 / this.perspective) * 2) * 180 / Math.PI;
-        fov = this.viewport.width > 767 ? 32.26880414280885 : 32.26880414280885 * 1;
+        fov = 32.26880414280885;
         this.camera = new THREE.PerspectiveCamera(fov, this.viewport.aspectRatio, 0.1, 10000);
 
         if ($(window).width() > 767) {
@@ -939,7 +939,6 @@ class techDemoWebGL {
                 y: 0,
                 duration: .4,
             }, '<=.6')
-
         } else {
             let pointer = [
                 {
@@ -1015,6 +1014,7 @@ class techDemoWebGL {
                     }
                 },
             ]
+            let lastProgress = 0;
             let numItems = pointer.length;
             let activeIndex = 0;
             let prog;
@@ -1031,6 +1031,19 @@ class techDemoWebGL {
                     },
                     onUpdate: (self) => {
                         this.camera.lookAt( this.lookAtTarget );
+                        // Track scroll direction
+                        const currentProgress = self.progress;
+                        const isScrollingForward = currentProgress > lastProgress;
+                        lastProgress = currentProgress;
+
+                        // Store scroll direction for use in waypoint cases
+                        this.isScrollingForward = isScrollingForward;
+                        if (this.matt_container.opacity > 0.01) {
+                            this.matt_container.visible = true
+                        } else {
+                            this.matt_container.visible = false
+                        }
+
                         prog = self.progress.toFixed(2);
                         let step = 1 / numItems;
                         activeIndex = Math.min(
@@ -1057,109 +1070,357 @@ class techDemoWebGL {
                     ease: 'none'
                 }
             })
-            tl
-            //Start
-            .to('.popup', { duration: .5 })
-            .addLabel("demo0")
-            .to(this.camera.position, {
-                x: pointer[1].position.x,
-                y: pointer[1].position.y,
-                z: pointer[1].position.z,
-                duration: 1
-            })
-            .to(this.lookAtTarget, {
-                x: pointer[1].lookAt.x,
-                y: pointer[1].lookAt.y,
-                z: pointer[1].lookAt.z,
-                duration: 1
-            }, '<=0')
-            .addLabel("demo1")
-            .to(this.camera.position, {
-                x: pointer[2].position.x,
-                y: pointer[2].position.y,
-                z: pointer[2].position.z,
-                duration: 1
-            })
-            .to(this.lookAtTarget, {
-                x: pointer[2].lookAt.x,
-                y: pointer[2].lookAt.y,
-                z: pointer[2].lookAt.z,
-                duration: 1
-            }, '<=0')
-            this.containerGrp.forEach((el, idx) => {
-                let delayTime;
-                if (idx == 0) {
-                    delayTime = '<=.4'
-                } else {
-                    delayTime = '<=0'
-                }
-                // Use original y position to calculate offset and avoid overlapping
-                const originalY = el.userData.originalPosition ? el.userData.originalPosition.y : 0;
-                const randomOffset = 3 * (Math.random() - 0.5) * 2;
-                const baseOffset = 10;
-                const yMultiplier = originalY > 0 ? originalY * 0.3 : 0;
-                const offsetY = originalY + baseOffset + yMultiplier + randomOffset;
-                tl.to(el.position, {
-                    y: `${offsetY}`,
-                    duration: .6,
-                }, delayTime)
-                .to(el.material, {
-                    opacity: 0,
-                    duration: .6
-                }, '<=0')
-            })
-            tl.addLabel("demo2")
-            tl.to(this.camera.position, {
-                x: pointer[3].position.x,
-                y: pointer[3].position.y,
-                z: pointer[3].position.z,
-                duration: 1
-            })
-            .to(this.matt_default, {
-                opacity: 0,
-                duration: 1,
-            }, '<=0')
-            .to(this.lookAtTarget, {
-                x: pointer[3].lookAt.x,
-                y: pointer[3].lookAt.y,
-                z: pointer[3].lookAt.z,
-                duration: 1
-            }, '<=0')
-            .addLabel("demo3")
-            .to(this.camera.position, {
-                x: pointer[4].position.x,
-                y: pointer[4].position.y,
-                z: pointer[4].position.z,
-                duration: 1
-            })
-            .to(this.lookAtTarget, {
-                x: pointer[4].lookAt.x,
-                y: pointer[4].lookAt.y,
-                z: pointer[4].lookAt.z,
-                duration: 1
-            }, '<=0')
-            .addLabel("demo4")
-            .to(this.camera.position, {
-                x: pointer[5].position.x,
-                y: pointer[5].position.y,
-                z: pointer[5].position.z,
-                duration: 1
-            })
-            .to(this.lookAtTarget, {
-                x: pointer[5].lookAt.x,
-                y: pointer[5].lookAt.y,
-                z: pointer[5].lookAt.z,
-                duration: 1
-            }, '<=0')
-            .addLabel("demo5")
 
-            //End
-            .to('.popup', { duration: .5 })
+            tl.set([this.matt_tech, this.matt_container, this.matt_pipeTec], {
+                opacity: 0,
+            })
+            .set([this.matt_propeller.color, this.matt_pipeProp.color, this.matt_pipeProp.emissive, this.matt_pipeTec.color, this.matt_pipeTec.emissive], {
+                r: new THREE.Color('#2B2C2F').r,
+                g: new THREE.Color('#2B2C2F').g,
+                b: new THREE.Color('#2B2C2F').b,
+            })
+            .set(this.matt_pipeProp, {
+                envMapIntensity: 2,
+                roughness: .7,
+                metalness: 1,
+            })
+            this.waypointPos.camera.forEach((waypoint, idx) => {
+                if (idx !== 0 ) {
+                    tl.to(this.camera.position, {
+                        ...this.waypointPos.camera[idx],
+                        duration: 1
+                    })
+                    .to(this.lookAtTarget, {
+                        ...this.waypointPos.target[idx],
+                        duration: 1
+                    }, '<=0')
+                    // if ( idx !== 1 || idx !== this.waypointPos.length - 1) {
+                    //     tl
+                    //     .addLabel(`demo${idx - 1}`)
+                    // }
+                    switch (idx) {
+                        case 2: //parachute
+                            tl.fromTo(this.matt_parachute.color, {
+                                r: new THREE.Color('#FF471D').r,
+                                g: new THREE.Color('#FF471D').g,
+                                b: new THREE.Color('#FF471D').b,
+                            }, {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                                duration: .6
+                            }, '<=0')
+                            .fromTo(this.matt_parachute, {
+                                envMapIntensity: 4,
+                                roughness: .35,
+                                metalness: 0
+                            }, {
+                                envMapIntensity: 2,
+                                roughness: .70,
+                                metalness: 1,
+                                duration: .6
+                            }, '<=0')
+                            break
+                        case 3: //container
+                            tl.fromTo(this.matt_container, {
+                                opacity: 0,
+                            }, {
+                                opacity: 1,
+                                duration: .4,
+                            }, '<=.2')
+                            this.containerGrp.forEach((el, idx) => {
+                                let delayTime;
+                                if (idx == 0) {
+                                    delayTime = '<=0'
+                                } else {
+                                    delayTime = '<=0'
+                                }
+                                // Use original y position to calculate offset and avoid overlapping
+                                const originalY = el.userData.originalPosition ? el.userData.originalPosition.y : 0;
+                                const randomOffset = 10 * Math.random();
+                                const baseOffset = 20;
+                                const yMultiplier = originalY > 0 ? originalY * 0.5 : 0;
+                                const offsetY = originalY + baseOffset + yMultiplier + randomOffset;
+                                tl.from(el.position, {
+                                    y: `${offsetY}`,
+                                    duration: .4,
+                                }, delayTime)
+                            })
+                            this.armRight.forEach((el, idx) => {
+                                tl.to(el.rotation, {
+                                    x: (Math.PI / 180) * 95,
+                                    duration: .4,
+                                }, idx == 0 ? '<=.2' : '<=0')
+                            })
+
+                            this.armLeft.forEach((el, idx) => {
+                                tl.to(el.rotation, {
+                                x: (Math.PI / 180) * -95,
+                                duration: .4,
+                            }, '<=0')
+                            })
+                            this.arm2Right.forEach((el, idx) => {
+                                tl.to(el.rotation, {
+                                x: (Math.PI / 180) * 166,
+                                duration: .4,
+                            }, idx == 0 ? '<=.2' : '<=0')
+                            })
+                            this.arm2Left.forEach((el, idx) => {
+                                tl.to(el.rotation, {
+                                    x: (Math.PI / 180) * 166,
+                                    duration: .4,
+                                }, '<=0')
+                            })
+                            break;
+                        case 4: //propeller
+                            tl.fromTo(this.matt_propeller.color, {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                            }, {
+                                r: new THREE.Color('#FF471D').r,
+                                g: new THREE.Color('#FF471D').g,
+                                b: new THREE.Color('#FF471D').b,
+                                duration: .6
+                            }, '<=.2')
+                            .fromTo(this.propellerSpeed, {value: 1}, {value: 2, duration: .6}, '<=.2')
+                            this.containerGrp.forEach((el, idx) => {
+                                let delayTime;
+                                if (idx == 0) {
+                                    delayTime = '<=0'
+                                } else {
+                                    delayTime = '<=0'
+                                }
+                                tl.fromTo(this.matt_container, {
+                                    opacity: 1,
+                                }, {
+                                    opacity: 0,
+                                    duration: .4,
+                                }, delayTime)
+                            })
+
+                            // Add wireframe toggle for case 4 - handle scroll direction
+                            tl.call(() => {
+                                if (this.isScrollingForward && !this.isWireframeMode) {
+                                    // Scrolling forward: switch to wireframe
+                                    this.toggleWireframeMode(1.0);
+                                } else if (!this.isScrollingForward && this.isWireframeMode) {
+                                    // Scrolling backward: switch to solid
+                                    this.toggleWireframeMode(1.0);
+                                }
+                            }, null, '<=0.3')
+                            break;
+                        case 5: //tech
+                            tl.fromTo([this.matt_tech, this.matt_pipeTec], {
+                                opacity: 0,
+                            }, {
+                                opacity: 1,
+                                duration: .6,
+                            }, '<=0')
+                            .fromTo(this.matt_pipeProp, {
+                                envMapIntensity: 2,
+                                roughness: .7,
+                                metalness: 1,
+                            }, {
+                                envMapIntensity: 3,
+                                roughness: 0.1,
+                                metalness: 0.9,
+                                duration: .6,
+                            }, '<=0')
+
+                            tl.fromTo([this.matt_tech.color, this.matt_pipeProp.color, this.matt_pipeProp.emissive], {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                            }, {
+                                r: new THREE.Color('#FF471D').r,
+                                g: new THREE.Color('#FF471D').g,
+                                b: new THREE.Color('#FF471D').b,
+                                duration: .6,
+                            }, '<=0')
+                            .fromTo([this.matt_pipeTec.color, this.matt_pipeTec.emissive], {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                            }, {
+                                r: new THREE.Color('#00E5FF').r,
+                                g: new THREE.Color('#00E5FF').g,
+                                b: new THREE.Color('#00E5FF').b,
+                                duration: .6,
+                            }, '<=0')
+                            .fromTo(this.glowPipe, {
+                                value: 0,
+                            }, {
+                                value: 1,
+                                duration: .6,
+                            }, '<=0')
+                            break;
+                        case 6: //end
+                        
+                            // Handle scroll direction for case 6
+                            tl.fromTo([this.matt_propeller.color, this.matt_pipeProp.color, this.matt_pipeProp.emissive], {
+                                r: new THREE.Color('#FF471D').r,
+                                g: new THREE.Color('#FF471D').g,
+                                b: new THREE.Color('#FF471D').b,
+                            }, {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                                duration: .6,
+                            }, '<=.4')
+                            .fromTo([this.matt_pipeTec.color, this.matt_pipeTec.emissive], {
+                                r: new THREE.Color('#00E5FF').r,
+                                g: new THREE.Color('#00E5FF').g,
+                                b: new THREE.Color('#00E5FF').b,
+                            }, {
+                                r: new THREE.Color('#2B2C2F').r,
+                                g: new THREE.Color('#2B2C2F').g,
+                                b: new THREE.Color('#2B2C2F').b,
+                                duration: .6,
+                            }, '<=0')
+                            .fromTo([this.matt_tech, this.matt_pipeTec, this.matt_pipeProp], {
+                                opacity: 1
+                            }, {
+                                opacity: 0,
+                                duration: .6,
+                            }, '<=0')
+                            .fromTo('.tech-demo__canvas', {
+                                opacity: 1,
+                                y: 0,
+                            }, {
+                                y: $(window).height() * -.25,
+                                opacity: 0,
+                                duration: .6
+                            }, '<=.3')
+                            .fromTo('.tech-demo__dash-upper-item', {
+                                opacity: 0,
+                            }, {
+                                opacity: 1,
+                                duration: .6
+                            }, '<=0')
+                            .fromTo(this.matt_pipeProp, {
+                                envMapIntensity: 3,
+                                roughness: 0.1,
+                                metalness: 0.9,
+                            }, {
+                                envMapIntensity: 2,
+                                roughness: .7,
+                                metalness: 1,
+                                duration: .6,
+                            }, '<=0')
+                            
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            })
+
+            // tl
+            // //Start
+            // .to('.popup', { duration: .5 })
+            // .addLabel("demo0")
+            // .to(this.camera.position, {
+            //     x: pointer[1].position.x,
+            //     y: pointer[1].position.y,
+            //     z: pointer[1].position.z,
+            //     duration: 1
+            // })
+            // .to(this.lookAtTarget, {
+            //     x: pointer[1].lookAt.x,
+            //     y: pointer[1].lookAt.y,
+            //     z: pointer[1].lookAt.z,
+            //     duration: 1
+            // }, '<=0')
+            // .addLabel("demo1")
+            // .to(this.camera.position, {
+            //     x: pointer[2].position.x,
+            //     y: pointer[2].position.y,
+            //     z: pointer[2].position.z,
+            //     duration: 1
+            // })
+            // .to(this.lookAtTarget, {
+            //     x: pointer[2].lookAt.x,
+            //     y: pointer[2].lookAt.y,
+            //     z: pointer[2].lookAt.z,
+            //     duration: 1
+            // }, '<=0')
+            // this.containerGrp.forEach((el, idx) => {
+            //     let delayTime;
+            //     if (idx == 0) {
+            //         delayTime = '<=.4'
+            //     } else {
+            //         delayTime = '<=0'
+            //     }
+            //     // Use original y position to calculate offset and avoid overlapping
+            //     const originalY = el.userData.originalPosition ? el.userData.originalPosition.y : 0;
+            //     const randomOffset = 3 * (Math.random() - 0.5) * 2;
+            //     const baseOffset = 10;
+            //     const yMultiplier = originalY > 0 ? originalY * 0.3 : 0;
+            //     const offsetY = originalY + baseOffset + yMultiplier + randomOffset;
+            //     tl.to(el.position, {
+            //         y: `${offsetY}`,
+            //         duration: .6,
+            //     }, delayTime)
+            //     .to(el.material, {
+            //         opacity: 0,
+            //         duration: .6
+            //     }, '<=0')
+            // })
+            // tl.addLabel("demo2")
+            // tl.to(this.camera.position, {
+            //     x: pointer[3].position.x,
+            //     y: pointer[3].position.y,
+            //     z: pointer[3].position.z,
+            //     duration: 1
+            // })
+            // .to(this.matt_default, {
+            //     opacity: 0,
+            //     duration: 1,
+            // }, '<=0')
+            // .to(this.lookAtTarget, {
+            //     x: pointer[3].lookAt.x,
+            //     y: pointer[3].lookAt.y,
+            //     z: pointer[3].lookAt.z,
+            //     duration: 1
+            // }, '<=0')
+            // .addLabel("demo3")
+            // .to(this.camera.position, {
+            //     x: pointer[4].position.x,
+            //     y: pointer[4].position.y,
+            //     z: pointer[4].position.z,
+            //     duration: 1
+            // })
+            // .to(this.lookAtTarget, {
+            //     x: pointer[4].lookAt.x,
+            //     y: pointer[4].lookAt.y,
+            //     z: pointer[4].lookAt.z,
+            //     duration: 1
+            // }, '<=0')
+            // .addLabel("demo4")
+            // .to(this.camera.position, {
+            //     x: pointer[5].position.x,
+            //     y: pointer[5].position.y,
+            //     z: pointer[5].position.z,
+            //     duration: 1
+            // })
+            // .to(this.lookAtTarget, {
+            //     x: pointer[5].lookAt.x,
+            //     y: pointer[5].lookAt.y,
+            //     z: pointer[5].lookAt.z,
+            //     duration: 1
+            // }, '<=0')
+            // .addLabel("demo5")
+
+            // //End
+            // .to('.popup', { duration: .5 })
 
             $('.tech-demo__main-item-toggle').on('click', function(e) {
                 e.preventDefault()
-                $('.tech-demo__popup-item').eq(activeIndex).addClass('active')
-                console.log(activeIndex)
+                let currentIdx = $('.tech-demo__main-item').index($(this).closest('.tech-demo__main-item'));
+                console.log(currentIdx)
+                $('.tech-demo__popup-item').eq(currentIdx).addClass('active')
+                console.log(currentIdx)
             })
             $('.tech-demo__popup-close').on('click', function(e) {
                 e.preventDefault()
@@ -1167,12 +1428,12 @@ class techDemoWebGL {
                 console.log(activeIndex)
             })
 
-            $('.tech-demo__main-item-title').on('click', function(e) {
-                e.preventDefault();
-                let target = $(this).closest('.tech-demo__main-item').index();
-                //console.log(target)
-                lenis.scrollTo(tl.scrollTrigger.labelToScroll(`demo${target}`), {force: true})
-            })
+            // $('.tech-demo__main-item-title').on('click', function(e) {
+            //     e.preventDefault();
+            //     let target = $(this).closest('.tech-demo__main-item').index();
+            //     //console.log(target)
+            //     lenis.scrollTo(tl.scrollTrigger.labelToScroll(`demo${target}`), {force: true})
+            // })
         }
     }
     init() {
