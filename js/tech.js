@@ -2017,7 +2017,7 @@ function techIntro() {
         const techIntroTl = gsap.timeline({
             scrollTrigger: {
                 trigger: $(el).find('.tech-intro__title'),
-                start: 'top top+=75%',
+                start: 'top top+=75%'
             },
             onComplete: () => {
                 techIntroTitle.revert()
@@ -2416,7 +2416,7 @@ function techMapInteraction() {
     const techMapTl = gsap.timeline({
         scrollTrigger: {
             trigger: '.tech-intro__map-head',
-            start: 'top top+=65%',
+            start: 'top top+=65%'
         },
         onComplete: () => {
             techMapTitle.revert()
