@@ -1256,7 +1256,7 @@ class techDemoWebGL {
                             }, '<=0')
                             break;
                         case 6: //end
-                        
+
                             // Handle scroll direction for case 6
                             tl.fromTo([this.matt_propeller.color, this.matt_pipeProp.color, this.matt_pipeProp.emissive], {
                                 r: new THREE.Color('#FF471D').r,
@@ -1308,7 +1308,7 @@ class techDemoWebGL {
                                 metalness: 1,
                                 duration: .6,
                             }, '<=0')
-                            
+
                             break;
                         default:
                             break;
@@ -2198,13 +2198,13 @@ function techMap() {
             else {
                 plotRoute(map, geojsonData);
             }
-            createChart('cumulative-duration', geojsonData.properties.cumulative_segment_durations_hr, 'cumulative', 50, 5);
+            // createChart('cumulative-duration', geojsonData.properties.cumulative_segment_durations_hr, 'cumulative', 50, 5);
             createChart('kite-usage', geojsonData.properties.kite_usage, 'kite', 0.2, 5);
         }
     });
     function createChart(svgId, dataY, color, yStep, xStep) {
         const svg = document.querySelector(`.tech-intro__map-chart[data-chart="${svgId}"] svg`);
-        const width = 390;
+        const width = 780;
         const height = 230;
         const padding = { top: 20, right: 20, bottom: 25, left: 35 };
         const chartWidth = width - padding.left - padding.right;
