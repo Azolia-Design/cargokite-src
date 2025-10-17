@@ -1,4 +1,3 @@
-
 let viewport = {
     width: window.innerWidth,
     height: window.innerHeight,
@@ -40,4 +39,36 @@ const isTouchDevice = () => {
     (navigator.msMaxTouchPoints > 0));
 }
 
-export { useRem, viewportBreak, viewport, isTouchDevice };
+const documentHeightObserver = (action, observerEl, callback) => {
+    let resizeObserver;
+    let debounceTimer;
+    console.log("init document height observer", observerEl)
+
+    let previousHeight = observerEl?.getBoundingClientRect().height;
+    function onRefresh() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            const currentHeight = observerEl.getBoundingClientRect().height;
+
+            if (currentHeight !== previousHeight) {
+                console.log('document height changed', currentHeight, previousHeight);
+                if (callback) {
+                    callback();
+                }
+                previousHeight = currentHeight;
+            }
+        }, 200);
+    }
+
+    if (action === "init") {
+        if (!observerEl) return;
+        resizeObserver = new ResizeObserver(onRefresh);
+        resizeObserver.observe(observerEl);
+    } else if (action === "disconnect") {
+        if (resizeObserver) {
+            resizeObserver.disconnect();
+        }
+    }
+};
+
+export { useRem, viewportBreak, viewport, isTouchDevice, documentHeightObserver };

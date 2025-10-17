@@ -2014,7 +2014,7 @@ function techIntro() {
     $('.tech-intro__main').each((_, el) => {
         const techIntroTitle = new SplitText($(el).find('.tech-intro__title'), typeOpts.words)
         const techIntroSub = new SplitText($(el).find('.tech-intro__sub'), typeOpts.words)
-        const techIntroTl = gsap.timeline({
+        const techIntroTlText = gsap.timeline({
             scrollTrigger: {
                 trigger: $(el).find('.tech-intro__title'),
                 start: 'top top+=75%'
@@ -2025,11 +2025,19 @@ function techIntro() {
                 techIntroSub.revert()
             }
         })
+        const techIntroTlImg = gsap.timeline({
+            scrollTrigger: {
+                trigger: $(el).find('.tech-intro__main-img'),
+                start: 'top top+=75%'
+            }
+        })
         gsap.set($(el).find('.tech-intro__main-img'), {clipPath: 'inset(10%)'})
-        gsap.set($(el).find('.tech-intro__main-img img'), {scale: 1.4, autoAlpha: 0 })
-        techIntroTl
+        gsap.set($(el).find('.tech-intro__main-img img'), { scale: 1.4, autoAlpha: 0 })
+        techIntroTlImg
             .to($(el).find('.tech-intro__main-img'), { clipPath: 'inset(0%)', duration: 1, ease: 'expo.out'}, '0')
-            .to($(el).find('.tech-intro__main-img img'), { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'transform'}, '<=0')
+            .to($(el).find('.tech-intro__main-img img'), { scale: 1, duration: 1, autoAlpha: 1, ease: 'expo.out', clearProps: 'transform' }, '<=0')
+
+        techIntroTlText
             .from(techIntroTitle.words, { yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02 }, '<=0')
             .from(techIntroSub.words, {yPercent: 60, autoAlpha: 0, duration: .4, stagger: .02}, '<=.2')
     })
@@ -2188,7 +2196,7 @@ function techMap() {
 
         if (geojsonData) {
             $(updateButton).removeClass('loading');
-            if (!$('.tech-intro__map-main').hasClass('active') && $(window).width() > 767) {
+            if (!$('.tech-intro__map-main').hasClass('active')) {
                 $('.tech-intro__map-chart').slideDown(400, function() {
                     map.invalidateSize();
                     plotRoute(map, geojsonData);
@@ -2375,7 +2383,7 @@ function techMap() {
         })
     }
     updatePortList()
-    $(window).width() > 767 && $('.tech-intro__map-chart').slideUp();
+    $('.tech-intro__map-chart').slideUp();
     let techMapInput = $('.tech-intro .input-field');
 
     techMapInput.on('keyup', function(e) {

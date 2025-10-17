@@ -239,6 +239,8 @@
     }
 }
 .tech-demo {
+    position: relative;
+    z-index: 1;
     background-color: rgba($cl-dark-bg, 1);
     &__wrap {
         position: relative;
@@ -349,15 +351,14 @@
             @include sm {
                 grid-column: 1/3;
                 grid-row: 1/2;
-                display: flex;
-                flex-direction: column;
+                display: grid;
                 width: auto;
                 height: 100svh;
-                padding-bottom: 2.4rem;
+                padding-bottom: 3.2rem;
                 mask-image: none;
-                justify-content: end;
                 pointer-events: none;
-                align-items: start;
+                grid-template-columns: 1fr;
+                align-items: end;
             }
         }
         &-item {
@@ -373,13 +374,15 @@
                 flex-direction: row;
                 justify-content: space-between;
                 width: 100%;
+                grid-area: 1/1/2/2;
+                opacity: 0;
+                pointer-events: none;
+                @include transition(all $dur-default ease);
                 &.active {
+                    opacity: 1;
+                    pointer-events: auto;
                     .tech-demo__main-item-title {
                         color: rgba($cl-white, 1);
-                    }
-                    .tech-demo__main-item-toggle {
-                        pointer-events: auto;
-                        opacity: 1;
                     }
                 }
             }
@@ -647,6 +650,9 @@
             transition: all .4s;
             &.active {
                 grid-template-rows: 5fr 3fr;
+                @include sm {
+                    grid-template-rows: auto auto;
+                }
             }
             @include md {
                 display: flex;
@@ -654,10 +660,13 @@
                 grid-column: 1/7;
             }
             @include sm {
+                display: grid;
+                grid-template-rows: auto 0fr;
                 margin: 0 -4rem;
                 gap: .8rem;
                 grid-column: 1/-1;
                 grid-row: 2/3;
+                height: 68rem;
             }
             @include xs {
                 margin: 0 -2rem;
@@ -673,7 +682,6 @@
                     height: 100%;
                 }
                 @include sm {
-                    padding-top: 160%;
                     height: auto;
                 }
             }

@@ -98,6 +98,10 @@ button {
         -ms-scroll-chaining: none;
         overscroll-behavior: contain;
     }
+    #awwwards {
+        transform-origin: right;
+        transform: translateY(-50%) scale(.4) !important;
+    }
 }
 .hover-un, .priv-hero__main-richtext a {
     --line-spacing: 4rem;

@@ -10,7 +10,7 @@ import SplitText from "./vendors/SplitText";
 import CustomEase from 'gsap/CustomEase';
 import { initCookie, cookieConsent, cookieAccepted } from './components/cookieconsent-init';
 import { getAllDataByType } from './common/prismic_fn';
-import { viewport } from './common/helpers/viewport';
+import { viewport, documentHeightObserver } from './common/helpers/viewport';
 import { xGetter, yGetter, xSetter, ySetter, pointerCurr, lerp } from './untils';
 
 import homeScript from './home';
@@ -157,55 +157,64 @@ const scripts = () => {
     function changeLogoBackground() {
         function mainArea() {
             let currentMainArea = getCurrentLogoColor('[data-logo-main]');
-            let currentColorMain = $(currentMainArea).attr('data-logo-main');
+            let currentColorMain = currentMainArea ? $(currentMainArea).attr('data-logo-main') : null;
 
             if (currentMainArea) {
-                if (currentColorMain == 'dark') {
-                    $('.header').removeClass(`mix-mode`)
-                } else if (currentColorMain == 'mix') {
-                    $('.header').removeClass(`dark-mode`)
+                console.log(currentColorMain)
+                if (currentColorMain == 'light-overlay') {
+                    $('.header').removeClass('dark-mode mix-mode mix-mb-mode');
+                } else {
+                    if (currentColorMain == 'dark') {
+                        $('.header').removeClass('mix-mode');
+                    } else if (currentColorMain == 'mix') {
+                        $('.header').removeClass('dark-mode');
+                    }
+                    $('.header').addClass(`${currentColorMain}-mode`);
                 }
-                // if ($(window).width() < 767) {
-                //     $('.header').addClass(`mix-mb-mode`)
-                // } else {
-                //     $('.header').addClass(`mix-mb-mode`)
-                // }
-                $('.header').addClass(`${currentColorMain}-mode`)
-            }
-            else {
+            } else {
                 if ($(window).width() < 767) {
-                    $('.header').removeClass(`mix-mb-mode`)
+                    $('.header').removeClass('mix-mb-mode');
                 }
-                $('.header').removeClass('dark-mode mix-mode')
-
-
+                $('.header').removeClass('dark-mode mix-mode');
             }
 
             if ($(window).width() > 767) {
                 let currentSubArea = getCurrentLogoColor('[data-logo-sub]');
-                let currentColorSub = $(currentSubArea).attr('data-logo-sub');
-                if (currentSubArea) {
-                    if (currentColorSub == 'invert') {
-                        $('.header').addClass('invert-mode')
-                    }
+                let currentColorSub = currentSubArea ? $(currentSubArea).attr('data-logo-sub') : null;
+
+                if (currentSubArea && currentColorSub == 'invert') {
+                    $('.header').addClass('invert-mode');
                 } else {
-                    $('.header').removeClass('invert-mode')
+                    $('.header').removeClass('invert-mode');
                 }
             }
-
         }
         mainArea();
     }
 
     function getCurrentLogoColor(attribute) {
         let sections = $(attribute);
+        let matchedSection = null;
+        let highestZIndex = -Infinity;
+
         for (let i = 0; i < sections.length; i++) {
             let rect = sections[i].getBoundingClientRect();
-            if (rect.top < (header.outerHeight()) && (rect.bottom - header.outerHeight() * 0.5) > 0) {
-                return $(sections[i]);
+
+            // Check if section intersects with header
+            if (rect.top < header.outerHeight() && (rect.bottom - header.outerHeight() * 0.5) > 0) {
+                // Get z-index của section
+                let zIndex = parseInt($(sections[i]).css('z-index')) || 0;
+
+                // Ưu tiên section có z-index cao hơn
+                // Nếu z-index bằng nhau, ưu tiên section xuất hiện sau trong DOM (index lớn hơn)
+                if (zIndex > highestZIndex || (zIndex === highestZIndex && (!matchedSection || i > $(sections).index(matchedSection)))) {
+                    highestZIndex = zIndex;
+                    matchedSection = sections[i];
+                }
             }
         }
-        return null;
+
+        return matchedSection ? $(matchedSection) : null;
     }
 
     handleHeader.toggleNav();
@@ -752,6 +761,16 @@ const scripts = () => {
             once(data) {
                 addNavActiveLink(data)
                 handleScrollTo()
+                documentHeightObserver('init',
+                    viewport.width > 767 ? document.documentElement : data.next.container,
+                    () => {
+                        ScrollTrigger.getAll().forEach(trigger => {
+                            if (trigger.progress === 0) {
+                                trigger.refresh();
+                            }
+                        });
+                    }
+                );
                 changeLogoBackground();
                 transitionOnce(data)
                 initCookie();
@@ -770,6 +789,16 @@ const scripts = () => {
                 handleScrollTo()
                 handlePopup.toggle();
                 changeLogoBackground();
+                documentHeightObserver('init',
+                    viewport.width > 767 ? document.documentElement : data.next.container,
+                    () => {
+                        ScrollTrigger.getAll().forEach(trigger => {
+                            if (trigger.progress === 0) {
+                                trigger.refresh();
+                            }
+                        });
+                    }
+                );
             },
             async beforeLeave(data) {
                 resetBeforeLeave(data)
@@ -778,6 +807,7 @@ const scripts = () => {
                 cookieConsent?.hide();
                 await transitionLeave(data).then(() => {
                     removeAllScrollTrigger()
+                    documentHeightObserver('disconnect');
                 })
             },
             async afterLeave(data) {
