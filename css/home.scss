@@ -738,7 +738,7 @@
         display: grid;
         background-color: rgba($cl-orange, 1);
         transition: background-color $dur-default ease;
-        pointer-events: none;
+        // pointer-events: none;
         &-title {
             color: rgba($cl-white, 1);
             max-width: 24.2rem;
