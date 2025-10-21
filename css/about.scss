@@ -350,6 +350,19 @@
                     color: rgba($cl-white, .7);
                 }
             }
+            &-img {
+                margin-top: 4rem;
+                display: block;
+                width: 22rem;
+                height: 13.5rem;
+                position: relative;
+                overflow: hidden;
+                & img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
         }
     }
 }
@@ -1190,6 +1203,11 @@
                 }
                 &-richtext-p {
                     font-size: 1.4rem;
+                }
+                &-img {
+                    width: 100%;
+                    aspect-ratio: 0.6666666666666666;
+                    margin-top: 2.4rem;
                 }
             }
             &::before {

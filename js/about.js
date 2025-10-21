@@ -157,7 +157,7 @@ function abtInfo() {
 }
 function abtMiles() {
     //Setup
-    let scrollDistance = ($('.abt-mil__main-item').length + .7) * 50;
+    let scrollDistance = ($('.abt-mil__main-item').length + .7) * ($(window).width() > 767 ? 50 : 75);
     let shipDistance = $('.abt-mil__ship').height() / 2 + $('.abt-mil__ship img').height() / 10
     gsap.set('.abt-mil__ship-img', {y: -shipDistance})
 
@@ -448,6 +448,7 @@ function getApi_abtMiles() {
             htmlMile.find('.abt-mil__main-item-label').text(i.data.label)
             htmlMile.find('.abt-mil__main-item-title').text(i.data.title)
             htmlMile.find('.abt-mil__main-item-richtext').html(toHTML(i.data.content, 'txt txt-18 abt-mil__main-item-richtext-p'))
+            htmlMile.find('.abt-mil__main-item-img img').attr('src', i.data.image.url).attr('alt', i.data.image.alt)
             htmlMile.appendTo('.abt-mil__main-inner');
         })
         abtMiles()
