@@ -1,7 +1,6 @@
 import $ from "jquery";
 import * as THREE from 'three';
 import * as L from 'leaflet';
-import portData from '../data/port.json';
 import portLookup from '../data/ports_lookup.json';
 import adjacencyData from '../data/adjacency_by_port.json';
 import lenis from './vendors/lenis';
@@ -2378,7 +2377,9 @@ function techMap() {
         $('.tech-intro__map-submit').addClass('disable');
         $('.tech-intro__map-submit').attr('disabled', true);
         $('.input-wrap-end .input-field').attr('disabled', true);
-        Object.keys(portLookup).forEach((id) => {
+
+        let portData = Object.keys(portLookup).filter(data => adjacencyData[data]);
+        portData.forEach((id) => {
             createPortItem(id, template).appendTo('.input-wrap-start .input-drop-inner')
         })
     }

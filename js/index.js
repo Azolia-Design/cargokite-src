@@ -160,7 +160,6 @@ const scripts = () => {
             let currentColorMain = currentMainArea ? $(currentMainArea).attr('data-logo-main') : null;
 
             if (currentMainArea) {
-                console.log(currentColorMain)
                 if (currentColorMain == 'light-overlay') {
                     $('.header').removeClass('dark-mode mix-mode mix-mb-mode');
                 } else {

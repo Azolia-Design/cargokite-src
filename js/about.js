@@ -157,7 +157,7 @@ function abtInfo() {
 }
 function abtMiles() {
     //Setup
-    let scrollDistance = ($('.abt-mil__main-item').length + .7) * ($(window).width() > 767 ? 50 : 75);
+    let scrollDistance = ($('.abt-mil__main-item').length + .7) * ($(window).width() > 767 ? 50 : 100);
     let shipDistance = $('.abt-mil__ship').height() / 2 + $('.abt-mil__ship img').height() / 10
     gsap.set('.abt-mil__ship-img', {y: -shipDistance})
 
@@ -211,6 +211,59 @@ function abtMiles() {
     .from(abtMilLabel.chars, {yPercent: 60, autoAlpha: 0, duration: .6, stagger: .02})
     .from(abtMilTitle.words, {yPercent: 60, autoAlpha: 0, duration: .6, stagger: .03}, '<=.2')
     .from('.abt-mil__progress', {autoAlpha: 0, duration: .4}, '0')
+}
+function abtAdvisor() {
+    const abtAdvisorItem = $('.abt-advisor__main-item');
+    if ($(window).width() > 991) {
+        abtAdvisorItem.on('click', function() {
+            $(this).toggleClass('active');
+            abtAdvisorItem.not($(this)).removeClass('active');
+        })
+    }
+    else {
+        $('.abt-advisor__main-item-link').on('click', function (e) {
+            e.preventDefault();
+            $(this).parent().toggleClass('active');
+        })
+        $('.abt-advisor__main-item').each(function() {
+            const richtext = $(this).find('.abt-advisor__main-item-richtext');
+            if (richtext[0].scrollHeight > richtext[0].clientHeight) {
+                $(this).find('.abt-advisor__main-item-link').show();
+            } else {
+                $(this).find('.abt-advisor__main-item-link').hide();
+            }
+        })
+        if ($(window).width() <= 767) {
+            $('.abt-advisor__main').addClass('swiper');
+            $('.abt-advisor__main-inner').addClass('swiper-wrapper');
+            $('.abt-advisor__main-item').addClass('swiper-slide');
+            $('.abt-advisor__main-inner').css('column-gap', '0');
+            new Swiper('.abt-advisor__main', {
+                slidesPerView: 1,
+                spaceBetween: 22,
+            })
+        }
+    }
+
+    const abtAdvisorLabel = new SplitText('.abt-advisor__label', typeOpts.words);
+    const abtAdvisorTitle = new SplitText('.abt-advisor__title', typeOpts.words);
+    let tlAdvisor = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.abt-advisor__title',
+            start: 'top top+=65%'
+        },
+        onComplete: () => {
+            abtAdvisorTitle.revert();
+            new SplitText('.abt-advisor__title', typeOpts.lines);
+            abtAdvisorLabel.revert();
+        }
+    })
+    requestAnimationFrame(() => {
+        tlAdvisor
+            .from(abtAdvisorLabel.words, {yPercent: 60, autoAlpha: 0, duration: .6, stagger: .03})
+            .from(abtAdvisorTitle.words, { yPercent: 60, autoAlpha: 0, duration: .6, stagger: .03 }, "<=0")
+            .from('.abt-advisor__main-item', { y: 50, autoAlpha: 0, duration: .8, stagger: .03 }, "<=0.3")
+    })
 }
 function abtTeam() {
     const abtTeamTitle = new SplitText('.abt-team__title', typeOpts.words);
@@ -438,6 +491,23 @@ function getApit_abtInfo() {
         abtInfo()
     })
 }
+function getApi_abtAdvisor() {
+    getAllDataByType('advisor', 'asc').then((res) => {
+        let allAdvisor = res;
+        let templateAdvisor = $('.abt-advisor__main-item').eq(0).clone();
+        $('.abt-advisor__main-inner').html('')
+        allAdvisor.forEach((i) => {
+            let htmlAdvisor = templateAdvisor.clone();
+            htmlAdvisor.find('.abt-advisor__main-item-name').text(i.data.name)
+            htmlAdvisor.find('.abt-advisor__main-item-job-title').text(i.data.job_title)
+            htmlAdvisor.find('.abt-advisor__main-item-job-company').text(i.data.company)
+            htmlAdvisor.find('.abt-advisor__main-item-richtext').html(toHTML(i.data.content, 'txt txt-18 abt-advisor__main-item-richtext-p'))
+            htmlAdvisor.find('.abt-advisor__main-item-img img').attr('src', i.data.image.url).attr('alt', i.data.image.alt)
+            htmlAdvisor.appendTo('.abt-advisor__main-inner');
+        })
+        abtAdvisor()
+    })
+}
 function getApi_abtMiles() {
     getAllDataByType('milestone', 'asc').then((res) => {
         let allMiles = res;
@@ -561,6 +631,7 @@ const aboutScript = {
             //abtJob()
         }, 100);
         getApit_abtInfo()
+        getApi_abtAdvisor()
         getApi_abtMiles()
         getApi_abtTeam()
         getApi_abtEvent()

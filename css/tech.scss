@@ -571,7 +571,7 @@
                 grid-column: 8/16;
                 @include md {
                     grid-column: 7/-1;
-                    height: 100%;
+                    height: auto;
                 }
                 @include sm {
                     grid-column: 1/-1;
