@@ -157,7 +157,7 @@ function abtInfo() {
 }
 function abtMiles() {
     //Setup
-    let scrollDistance = ($('.abt-mil__main-item').length + .7) * ($(window).width() > 767 ? 50 : 100);
+    let scrollDistance = ($('.abt-mil__main-item').length + .7) * ($(window).width() > 767 ? 50 : 85);
     let shipDistance = $('.abt-mil__ship').height() / 2 + $('.abt-mil__ship img').height() / 10
     gsap.set('.abt-mil__ship-img', {y: -shipDistance})
 
