@@ -973,8 +973,9 @@
             }
             .tech-intro__map-submit {
                 width: 100%;
-                margin-top: 3rem;
                 position: relative;
+                margin-top: 3rem;
+                margin-bottom: .8rem;
                 &.disable {
                     background-color: $cl-placeholder;
                     color: $cl-desc;
@@ -1006,6 +1007,11 @@
                         transform: rotate(360deg);
                     }
                 }
+            }
+        }
+        &-download {
+            @include sm {
+                padding: 1.8rem 2.4rem;
             }
         }
     }

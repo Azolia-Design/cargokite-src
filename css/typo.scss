@@ -86,7 +86,7 @@
     text-align: center;
     background-color: rgba($cl-orange, 1);
     color: rgba($cl-white, 1);
-    transition: background-color $dur-default ease;
+    transition: background-color $dur-default ease, color $dur-default ease;
     -webkit-backface-visibility: hidden;
     position: relative;
     overflow: hidden;
@@ -119,7 +119,21 @@
         }
     }
     &-pri {
-        font-weight: 500;
+        // font-weight: 500;
+    }
+    &-outline {
+        background-color: transparent;
+        border: 1px solid rgba($cl-txt, .4);
+        color: rgba($cl-txt, 1);
+        &::before {
+            background-color: rgba($cl-body, 1);
+        }
+        &::after {
+            background-color: rgba($cl-sub, 1);
+        }
+        &:hover {
+            color: rgba($cl-white, 1);
+        }
     }
     &-lg {
         padding: 1.8rem 3.4rem;
