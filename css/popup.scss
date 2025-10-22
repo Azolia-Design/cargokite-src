@@ -421,6 +421,11 @@
             }
         }
     }
+    &.download & {
+        &__main {
+            max-width: 120rem;
+        }
+    }
     [data-popup-event].hidden {
         display: none;
     }
@@ -506,6 +511,11 @@
                 height: 2.4rem;
             }
         }
+        &.download & {
+            &__main {
+                max-width: calc(100% - 8rem);
+            }
+        }
     }
 }
 
@@ -513,20 +523,22 @@
     .popup {
         height: 100svh;
         &__main {
-            max-width: calc(100% - 8rem);
+            max-width: calc(100% - 4rem);
             margin-top: 6rem;
             margin-bottom: 0rem;
-            padding: 2.4rem;
-            padding-top: 0rem;
-            padding-bottom: 2.2rem;
+            padding: 2.2rem;
+            height: 80%;
+            overflow-y: auto;
+
             &-form {
                 grid-template-columns: 1fr;
+                height: auto;
             }
             &-head {
                 grid-column: 1/2;
                 grid-row: 1/2;
                 margin-top: -6rem;
-                margin: -4.8rem 0 1.2rem;
+                margin: 0 0 1.2rem;
                 min-height: auto;
                 width: auto;
                 padding: 3rem 3.2rem 2.8rem 2.4rem;
@@ -609,6 +621,11 @@
             }
             .icon {
                 @include size(2.4rem);
+            }
+        }
+        &.download & {
+            &__main {
+                max-width: calc(100% - 4rem);
             }
         }
     }
