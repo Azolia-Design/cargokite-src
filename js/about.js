@@ -215,10 +215,10 @@ function abtMiles() {
 function abtAdvisor() {
     const abtAdvisorItem = $('.abt-advisor__main-item');
     if ($(window).width() > 991) {
-        abtAdvisorItem.on('click', function() {
-            $(this).toggleClass('active');
-            abtAdvisorItem.not($(this)).removeClass('active');
-        })
+        // abtAdvisorItem.on('click', function() {
+        //     $(this).toggleClass('active');
+        //     abtAdvisorItem.not($(this)).removeClass('active');
+        // })
     }
     else {
         $('.abt-advisor__main-item-link').on('click', function (e) {
@@ -241,6 +241,17 @@ function abtAdvisor() {
             new Swiper('.abt-advisor__main', {
                 slidesPerView: 1,
                 spaceBetween: 22,
+                on: {
+                    init: function() {
+                        const total = this.slides.length;
+                        console.log(total)
+                        $('.abt-advisor__pagin-total').text(total);
+                    },
+                    slideChange: function() {
+                        const current = this.activeIndex + 1;
+                        $('.abt-advisor__pagin-current').text(current);
+                    }
+                }
             })
         }
     }

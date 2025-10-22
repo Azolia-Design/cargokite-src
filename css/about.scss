@@ -396,12 +396,7 @@
             &:first-child {
                 border-top: 1px solid rgba($cl-txt, .1);
             }
-            &:hover & {
-
-            }
-            &.active {
-                pointer-events: none;
-            }
+            &:hover &,
             &.active & {
                 &-name {
                     color: #000;
@@ -413,19 +408,25 @@
                     color: rgba($cl-body, 1);
                     -webkit-line-clamp: 10;
                     max-height: 40rem;
-                    transition: color $dur-default ease, max-height .8s ease-in-out .2s;
                 }
                 &-line {
                     &-inner {
                         transform: scaleX(1);
                     }
                 }
+                &-img {
+                    width: 13rem;
+                    height: 16.3rem;
+                }
+            }
+            &.active {
+                pointer-events: none;
             }
             &-img {
                 grid-column: 1/3;
                 width: 7rem;
                 height: 8.8rem;
-                transition: width $dur-default ease, height $dur-default ease;
+                transition: width $dur-default ease-in-out, height $dur-default ease-in-out;
             }
             &-info {
                 grid-column: 3/6;
@@ -433,7 +434,7 @@
                 flex-direction: column;
                 align-items: start;
                 row-gap: .4rem;
-                margin-top: 1.5rem;
+                align-self: center;
             }
             &-name {
                 color: rgba($cl-body, 1);
@@ -447,9 +448,9 @@
                 }
             }
             &-richtext {
+                align-self: start;
                 grid-column: 8/-1;
                 color: rgba($cl-desc, 1);
-                align-self: start;
                 margin-top: 1.5rem;
                 white-space: nowrap;
                 text-overflow: ellipsis;
@@ -487,6 +488,9 @@
                 }
             }
         }
+    }
+    &__pagin {
+        display: none;
     }
 }
 .abt-team {
@@ -1081,6 +1085,7 @@
                     margin-top: 0;
                     row-gap: 0;
                     grid-row: 1/3;
+                    align-self: start;
                 }
                 &-name {
                     font-size: 2rem;
@@ -1101,9 +1106,24 @@
                         display: none;
                     }
                 }
+                &:hover & {
+                    &-richtext {
+                        color: rgba($cl-desc, 1);
+                        -webkit-line-clamp: 2;
+                        max-height: 5.76rem;
+                    }
+                    &-img {
+                        width: 5rem;
+                        height: 6.3rem;
+                    }
+                }
                 &.active & {
                     &-link {
                         display: none;
+                    }
+                    &-img {
+                        width: 5rem;
+                        height: 6.3rem;
                     }
                 }
             }
@@ -1401,13 +1421,40 @@
                 &-line {
                     display: none;
                 }
+                &:hover & {
+                    &-richtext {
+                        -webkit-line-clamp: 4;
+                        max-height: 10.24rem;
+                    }
+                }
                 &.active & {
                     &-link {
                         display: block;
                         opacity: 0;
                         pointer-events: auto;
                     }
+                    &-richtext {
+                        -webkit-line-clamp: 10;
+                        max-height: 40rem;
+                    }
                 }
+            }
+        }
+        &__pagin {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 0.3rem;
+            grid-column: 1/-1;
+            &-current {
+                color: rgba($cl-body, 1);
+            }
+            &-separator {
+                color: rgba($cl-desc, 1);
+            }
+            &-total {
+                color: rgba($cl-desc, 1);
             }
         }
     }
