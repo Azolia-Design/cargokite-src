@@ -21,7 +21,7 @@ const viewportBreak = (options) => {
     let result;
     switch (true) {
         case viewport.width < 768:
-            result = sm;
+            result = xs;
             break;
         case viewport.width < 992:
             result = sm;

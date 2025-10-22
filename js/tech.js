@@ -58,101 +58,101 @@ class techDemoWebGL {
             camera: [
                 // Waypoint Intro (already set in setupCamera)
                 {
-                    x: viewportBreak({ md: 124.2853, sm: 124.2853, xs: 114.902}),
-                    y: viewportBreak({ md: 35.6434, sm: 35.6434, xs: 14.2652}),
-                    z: viewportBreak({ md: -51.4899, sm: -51.4899, xs: -43.4541}),
+                    x: viewportBreak({ md: 124.2853, sm: 124.2853, xs: 124.2853}),
+                    y: viewportBreak({ md: 35.6434, sm: 35.6434, xs: 35.6434}),
+                    z: viewportBreak({ md: -51.4899, sm: -51.4899, xs: -51.4899}),
                 },
                 // Waypoint 1 Kite
                 {
-                    x: viewportBreak({ md: 98.2853, sm: 98.2853, xs: 114.902}),
-                    y: viewportBreak({ md: 35.6434, sm: 35.6434, xs: 14.2652}),
-                    z: viewportBreak({ md: -51.4899, sm: -51.4899, xs: -43.4541}),
+                    x: viewportBreak({ md: 98.2853, sm: 98.2853, xs: 98.2853}),
+                    y: viewportBreak({ md: 35.6434, sm: 35.6434, xs: 35.6434}),
+                    z: viewportBreak({ md: -51.4899, sm: -51.4899, xs: -51.4899}),
                 },
                 // Waypoint 2 Hull
                 {
-                    x: viewportBreak({ md: 61.1701, sm: 61.1701, xs: -50.3858}),
-                    y: viewportBreak({ md: 4.58209, sm: 4.58209, xs: 4.16929}),
-                    z: viewportBreak({ md: 32.9954, sm: 32.9954, xs: -30.9227})
+                    x: viewportBreak({ md: 61.1701, sm: 61.1701, xs: 61.1701}),
+                    y: viewportBreak({ md: 4.58209, sm: 4.58209, xs: 4.58209}),
+                    z: viewportBreak({ md: 32.9954, sm: 32.9954, xs: 32.9954}),
                 },
                 // Waypoint 3 Container
                 {
-                    x: viewportBreak({ md: 42.094, sm: 42.094, xs: -72.182}),
-                    y: viewportBreak({ md: 24.5614, sm: 24.5614, xs: 58.6084}),
-                    z: viewportBreak({ md: 32.5401, sm: 32.5401, xs: 90.1051})
+                    x: viewportBreak({ md: 42.094, sm: 42.094, xs: 42.094}),
+                    y: viewportBreak({ md: 24.5614, sm: 24.5614, xs: 24.5614}),
+                    z: viewportBreak({ md: 32.5401, sm: 32.5401, xs: 32.5401}),
                 },
                 // Waypoint 4 Hydrofoils
                 {
-                    x: viewportBreak({ md: -42.9873, sm: -42.9873, xs: -20.182}),
-                    y: viewportBreak({ md: 0.581775, sm: 0.581775, xs: 12.6084}),
-                    z: viewportBreak({ md: 20.0917, sm: 20.0917, xs: 10.1051})
+                    x: viewportBreak({ md: -42.9873, sm: -42.9873, xs: -42.9873}),
+                    y: viewportBreak({ md: 0.581775, sm: 0.581775, xs: 0.581775}),
+                    z: viewportBreak({ md: 20.0917, sm: 20.0917, xs: 20.0917}),
                 },
                 // Waypoint 5 Auto
                 {
-                    x: viewportBreak({ md: -23.4135, sm: -23.4135, xs: 85.63897705078125}),
-                    y: viewportBreak({ md: 62.8855, sm: 62.8855, xs: 14.265151023864746}),
-                    z: viewportBreak({ md: -27.1162, sm: -27.1162, xs: -68.48991394042969})
+                    x: viewportBreak({ md: -23.4135, sm: -23.4135, xs: -23.4135}),
+                    y: viewportBreak({ md: 62.8855, sm: 62.8855, xs: 62.8855}),
+                    z: viewportBreak({ md: -27.1162, sm: -27.1162, xs: -27.1162}),
                 },
                 // Waypoint 6 Twin
                 {
-                    x: viewportBreak({ md: 2.14813, sm: 2.14813, xs: -50.3858}),
-                    y: viewportBreak({ md: 9.41323, sm: 9.41323, xs: 4.16929}),
-                    z: viewportBreak({ md: -79.4959, sm: -79.4959, xs: -30.9227})
+                    x: viewportBreak({ md: 2.14813, sm: 2.14813, xs: 2.14813}),
+                    y: viewportBreak({ md: 9.41323, sm: 9.41323, xs: 9.41323}),
+                    z: viewportBreak({ md: -79.4959, sm: -79.4959, xs: -79.4959}),
                 },
                 // Waypoint Outro
                 {
-                    x: viewportBreak({ md: 2.14813, sm: 2.14813, xs: -50.3858}),
-                    y: viewportBreak({ md: 9.41323, sm: 9.41323, xs: 4.16929}),
-                    z: viewportBreak({ md: -79.4959, sm: -79.4959, xs: -30.9227})
+                    x: viewportBreak({ md: 2.14813, sm: 2.14813, xs: 2.14813}),
+                    y: viewportBreak({ md: 9.41323, sm: 9.41323, xs: 9.41323}),
+                    z: viewportBreak({ md: -79.4959, sm: -79.4959, xs: -79.4959}),
                 }
             ],
             target: [
                 // lookAt Intro (already set in setupCamera)
                 {
-                    x: viewportBreak({ md: 89.3979, sm: 89.3979, xs: 80.7874}),
-                    y: viewportBreak({ md: 44.3087, sm: 44.3087, xs: -39.4034}),
-                    z: viewportBreak({md: -1.35464, sm: -1.35464, xs: 0}),
+                    x: viewportBreak({ md: 89.3979, sm: 89.3979, xs: 89.3979}),
+                    y: viewportBreak({ md: 44.3087, sm: 44.3087, xs: 44.3087}),
+                    z: viewportBreak({md: -1.35464, sm: -1.35464, xs: -1.35464}),
                 },
                 // LookAt 1 Kite
                 {
-                    x: viewportBreak({ md: 73.3979, sm: 73.3979, xs: 80.7874}),
-                    y: viewportBreak({ md: 44.3087, sm: 44.3087, xs: -39.4034}),
-                    z: viewportBreak({md: -1.35464, sm: -1.35464, xs: 0})
+                    x: viewportBreak({ md: 73.3979, sm: 73.3979, xs: 73.3979}),
+                    y: viewportBreak({ md: 44.3087, sm: 44.3087, xs: 44.3087}),
+                    z: viewportBreak({md: -1.35464, sm: -1.35464, xs: -1.35464}),
                 },
                 // LookAt 2 Hull
                 {
-                    x: viewportBreak({ md: 21.5902, sm: 21.5902, xs: -11.2134}),
-                    y: viewportBreak({ md: 6.77748, sm: 6.77748, xs: 1.46543}),
-                    z: viewportBreak({ md: 0.392013, sm: 0.392013, xs: -1.014547})
+                    x: viewportBreak({ md: 21.5902, sm: 21.5902, xs: 21.5902}),
+                    y: viewportBreak({ md: 6.77748, sm: 6.77748, xs: 6.77748}),
+                    z: viewportBreak({ md: 0.392013, sm: 0.392013, xs: 0.392013}),
                 },
                 // LookAt 3 Container
                 {
-                    x: viewportBreak({ md: 12.1088, sm: 12.1088, xs: 0.3448}),
-                    y: viewportBreak({ md: 10.0996, sm: 10.0996, xs: -4.2503}),
-                    z: viewportBreak({ md: -0.376612, sm: -0.376612, xs: 0.056603})
+                    x: viewportBreak({ md: 12.1088, sm: 12.1088, xs: 12.1088}),
+                    y: viewportBreak({ md: 10.0996, sm: 10.0996, xs: 10.0996}),
+                    z: viewportBreak({ md: -0.376612, sm: -0.376612, xs: -0.376612}),
                 },
                 // LookAt 4 Hydrofoils
                 {
-                    x: viewportBreak({ md: -19.5171, sm: -19.5171, xs: 0.65}),
-                    y: viewportBreak({ md: 5.83064, sm: 5.83064, xs: 6.7503}),
-                    z: viewportBreak({ md: 6.94174, sm: 6.94174, xs: 0.056603})
+                    x: viewportBreak({ md: -19.5171, sm: -19.5171, xs: -19.5171}),
+                    y: viewportBreak({ md: 5.83064, sm: 5.83064, xs: 5.83064}),
+                    z: viewportBreak({ md: 6.94174, sm: 6.94174, xs: 6.94174}),
                 },
                 // LookAt 5 Auto
                 {
-                    x: viewportBreak({ md: -3.34757, sm: -3.34757}),
-                    y: viewportBreak({ md: 3.08693, sm: 3.08693}),
-                    z: viewportBreak({ md: 4.26576, sm: 4.26576})
+                    x: viewportBreak({ md: -3.34757, sm: -3.34757, xs: 0.34757}),
+                    y: viewportBreak({ md: 3.08693, sm: 3.08693, xs: 3.08693}),
+                    z: viewportBreak({ md: 4.26576, sm: 4.26576, xs: 0.26576}),
                 },
                 // LookAt 6 Twin
                 {
-                    x: viewportBreak({ md: 2.14813, sm: 2.14813}),
-                    y: viewportBreak({ md: 9.41323, sm: 9.41323}),
-                    z: viewportBreak({ md: 0, sm: 0})
+                    x: viewportBreak({ md: 2.14813, sm: 2.14813, xs: 2.14813}),
+                    y: viewportBreak({ md: 9.41323, sm: 9.41323, xs: 9.41323}),
+                    z: viewportBreak({ md: 0, sm: 0, xs: 0}),
                 },
                 // LookAt Outro
                 {
-                    x: viewportBreak({ md: 2.14813, sm: 2.14813}),
-                    y: viewportBreak({ md: 9.41323, sm: 9.41323}),
-                    z: viewportBreak({ md: 0, sm: 0})
+                    x: viewportBreak({ md: 2.14813, sm: 2.14813, xs: 2.14813}),
+                    y: viewportBreak({ md: 9.41323, sm: 9.41323, xs: 9.41323}),
+                    z: viewportBreak({ md: 0, sm: 0, xs: 0}),
                 }
             ]
         }
@@ -334,7 +334,7 @@ class techDemoWebGL {
         window.addEventListener('resize', this.onWindowResize.bind(this))
         //camera
         let fov = (Math.atan(this.viewport.height / 2 / this.perspective) * 2) * 180 / Math.PI;
-        fov = 32.26880414280885;
+        fov = viewportBreak({ md: 32.26880414280885, sm: 32.26880414280885, xs: 62.26880414280885 });
         this.camera = new THREE.PerspectiveCamera(fov, this.viewport.aspectRatio, 0.1, 10000);
 
         if ($(window).width() > 767) {
@@ -1287,7 +1287,7 @@ class techDemoWebGL {
                                 opacity: 1,
                                 y: 0,
                             }, {
-                                y: $(window).height() * -.25,
+                                y: $(window).width() > 767 ? $(window).height() * -.25 : $(window).height() * .18,
                                 opacity: 0,
                                 duration: .6
                             }, '<=.3')
