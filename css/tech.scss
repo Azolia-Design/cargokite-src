@@ -473,6 +473,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                opacity: 0;
                 &.fullitem {
                     grid-column: span 3;
                     @include sm {}
