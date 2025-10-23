@@ -632,27 +632,26 @@ const scripts = () => {
 
         //form contact popup
         //$('.input-field').on('change keyup blur input', hanldeInput);
-        $('.popup__main-form .popup__main-submit').on('click', function (e) {
+        $('.popup.contact .popup__main-form .popup__main-submit').on('click', function (e) {
             e.preventDefault();
-            console.log('submiitttttttt')
-            $('.popup__main-form').trigger('submit');
+            $('.popup.contact .popup__main-form').trigger('submit');
         })
-        const formContact = initForm('.popup__main-form', {
+        const formContact = initForm('.popup.contact .popup__main-form', {
             onSuccess: (data) => {
                 // success form callback
-                $('.popup__main-form').find('.popup__main-form-success-txt [data-form-name]').text(data.name)
-                $('.popup__main-form').find('.popup__main-submit').addClass('on-complete')
-                $('.popup__main-form').find('.popup__main-submit').attr('disabled',true)
-                $('.popup__main-form').find('.popup__main-form-inner').addClass('hidden')
-                $('.popup__main-form').find('.popup__main-form-success').removeClass('hidden')
+                $('.popup.contact .popup__main-form').find('.popup__main-form-success-txt [data-form-name]').text(data.name)
+                $('.popup.contact .popup__main-form').find('.popup__main-submit').addClass('on-complete')
+                $('.popup.contact .popup__main-form').find('.popup__main-submit').attr('disabled',true)
+                $('.popup.contact .popup__main-form').find('.popup__main-form-inner').addClass('hidden')
+                $('.popup.contact .popup__main-form').find('.popup__main-form-success').removeClass('hidden')
             },
             hubspot: {
                 portalId: '143433917',
                 formId: '82503ac7-13c9-43df-9f9b-64ac8d19368f'
             },
             submitEle: {
-                ele: '.popup__main-submit',
-                textEle: '.popup__main-submit-inner-default .popup__main-submit-inner-txt',
+                ele: '.popup.contact .popup__main-submit',
+                textEle: '.popup.contact .popup__main-submit-inner-default .popup__main-submit-inner-txt',
             },
             pageName: document.title,
             prepareMap: (ele) => {
@@ -672,6 +671,47 @@ const scripts = () => {
                 },
             ]
         })
+
+        $('.popup.download .popup__main-form .popup__main-submit').on('click', function (e) {
+            e.preventDefault();
+            $('.popup.download .popup__main-form').trigger('submit');
+        })
+        const formDownload = initForm('.popup.download .popup__main-form', {
+            onSuccess: (data) => {
+                // success form callback
+                $('.popup.download .popup__main-form').find('.popup__main-form-success-txt [data-form-name]').text(data.name)
+                $('.popup.download .popup__main-form').find('.popup__main-submit').addClass('on-complete')
+                $('.popup.download .popup__main-form').find('.popup__main-submit').attr('disabled',true)
+                $('.popup.download .popup__main-form').find('.popup__main-form-inner').addClass('hidden')
+                $('.popup.download .popup__main-form').find('.popup__main-form-success').removeClass('hidden')
+            },
+            hubspot: {
+                portalId: '143433917',
+                formId: '2280dfe7-e52d-4dc4-b7c4-5e336711c3b4'
+            },
+            submitEle: {
+                ele: '.popup.download .popup__main-submit',
+                textEle: '.popup.download .popup__main-submit-inner-default .popup__main-submit-inner-txt',
+            },
+            pageName: document.title,
+            prepareMap: (ele) => {
+            },
+            fields: [
+                {
+                    name: 'firstname',
+                    value: (data) => data.name,
+                },
+                {
+                    name: 'email',
+                    value: (data) => data.email,
+                },
+                {
+                    name: 'message',
+                    value: (data) => data.message
+                },
+            ]
+        })
+
         $('.footer__form-main .input-submit').on('click', function (e) {
             e.preventDefault();
             $('.footer__form-main').trigger('submit');
