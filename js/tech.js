@@ -2069,7 +2069,7 @@ function techMap() {
         if ($(window).width() >= 767) {
             strokeWidth = 4;
         } else {
-            strokeWidth = 8;
+            strokeWidth = 3;
         }
         const geoJsonLayer = L.geoJSON(reversedGeoJson, {
             style: {

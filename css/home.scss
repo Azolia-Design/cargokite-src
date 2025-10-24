@@ -1586,10 +1586,15 @@
 
 @include sm {
     .home-hero {
-        height: auto;
         position: relative;
         padding-bottom: max(3svh, 3rem);
+        height: 100%;
         &__wrap {
+            height: 100svh;
+            .container {
+                align-content: start;
+            }
+
             &::before {
                 height: 68%;
             }
@@ -1605,15 +1610,16 @@
         &__title {
             grid-column: 1/3;
             grid-row: 1/2;
-            margin-top: 16vh;
+            margin-top: 16svh;
             margin-bottom: 3rem;
+            max-width: 26rem;
         }
         &__sub {
             grid-column: 1/3;
             grid-row: 2/3;
             place-self: start;
             row-gap: 1rem;
-            margin-bottom: 6.7rem;
+            margin-bottom: 24svh;
             &-txt {
                 max-width: 26rem;
             }
@@ -1805,6 +1811,9 @@
             grid-template-columns: repeat(2, 1fr);
         }
         &__item {
+            &-inner {
+                padding: 2.4rem 2rem;
+            }
             &-title {
                 font-size: 1.4rem;
             }
