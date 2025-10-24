@@ -371,6 +371,7 @@
     position: relative;
     z-index: 3;
     padding-block: 15rem;
+    display: none;
     &__label {
         color: rgba($cl-desc, 1);
         grid-column: 2/3;
