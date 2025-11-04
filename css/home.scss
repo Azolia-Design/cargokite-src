@@ -776,9 +776,9 @@
         position: relative;
         display: grid;
         grid-template-columns: 1fr;
+        pointer-events: none;
         &-img {
             grid-area: 1/1/2/2;
-            pointer-events: none;
             // &:first-child {
             //     opacity: 0;
             // }
